@@ -1,4 +1,4 @@
-import 'package:birthdays_reminder/utils/constants/Palette.dart';
+import 'package:birthdays_reminder/core/utils/constants/Palette.dart';
 import 'package:flutter/material.dart';
 
 String _fontFamily = 'Montserrat';

@@ -1,14 +1,20 @@
-import 'package:birthdays_reminder/presentation/home/widgets/birthday_card.dart';
+import 'package:birthdays_reminder/features/birthdays_list/widgets/birthday_card.dart';
 import 'package:flutter/material.dart';
 
-class Home extends StatefulWidget {
-  const Home({super.key});
+class BirthdaysListPage extends StatelessWidget {
+  const BirthdaysListPage({super.key});
 
   @override
-  _HomeState createState() => _HomeState();
+  Widget build(BuildContext context) {
+    return BirthdaysListView();
+  }
 }
 
-class _HomeState extends State<Home> {
+class BirthdaysListView extends StatelessWidget {
+  const BirthdaysListView({
+    super.key,
+  });
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
