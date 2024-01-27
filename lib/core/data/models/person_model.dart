@@ -1,32 +1,16 @@
 import 'package:birthdays_reminder/core/domain/enteties/person_entity.dart';
+import 'package:json_annotation/json_annotation.dart';
+part 'person_model.g.dart';
 
+@JsonSerializable()
 class PersonModel extends PersonEntity {
   PersonModel(
       {required super.id,
       required super.name,
-      required super.day,
-      required super.month,
-      required super.year,
-      required super.listOfGifts});
+      required super.birthdate,
+      super.listOfGifts});
+  factory PersonModel.fromJson(Map<String, dynamic> json) =>
+      _$PersonModelFromJson(json);
 
-  factory PersonModel.fromJson(Map<String, dynamic> json) {
-    return PersonModel(
-        id: json['id'],
-        name: json['name'],
-        day: json['day'],
-        month: json['month'],
-        year: json['year'],
-        listOfGifts: json['listOfGifts']);
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'name': name,
-      'day': day,
-      'month': month,
-      'year': year,
-      'listOfGifts': listOfGifts
-    };
-  }
+  Map<String, dynamic> toJson() => _$PersonModelToJson(this);
 }

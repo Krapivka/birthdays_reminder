@@ -40,4 +40,13 @@ class PersonRepositoryImpl implements PersonRepository {
       return Left(CacheFailure());
     }
   }
+
+  @override
+  Future<int> getLength() async {
+    try {
+      return await localDataSource.length();
+    } catch (e) {
+      throw CacheException(e.toString());
+    }
+  }
 }

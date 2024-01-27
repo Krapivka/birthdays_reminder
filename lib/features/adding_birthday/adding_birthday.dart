@@ -1,72 +1,143 @@
+import 'package:birthdays_reminder/core/domain/repositories/person_repository.dart';
+import 'package:birthdays_reminder/features/adding_birthday/bloc/adding_birthday_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddingBirthdayPage extends StatelessWidget {
   const AddingBirthdayPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return AddingBirthdayView();
+    return BlocProvider(
+      create: (context) => AddingBirthdayBloc(context.read<PersonRepository>()),
+      child: AddingBirthdayView(),
+    );
   }
 }
 
 class AddingBirthdayView extends StatelessWidget {
-  const AddingBirthdayView({
+  AddingBirthdayView({
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            "Add birthday",
-          ),
-          centerTitle: true,
-        ),
-        body: const Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              _CircleAvatar(),
-              _TitleField("Enter name"),
-              _TitleField("Enter date"),
-              _ButtonAddBirthday(),
-            ],
-          ),
-        ));
+    TextEditingController dataController = TextEditingController();
+    return BlocBuilder<AddingBirthdayBloc, AddingBirthdayState>(
+      builder: (context, state) {
+        return Scaffold(
+            appBar: AppBar(
+              title: const Text(
+                "Add birthday",
+              ),
+              centerTitle: true,
+            ),
+            body: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  _EditableAvatar(),
+                  _TextField(
+                    labelText: "Enter name",
+                    hintText: "Name",
+                    onChanged: (value) {
+                      context
+                          .read<AddingBirthdayBloc>()
+                          .add(AddingBirtdayNameChanged(value));
+                    },
+                    icon: const Icon(Icons.person_2_outlined),
+                  ),
+                  _TextField(
+                    labelText: "Enter date",
+                    hintText: "Date",
+                    showCursor: false,
+                    controller: dataController,
+                    onTap: () async {
+                      final bloc = context.read<AddingBirthdayBloc>();
+                      final birthdate = await showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(1930),
+                          lastDate: DateTime.now());
+
+                      if (birthdate != null) {
+                        bloc.add(AddingBirtdayDateTap(birthdate));
+                        dataController.text =
+                            birthdate.toString().split(' ')[0];
+                      }
+                    },
+                    icon: const Icon(Icons.date_range_outlined),
+                  ),
+                  _ButtonAddBirthday(),
+                ],
+              ),
+            ));
+      },
+    );
   }
 }
 
-class _CircleAvatar extends StatelessWidget {
-  const _CircleAvatar({super.key});
+class _EditableAvatar extends StatelessWidget {
+  const _EditableAvatar({super.key});
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width / 3;
     return Center(
-        child: Container(
       child: CircleAvatar(
         radius: width / 1.5,
         backgroundImage: NetworkImage(
             "https://www.sunhome.ru/i/wallpapers/89/girls-v118.orig.jpg"),
       ),
-    ));
+    );
   }
 }
 
-class _TitleField extends StatelessWidget {
-  final String hintText;
-  const _TitleField(this.hintText);
-
+class _TextField extends StatelessWidget {
+  const _TextField(
+      {this.onChanged,
+      this.labelText,
+      this.hintText,
+      this.icon,
+      this.onTap,
+      this.showCursor = true,
+      this.controller,
+      this.readOnly = false});
+  final void Function(String)? onChanged;
+  final String? labelText;
+  final String? hintText;
+  final bool readOnly;
+  final Icon? icon;
+  final void Function()? onTap;
+  final TextEditingController? controller;
+  final bool? showCursor;
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: TextField(
+        readOnly: readOnly,
+        showCursor: showCursor,
+        enableInteractiveSelection: false,
+        onChanged: onChanged,
+        controller: controller,
         decoration: InputDecoration(
-          border: OutlineInputBorder(),
+          prefixIcon: icon,
+          border: const OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20.0))),
+          enabledBorder: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+          ),
+          disabledBorder: const OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20.0))),
+          focusedBorder: const OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20.0))),
+          focusedErrorBorder: const OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20.0))),
+          labelText: labelText,
           hintText: hintText,
         ),
+        onTap: onTap,
       ),
     );
   }
@@ -78,8 +149,12 @@ class _ButtonAddBirthday extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return OutlinedButton(
-      onPressed: () {},
-      child: Text("Add birthday"),
+      onPressed: () {
+        context.read<AddingBirthdayBloc>().add(const AddingBirthdaySubmitted());
+        Navigator.pushNamedAndRemoveUntil(
+            context, '/', (Route<dynamic> route) => false);
+      },
+      child: const Text("Add birthday"),
     );
   }
 }
