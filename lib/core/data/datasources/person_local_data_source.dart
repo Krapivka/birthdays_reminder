@@ -10,7 +10,7 @@ abstract class PersonLocalDataSource {
   Future<int> length();
 }
 
-const CACHED_PERSONS_LIST = 'CACHED_PERSONS_LIST4';
+const CACHED_PERSONS_LIST = 'CACHED_PERSONS_LIST5';
 
 class PersonLocalDataSourceImpl implements PersonLocalDataSource {
   final SharedPreferences sharedPreferences;

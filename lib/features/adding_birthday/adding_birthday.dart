@@ -1,7 +1,9 @@
+import 'package:birthdays_reminder/core/data/services/image_picker.dart';
 import 'package:birthdays_reminder/core/domain/repositories/person_repository.dart';
 import 'package:birthdays_reminder/features/adding_birthday/bloc/adding_birthday_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AddingBirthdayPage extends StatelessWidget {
   const AddingBirthdayPage({super.key});
@@ -9,7 +11,8 @@ class AddingBirthdayPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AddingBirthdayBloc(context.read<PersonRepository>()),
+      create: (context) => AddingBirthdayBloc(context.read<PersonRepository>(),
+          AppImagePicker(source: ImageSource.gallery)),
       child: AddingBirthdayView(),
     );
   }
@@ -53,7 +56,7 @@ class AddingBirthdayView extends StatelessWidget {
                     showCursor: false,
                     controller: dataController,
                     onTap: () async {
-                      final bloc = context.read<AddingBirthdayBloc>();
+                      final bloc = BlocProvider.of<AddingBirthdayBloc>(context);
                       final birthdate = await showDatePicker(
                           context: context,
                           initialDate: DateTime.now(),
@@ -82,12 +85,20 @@ class _EditableAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<AddingBirthdayBloc>(context);
     final width = MediaQuery.of(context).size.width / 3;
     return Center(
-      child: CircleAvatar(
-        radius: width / 1.5,
-        backgroundImage: NetworkImage(
-            "https://www.sunhome.ru/i/wallpapers/89/girls-v118.orig.jpg"),
+      child: ElevatedButton(
+        onPressed: () {
+          bloc.add(AddingBirtdayImageTap());
+        },
+        child: CircleAvatar(
+          radius: width / 1.5,
+          backgroundImage: bloc.state.file != null
+              ? FileImage(bloc.state.file!) as ImageProvider
+              : NetworkImage(
+                  "https://www.sunhome.ru/i/wallpapers/89/girls-v118.orig.jpg"),
+        ),
       ),
     );
   }

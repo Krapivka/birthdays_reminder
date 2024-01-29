@@ -23,10 +23,12 @@ class BirthdayCard extends StatelessWidget {
             trailing: Container(
                 height: 30,
                 width: 30,
-                child: Center(child: Text("354")),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(width: 2),
-                ))));
+                ),
+                child: Center(
+                    child: Text(DateTimeUtils()
+                        .getDifferenceCurrentDayBirthDay(person.birthdate))))));
   }
 }

@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:io';
 
+import 'package:birthdays_reminder/core/data/services/image_picker.dart';
 import 'package:birthdays_reminder/core/data/models/person_model.dart';
 import 'package:birthdays_reminder/core/domain/repositories/person_repository.dart';
 import 'package:equatable/equatable.dart';
@@ -11,13 +13,23 @@ part 'adding_birthday_state.dart';
 
 class AddingBirthdayBloc
     extends Bloc<AddingBirthdayEvent, AddingBirthdayState> {
-  AddingBirthdayBloc(this._personRepository) : super(AddingBirthdayState()) {
+  AddingBirthdayBloc(this._personRepository, this._imagePicker)
+      : super(AddingBirthdayState()) {
     on<AddingBirtdayNameChanged>(_onNameChanged);
-    on<AddingBirtdayDateTap>(_onDateChanged);
+    on<AddingBirtdayDateTap>(_onDateTap);
+    on<AddingBirtdayImageTap>(_onImageTap);
     on<AddingBirthdaySubmitted>(_onSubmitted);
   }
 
   final PersonRepository _personRepository;
+
+  final AppImagePicker _imagePicker;
+
+  void _onImageTap(
+      AddingBirtdayImageTap event, Emitter<AddingBirthdayState> emit) async {
+    final File? file = await _imagePicker.getImageFromGallery();
+    emit(state.copyWith(file: file));
+  }
 
   void _onNameChanged(
       AddingBirtdayNameChanged event, Emitter<AddingBirthdayState> emit) {
@@ -25,23 +37,28 @@ class AddingBirthdayBloc
     emit(state.copyWith(name: event.name));
   }
 
-  void _onDateChanged(
+  void _onDateTap(
       AddingBirtdayDateTap event, Emitter<AddingBirthdayState> emit) {
     debugPrint("Date: ${event.birthdate}");
     emit(state.copyWith(birthdate: event.birthdate));
+    debugPrint("Date: ${state.birthdate}");
   }
 
   void _onSubmitted(
       AddingBirthdaySubmitted event, Emitter<AddingBirthdayState> emit) async {
     emit(state.copyWith(status: AddingBirthdayStatus.loading));
+
     try {
       final length = await _personRepository.getLength();
+
       PersonModel person = PersonModel(
           id: length + 1,
           name: state.name,
-          birthdate: state.birthdate, //validation для полей! обязательно
+          birthdate: state.birthdate ??
+              DateTime.now(), //validation для полей! обязательно
           listOfGifts: const []);
       await _personRepository.addPerson(person);
+
       debugPrint("Add new Person: ${person.name}");
       emit(state.copyWith(status: AddingBirthdayStatus.success));
     } catch (e) {

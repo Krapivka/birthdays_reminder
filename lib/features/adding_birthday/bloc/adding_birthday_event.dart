@@ -16,6 +16,13 @@ class AddingBirtdayNameChanged extends AddingBirthdayEvent {
   List<Object> get props => [name];
 }
 
+class AddingBirtdayImageTap extends AddingBirthdayEvent {
+  const AddingBirtdayImageTap();
+
+  @override
+  List<Object> get props => [];
+}
+
 class AddingBirtdayDateTap extends AddingBirthdayEvent {
   const AddingBirtdayDateTap(this.birthdate);
 

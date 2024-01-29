@@ -9,6 +9,7 @@ class PersonModel extends PersonEntity {
       required super.name,
       required super.birthdate,
       super.listOfGifts});
+
   factory PersonModel.fromJson(Map<String, dynamic> json) =>
       _$PersonModelFromJson(json);
 
