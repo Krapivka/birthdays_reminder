@@ -1,34 +1,59 @@
+import 'dart:io';
+
 import 'package:birthdays_reminder/core/data/models/person_model.dart';
 import 'package:birthdays_reminder/core/utils/datetime.dart';
+import 'package:birthdays_reminder/features/birthdays_list/bloc/birthdays_list_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BirthdayCard extends StatelessWidget {
   const BirthdayCard({
     super.key,
     required this.person,
+    required this.index,
   });
   final PersonModel person;
-
+  final int index;
   @override
   Widget build(BuildContext context) {
-    return Card(
-        child: ListTile(
-            leading: const CircleAvatar(
-              radius: 28,
-              backgroundImage: NetworkImage(
-                  'https://www.sunhome.ru/i/wallpapers/89/girls-v118.orig.jpg'),
-            ),
-            title: Text(person.name),
-            subtitle: Text(DateTimeUtils().formatDate(person.birthdate)),
-            trailing: Container(
-                height: 30,
-                width: 30,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(width: 2),
+    final bloc = BlocProvider.of<BirthdaysListBloc>(context);
+    final file = File(person.filePath);
+    return Dismissible(
+      key: UniqueKey(),
+      background: const Card(
+        color: Color.fromARGB(255, 253, 253, 253),
+        child: Icon(Icons.delete),
+      ),
+      onDismissed: (direction) {
+        bloc.add(DeletePersonBirthdaysListEvent(id: person.id));
+      },
+      child: Container(
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
+        child: Card(
+            child: ListTile(
+                leading: CircleAvatar(
+                  radius: 28,
+                  backgroundImage: person.filePath == "/"
+                      ? const AssetImage("assets/images/avatar.png")
+                      : FileImage(file) as ImageProvider,
                 ),
-                child: Center(
-                    child: Text(DateTimeUtils()
-                        .getDifferenceCurrentDayBirthDay(person.birthdate))))));
+                title: Text(
+                  person.name,
+                  maxLines: 1,
+                ),
+                subtitle: Text(DateTimeUtils().formatDate(person.birthdate)),
+                trailing: Container(
+                    height: 30,
+                    width: 30,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(width: 2),
+                    ),
+                    child: Center(
+                        child: Text(DateTimeUtils()
+                            .getDifferenceCurrentDayBirthDay(
+                                person.birthdate)))))),
+      ),
+    );
   }
 }

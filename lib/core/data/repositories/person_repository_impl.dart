@@ -42,11 +42,20 @@ class PersonRepositoryImpl implements PersonRepository {
   }
 
   @override
-  Future<int> getLength() async {
+  Future<int> lastIndex() async {
     try {
-      return await localDataSource.length();
+      return await localDataSource.lastIndex();
     } catch (e) {
       throw CacheException(e.toString());
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> deletePerson(int id) async {
+    try {
+      return Right(await localDataSource.deletePersonById(id));
+    } catch (e) {
+      return Left(CacheFailure());
     }
   }
 }

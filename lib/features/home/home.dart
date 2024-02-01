@@ -1,11 +1,16 @@
+import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:birthdays_reminder/features/adding_birthday/adding_birthday.dart';
 import 'package:birthdays_reminder/features/birthdays_list/birthdays_list.dart';
 import 'package:birthdays_reminder/features/calendar/calendar.dart';
 import 'package:birthdays_reminder/features/home/cubit/home_cubit.dart';
+import 'package:birthdays_reminder/router/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class Home extends StatelessWidget {
-  const Home({
+@RoutePage()
+class HomePage extends StatelessWidget {
+  const HomePage({
     super.key,
   });
 
@@ -13,7 +18,7 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => HomeCubit(),
-      child: HomeView(),
+      child: const HomeView(),
     );
   }
 }
@@ -53,9 +58,9 @@ class HomeView extends StatelessWidget {
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Navigator.of(context).pushNamed('add_birthday');
+            AutoRouter.of(context).push(const AddingBirthdayRoute());
           },
-          child: Icon(Icons.add),
+          child: const Icon(Icons.add),
         ),
         body: IndexedStack(
           index: selectedTab.index,

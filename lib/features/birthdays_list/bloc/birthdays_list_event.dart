@@ -14,3 +14,19 @@ class LoadBirthdaysListEvent extends BirthdaysListEvent {
   @override
   List<Object?> get props => [completer];
 }
+
+class DeletePersonBirthdaysListEvent extends BirthdaysListEvent {
+  const DeletePersonBirthdaysListEvent({required this.id});
+  final int id;
+
+  @override
+  List<Object?> get props => [id];
+}
+
+class SearchBirthdaysListEvent extends BirthdaysListEvent {
+  const SearchBirthdaysListEvent({required this.query});
+  final String query;
+
+  @override
+  List<Object?> get props => [query];
+}

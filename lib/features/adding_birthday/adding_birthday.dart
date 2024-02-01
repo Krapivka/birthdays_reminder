@@ -1,10 +1,14 @@
+import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:birthdays_reminder/core/data/services/image_picker.dart';
 import 'package:birthdays_reminder/core/domain/repositories/person_repository.dart';
 import 'package:birthdays_reminder/features/adding_birthday/bloc/adding_birthday_bloc.dart';
+import 'package:birthdays_reminder/router/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
+@RoutePage()
 class AddingBirthdayPage extends StatelessWidget {
   const AddingBirthdayPage({super.key});
 
@@ -87,18 +91,17 @@ class _EditableAvatar extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<AddingBirthdayBloc>(context);
     final width = MediaQuery.of(context).size.width / 3;
+    final avatarPath = bloc.state.file.absolute.path;
     return Center(
-      child: ElevatedButton(
-        onPressed: () {
+      child: InkWell(
+        onTap: () {
           bloc.add(AddingBirtdayImageTap());
         },
         child: CircleAvatar(
-          radius: width / 1.5,
-          backgroundImage: bloc.state.file != null
-              ? FileImage(bloc.state.file!) as ImageProvider
-              : NetworkImage(
-                  "https://www.sunhome.ru/i/wallpapers/89/girls-v118.orig.jpg"),
-        ),
+            radius: width / 1.5,
+            backgroundImage: avatarPath == '/'
+                ? const AssetImage("assets/images/avatar.png")
+                : FileImage(bloc.state.file) as ImageProvider),
       ),
     );
   }
@@ -162,8 +165,8 @@ class _ButtonAddBirthday extends StatelessWidget {
     return OutlinedButton(
       onPressed: () {
         context.read<AddingBirthdayBloc>().add(const AddingBirthdaySubmitted());
-        Navigator.pushNamedAndRemoveUntil(
-            context, '/', (Route<dynamic> route) => false);
+        AutoRouter.of(context).pushAndPopUntil(const HomeRoute(),
+            predicate: (Route<dynamic> route) => false);
       },
       child: const Text("Add birthday"),
     );

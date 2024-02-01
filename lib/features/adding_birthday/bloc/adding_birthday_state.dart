@@ -6,18 +6,19 @@ final currentDate = DateTime.now();
 
 class AddingBirthdayState extends Equatable {
   AddingBirthdayState({
-    this.file,
+    file,
     this.status = AddingBirthdayStatus.initial,
     this.name = '',
     birthdate,
-  }) : this.birthdate = birthdate ?? DateTime.now();
+  })  : birthdate = birthdate ?? DateTime.now(),
+        file = file ?? File('');
 
   AddingBirthdayStatus status;
-  final File? file;
+  final File file;
   final String name;
   final DateTime birthdate;
   @override
-  List<Object> get props => [status, name, birthdate];
+  List<Object> get props => [file, status, name, birthdate];
 
   AddingBirthdayState copyWith(
       {AddingBirthdayStatus? status,

@@ -20,3 +20,14 @@ class BirthdaysListLoaded extends BirthdaysListState {
 }
 
 class BirthdaysListFailure extends BirthdaysListState {}
+
+class SearchBirthdaysListEmpty extends BirthdaysListState {}
+
+class SearchBirthdaysListLoaded extends BirthdaysListState {
+  SearchBirthdaysListLoaded({required this.sortedListPersonModel});
+
+  final List<PersonModel> sortedListPersonModel;
+
+  @override
+  List<Object> get props => [sortedListPersonModel];
+}

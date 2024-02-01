@@ -6,6 +6,7 @@ part 'person_model.g.dart';
 class PersonModel extends PersonEntity {
   PersonModel(
       {required super.id,
+      required super.filePath,
       required super.name,
       required super.birthdate,
       super.listOfGifts});

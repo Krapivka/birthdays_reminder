@@ -28,6 +28,7 @@ class AddingBirthdayBloc
   void _onImageTap(
       AddingBirtdayImageTap event, Emitter<AddingBirthdayState> emit) async {
     final File? file = await _imagePicker.getImageFromGallery();
+
     emit(state.copyWith(file: file));
   }
 
@@ -49,10 +50,11 @@ class AddingBirthdayBloc
     emit(state.copyWith(status: AddingBirthdayStatus.loading));
 
     try {
-      final length = await _personRepository.getLength();
+      final lastInd = await _personRepository.lastIndex();
 
       PersonModel person = PersonModel(
-          id: length + 1,
+          id: lastInd + 1,
+          filePath: state.file.absolute.path,
           name: state.name,
           birthdate: state.birthdate ??
               DateTime.now(), //validation для полей! обязательно

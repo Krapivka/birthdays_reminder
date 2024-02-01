@@ -4,7 +4,8 @@ import 'package:dartz/dartz.dart';
 
 abstract class PersonRepository {
   Future<Either<Failure, void>> addPerson(PersonEntity person);
+  Future<Either<Failure, void>> deletePerson(int id);
   Future<Either<Failure, List<PersonEntity>>> getAllPersons();
   Future<Either<Failure, List<PersonEntity>>> searchPerson(String query);
-  Future<int> getLength();
+  Future<int> lastIndex();
 }

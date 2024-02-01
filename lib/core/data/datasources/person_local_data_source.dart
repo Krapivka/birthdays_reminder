@@ -7,10 +7,12 @@ abstract class PersonLocalDataSource {
   Future<List<PersonModel>> getLastPersonsFromCache();
   Future<void> personsToCache(List<PersonModel> persons);
   Future<void> onePersonToCache(PersonModel person);
-  Future<int> length();
+  Future<void> deletePersonById(int id);
+  Future<int> lastIndex();
 }
 
-const CACHED_PERSONS_LIST = 'CACHED_PERSONS_LIST5';
+const CACHED_PERSONS_LIST = 'CACHED_PERSONS_LIST7';
+const LAST_INDEX = 'LAST_INDEX';
 
 class PersonLocalDataSourceImpl implements PersonLocalDataSource {
   final SharedPreferences sharedPreferences;
@@ -31,6 +33,8 @@ class PersonLocalDataSourceImpl implements PersonLocalDataSource {
     final List<String> jsonPersonsList =
         persons.map((person) => json.encode(person.toJson())).toList();
     await sharedPreferences.setStringList(CACHED_PERSONS_LIST, jsonPersonsList);
+    final int countUsers = sharedPreferences.getInt(LAST_INDEX) ?? 0;
+    await sharedPreferences.setInt(LAST_INDEX, countUsers + 1);
     debugPrint('Persons to write Cache: ${jsonPersonsList.length}');
   }
 
@@ -43,9 +47,16 @@ class PersonLocalDataSourceImpl implements PersonLocalDataSource {
   }
 
   @override
-  Future<int> length() async {
-    final jsonPersonsList =
-        sharedPreferences.getStringList(CACHED_PERSONS_LIST) ?? [];
-    return jsonPersonsList.length;
+  Future<int> lastIndex() async {
+    final jsonPersonsList = sharedPreferences.getInt(LAST_INDEX) ?? 0;
+    return jsonPersonsList;
+  }
+
+  @override
+  Future<void> deletePersonById(int id) async {
+    final listPersonModel = await getLastPersonsFromCache();
+    final index = listPersonModel.indexWhere((element) => element.id == id);
+    listPersonModel.removeAt(index);
+    await personsToCache(listPersonModel);
   }
 }
