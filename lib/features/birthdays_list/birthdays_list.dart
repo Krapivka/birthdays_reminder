@@ -51,12 +51,23 @@ class BirthdaysListView extends StatelessWidget {
                   controller: _controller,
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.search),
-                    suffixIcon: IconButton(
-                        onPressed: () {
-                          _controller.clear();
-                          bloc.add(const LoadBirthdaysListEvent());
-                        },
-                        icon: const Icon(Icons.clear)),
+                    suffixIcon:
+                        BlocConsumer<BirthdaysListBloc, BirthdaysListState>(
+                      listener: (context, state) {
+                        // TODO: implement listener
+                      },
+                      builder: (context, state) {
+                        if (bloc.state is SearchBirthdaysListLoaded) {
+                          return IconButton(
+                              onPressed: () {
+                                _controller.clear();
+                                bloc.add(const LoadBirthdaysListEvent());
+                              },
+                              icon: const Icon(Icons.clear));
+                        }
+                        return SizedBox();
+                      },
+                    ),
                     border: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(20.0))),
                     enabledBorder: const OutlineInputBorder(
@@ -87,25 +98,47 @@ class BirthdaysListView extends StatelessWidget {
                   }
                   if (state is BirthdaysListLoaded) {
                     final List<PersonModel> persons = state.listPersonModel;
-
-                    return ListView.builder(
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: persons.length,
-                      itemBuilder: (context, index) =>
-                          BirthdayCard(index: index, person: persons[index]),
-                    );
+                    if (persons.isNotEmpty) {
+                      return ListView.builder(
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: persons.length,
+                        itemBuilder: (context, index) =>
+                            BirthdayCard(index: index, person: persons[index]),
+                      );
+                    } else {
+                      return const Center(
+                          child: Padding(
+                        padding: EdgeInsets.all(50.0),
+                        child: Align(
+                          child: Text(
+                              "Добавьте день рождения, чтобы не забыть поздравить",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.black54,
+                              )),
+                        ),
+                      ));
+                    }
                   }
                   if (state is SearchBirthdaysListLoaded) {
                     final List<PersonModel> persons =
                         state.sortedListPersonModel;
 
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: persons.length,
-                      itemBuilder: (context, index) =>
-                          BirthdayCard(index: index, person: persons[index]),
-                    );
+                    if (persons.isNotEmpty) {
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: persons.length,
+                        itemBuilder: (context, index) =>
+                            BirthdayCard(index: index, person: persons[index]),
+                      );
+                    } else {
+                      return const Center(
+                          child: Text("День рождения не найден",
+                              style: TextStyle(
+                                color: Colors.black54,
+                              )));
+                    }
                   }
                   return const SizedBox();
                 }),

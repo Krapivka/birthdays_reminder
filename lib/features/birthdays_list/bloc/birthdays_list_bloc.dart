@@ -23,8 +23,9 @@ class BirthdaysListBloc extends Bloc<BirthdaysListEvent, BirthdaysListState> {
     final listPersonModel = await _personRepository.getAllPersons();
     listPersonModel.fold(
         (failure) => emit(BirthdaysListFailure()),
-        (result) => emit(
-            BirthdaysListLoaded(listPersonModel: result as List<PersonModel>)));
+        (result) => emit(BirthdaysListLoaded(
+            listPersonModel:
+                sortPersonsByNearestBirthday(result as List<PersonModel>))));
   }
 
   _onSearchPerson(
@@ -32,15 +33,17 @@ class BirthdaysListBloc extends Bloc<BirthdaysListEvent, BirthdaysListState> {
     emit(BirthdaysListLoading());
     final listPersonModel = await _personRepository.getAllPersons();
     listPersonModel.fold((failure) => emit(BirthdaysListFailure()), (result) {
-      if (result == []) {
-        emit(SearchBirthdaysListEmpty());
+      if (result.isEmpty || event.query == '') {
+        emit(BirthdaysListLoaded(listPersonModel: result as List<PersonModel>));
       } else {
         final query = event.query;
+
         debugPrint("Search: ${event.query}");
         final sortedList = result
             .where((person) =>
                 person.name.toLowerCase().contains(query.toLowerCase()))
             .toList();
+
         emit(SearchBirthdaysListLoaded(
             sortedListPersonModel: sortedList as List<PersonModel>));
       }
@@ -50,7 +53,38 @@ class BirthdaysListBloc extends Bloc<BirthdaysListEvent, BirthdaysListState> {
   _onDeletePerson(DeletePersonBirthdaysListEvent event,
       Emitter<BirthdaysListState> emit) async {
     final delPerson = await _personRepository.deletePerson(event.id);
-    delPerson.fold((failure) => emit(BirthdaysListFailure()),
-        (result) => add(const LoadBirthdaysListEvent()));
+    delPerson.fold((failure) => emit(BirthdaysListFailure()), (result) {
+      debugPrint("Delete Person with ID: ${event.id}");
+    });
+  }
+
+  List<PersonModel> sortPersonsByNearestBirthday(List<PersonModel> persons) {
+    DateTime today = DateTime.now();
+    DateTime yesterday = today.subtract(Duration(days: 1));
+
+    persons.sort((a, b) {
+      DateTime aNextBirthday =
+          DateTime(today.year, a.birthdate.month, a.birthdate.day);
+      DateTime bNextBirthday =
+          DateTime(today.year, b.birthdate.month, b.birthdate.day);
+
+      if (aNextBirthday.isBefore(yesterday)) {
+        aNextBirthday = aNextBirthday.add(Duration(days: 365));
+      }
+
+      if (bNextBirthday.isBefore(yesterday)) {
+        bNextBirthday = bNextBirthday.add(Duration(days: 365));
+      }
+
+      int result = aNextBirthday.compareTo(bNextBirthday);
+
+      if (result == 0) {
+        result = a.id.compareTo(b.id);
+      }
+
+      return result;
+    });
+
+    return persons;
   }
 }
