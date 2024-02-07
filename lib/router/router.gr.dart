@@ -27,6 +27,16 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const HomePage(),
       );
     },
+    UpdateBirthdayRoute.name: (routeData) {
+      final args = routeData.argsAs<UpdateBirthdayRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: UpdateBirthdayPage(
+          key: args.key,
+          personmodel: args.personmodel,
+        ),
+      );
+    },
   };
 }
 
@@ -56,4 +66,42 @@ class HomeRoute extends PageRouteInfo<void> {
   static const String name = 'HomeRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [UpdateBirthdayPage]
+class UpdateBirthdayRoute extends PageRouteInfo<UpdateBirthdayRouteArgs> {
+  UpdateBirthdayRoute({
+    Key? key,
+    required PersonModel personmodel,
+    List<PageRouteInfo>? children,
+  }) : super(
+          UpdateBirthdayRoute.name,
+          args: UpdateBirthdayRouteArgs(
+            key: key,
+            personmodel: personmodel,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'UpdateBirthdayRoute';
+
+  static const PageInfo<UpdateBirthdayRouteArgs> page =
+      PageInfo<UpdateBirthdayRouteArgs>(name);
+}
+
+class UpdateBirthdayRouteArgs {
+  const UpdateBirthdayRouteArgs({
+    this.key,
+    required this.personmodel,
+  });
+
+  final Key? key;
+
+  final PersonModel personmodel;
+
+  @override
+  String toString() {
+    return 'UpdateBirthdayRouteArgs{key: $key, personmodel: $personmodel}';
+  }
 }
