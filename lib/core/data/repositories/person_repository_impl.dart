@@ -14,7 +14,7 @@ class PersonRepositoryImpl implements PersonRepository {
   @override
   Future<Either<Failure, List<PersonEntity>>> getAllPersons() async {
     try {
-      final locationPerson = await localDataSource.getLastPersonsFromCache();
+      final locationPerson = await localDataSource.getPersonsFromCache();
       return Right(locationPerson);
     } on CacheException {
       return Left(CacheFailure());
@@ -24,7 +24,7 @@ class PersonRepositoryImpl implements PersonRepository {
   @override
   Future<Either<Failure, List<PersonEntity>>> searchPerson(String query) async {
     try {
-      final locationPerson = await localDataSource.getLastPersonsFromCache();
+      final locationPerson = await localDataSource.getPersonsFromCache();
       return Right(locationPerson);
     } on CacheException {
       return Left(CacheFailure());
@@ -54,6 +54,15 @@ class PersonRepositoryImpl implements PersonRepository {
   Future<Either<Failure, void>> deletePerson(int id) async {
     try {
       return Right(await localDataSource.deletePersonById(id));
+    } catch (e) {
+      return Left(CacheFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> updatePerson(PersonModel person) async {
+    try {
+      return Right(await localDataSource.updatePerson(person));
     } catch (e) {
       return Left(CacheFailure());
     }
