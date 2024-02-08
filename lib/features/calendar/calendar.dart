@@ -1,5 +1,10 @@
+import 'package:birthdays_reminder/core/data/models/person_model.dart';
+import 'package:birthdays_reminder/core/domain/repositories/person_repository.dart';
 import 'package:birthdays_reminder/features/birthdays_list/widgets/birthday_card.dart';
+import 'package:birthdays_reminder/features/calendar/bloc/bloc/calendar_bloc.dart';
+import 'package:birthdays_reminder/features/calendar/widgets/birthday_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CalendarPage extends StatelessWidget {
@@ -7,29 +12,96 @@ class CalendarPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const CalendarView();
+    return BlocProvider(
+      create: (context) =>
+          CalendarBloc(RepositoryProvider.of<PersonRepository>(context)),
+      child: CalendarPageView(),
+    );
   }
 }
 
-class CalendarView extends StatefulWidget {
-  const CalendarView({
-    super.key,
-  });
-
+class CalendarPageView extends StatefulWidget {
   @override
-  State<CalendarView> createState() => _CalendarViewState();
+  _CalendarPageViewState createState() => _CalendarPageViewState();
 }
 
-class _CalendarViewState extends State<CalendarView> {
+class _CalendarPageViewState extends State<CalendarPageView> {
+  CalendarFormat _calendarFormat = CalendarFormat.month;
+  RangeSelectionMode _rangeSelectionMode = RangeSelectionMode.toggledOff;
+  DateTime _focusedDay = DateTime.now();
+  DateTime? _selectedDay;
+
+  @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<CalendarBloc>(context).add(const LoadBirthdaysCalendar());
+    _selectedDay = _focusedDay;
+  }
+
+  void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
+    final bloc = BlocProvider.of<CalendarBloc>(context);
+    if (!isSameDay(_selectedDay, selectedDay)) {
+      setState(() {
+        _selectedDay = selectedDay;
+        _focusedDay = focusedDay;
+        _rangeSelectionMode = RangeSelectionMode.toggledOff;
+      });
+      bloc.add(CalendarDateTap(selectedDay));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: TableCalendar(
-      availableCalendarFormats: const {CalendarFormat.month: 'Month'},
-      locale: 'ru_RU',
-      firstDay: DateTime.utc(2010, 10, 16),
-      lastDay: DateTime.utc(2030, 3, 14),
-      focusedDay: DateTime.now(),
-    ));
+    return Column(
+      children: [
+        BlocBuilder<CalendarBloc, CalendarState>(
+          builder: (context, state) {
+            return TableCalendar<PersonModel>(
+              firstDay: kFirstDay,
+              lastDay: kLastDay,
+              focusedDay: _focusedDay,
+              selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
+              calendarFormat: _calendarFormat,
+              rangeSelectionMode: _rangeSelectionMode,
+              eventLoader: (day) {
+                return state.birthdays[day] ?? [];
+              },
+              startingDayOfWeek: StartingDayOfWeek.monday,
+              calendarStyle: const CalendarStyle(
+                outsideDaysVisible: false,
+              ),
+              onDaySelected: _onDaySelected,
+              onFormatChanged: (format) {
+                if (_calendarFormat != format) {
+                  setState(() {
+                    _calendarFormat = format;
+                  });
+                }
+              },
+              onPageChanged: (focusedDay) {
+                _focusedDay = focusedDay;
+              },
+            );
+          },
+        ),
+        const SizedBox(height: 8.0),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: BlocBuilder<CalendarBloc, CalendarState>(
+              builder: (context, state) {
+                return ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: state.birthdaysInSelectedDay.length,
+                  itemBuilder: (context, index) => BirthdayTile(
+                      index: index,
+                      person: state.birthdaysInSelectedDay[index]),
+                );
+              },
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }
