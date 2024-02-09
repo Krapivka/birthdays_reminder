@@ -57,8 +57,8 @@ class _CalendarPageViewState extends State<CalendarPageView> {
         BlocBuilder<CalendarBloc, CalendarState>(
           builder: (context, state) {
             return TableCalendar<PersonModel>(
-              firstDay: kFirstDay,
-              lastDay: kLastDay,
+              firstDay: state.firstDay,
+              lastDay: state.lastDay,
               focusedDay: _focusedDay,
               selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
               calendarFormat: _calendarFormat,
@@ -90,6 +90,11 @@ class _CalendarPageViewState extends State<CalendarPageView> {
             padding: const EdgeInsets.all(8.0),
             child: BlocBuilder<CalendarBloc, CalendarState>(
               builder: (context, state) {
+                if (state.birthdaysInSelectedDay.isEmpty) {
+                  return const Center(
+                    child: Text('В этот день нет дней рождения'),
+                  );
+                }
                 return ListView.builder(
                   shrinkWrap: true,
                   itemCount: state.birthdaysInSelectedDay.length,

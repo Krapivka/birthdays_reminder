@@ -13,6 +13,12 @@ class CalendarState extends Equatable {
   LinkedHashMap<DateTime, List<PersonModel>> birthdays;
   List<PersonModel> birthdaysInSelectedDay;
   CalendarStatus status;
+  final DateTime today = DateTime.now();
+
+  DateTime get firstDay => DateTime(today.year, 1, 1);
+
+  DateTime get lastDay =>
+      DateTime(today.year, 12, DateTime(today.year + 1, 1, 0).day);
 
   @override
   List<Object> get props => [status, birthdays, birthdaysInSelectedDay];
