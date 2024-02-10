@@ -24,6 +24,7 @@ dependencies:
   auto_route: ^7.8.4
   table_calendar: ^3.0.9
   awesome_notifications: ^0.8.2
+  intl: ^0.18.1
 dev_dependencies:
   auto_route_generator: ^7.3.2
   flutter_test:

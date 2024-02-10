@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:birthdays_reminder/core/data/services/image_picker.dart';
 import 'package:birthdays_reminder/core/data/models/person_model.dart';
+import 'package:birthdays_reminder/core/data/services/notification_service.dart';
 import 'package:birthdays_reminder/core/domain/repositories/person_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -60,6 +61,13 @@ class AddingBirthdayBloc
               DateTime.now(), //validation для полей! обязательно
           listOfGifts: const []);
       await _personRepository.addPerson(person);
+      //show notification !!!
+
+      final moonLanding = DateTime.parse('2024-02-10 18:10:00Z');
+      await NotificationService.showScheduleNotification(
+        title: "Schedule Notification",
+        scheduleTime: moonLanding,
+      );
 
       debugPrint("Add new Person: ${person.name}");
       emit(state.copyWith(status: AddingBirthdayStatus.success));

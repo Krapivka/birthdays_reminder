@@ -1,6 +1,7 @@
 import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:birthdays_reminder/core/data/services/notification_service.dart';
 import 'package:birthdays_reminder/features/adding_birthday/adding_birthday.dart';
 import 'package:birthdays_reminder/features/birthdays_list/birthdays_list.dart';
 import 'package:birthdays_reminder/features/calendar/calendar.dart';
@@ -35,16 +36,12 @@ class HomeView extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
-              onPressed: () {
-                AwesomeNotifications().createNotification(
-                    schedule: NotificationAndroidCrontab.minutely(
-                        referenceDateTime: DateTime(0, 0, 0, 1, 0, 0)),
-                    content: NotificationContent(
-                      id: 1,
-                      channelKey: "birthday_notification",
-                      title: "Hello world",
-                      body: "Yee. I have local notification",
-                    ));
+              onPressed: () async {
+                await NotificationService.showNotification(
+                    title: "Schedule Notification",
+                    body: "Check App, maybe you have birthdays today",
+                    scheduled: true,
+                    interval: 5);
               },
               icon: Icon(Icons.notification_add)),
           title: const Text(
