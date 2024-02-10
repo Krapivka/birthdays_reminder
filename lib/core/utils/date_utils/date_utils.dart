@@ -1,12 +1,15 @@
-class DateTimeUtils {
-  String formatDate(DateTime dateTime) =>
-      dateTime.toIso8601String().split('T').first;
+import 'package:intl/intl.dart';
 
-  int getDifferenceDate(DateTime startDate, DateTime endDate) {
+class DateTimeUtils {
+  static String formatDate(DateTime dateTime) {
+    return dateTime.toIso8601String().split('T').first;
+  }
+
+  static int getDifferenceDate(DateTime startDate, DateTime endDate) {
     return endDate.difference(startDate).inDays;
   }
 
-  String getDifferenceCurrentDayBirthDay(DateTime birthday) {
+  static String getDifferenceCurrentDayBirthDay(DateTime birthday) {
     DateTime currentDate = DateTime.now();
 
     DateTime nextBirthday =
@@ -24,5 +27,11 @@ class DateTimeUtils {
     int differenceInDays = nextBirthday.difference(currentDate).inDays;
 
     return (differenceInDays + 1).toString();
+  }
+
+  static String parseDateToString(DateTime dateTime) {
+    final DateFormat dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
+    final String formattedDate = dateFormat.format(dateTime);
+    return formattedDate;
   }
 }
