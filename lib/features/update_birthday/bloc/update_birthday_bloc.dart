@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:birthdays_reminder/core/data/services/image_picker.dart';
+import 'package:birthdays_reminder/core/data/services/image_picker_service.dart';
 import 'package:birthdays_reminder/core/data/models/person_model.dart';
 import 'package:birthdays_reminder/core/domain/repositories/person_repository.dart';
 import 'package:equatable/equatable.dart';
@@ -13,7 +13,7 @@ part 'update_birthday_state.dart';
 
 class UpdateBirthdayBloc
     extends Bloc<UpdateBirthdayEvent, UpdateBirthdayState> {
-  UpdateBirthdayBloc(this._personRepository, this._imagePicker, person)
+  UpdateBirthdayBloc(this._personRepository, person)
       : super(UpdateBirthdayState.personModel(person: person)) {
     on<UpdateBirtdayNameChanged>(_onNameChanged);
     on<UpdateBirtdayDateTap>(_onDateTap);
@@ -23,11 +23,9 @@ class UpdateBirthdayBloc
 
   final PersonRepository _personRepository;
 
-  final AppImagePicker _imagePicker;
-
   void _onImageTap(
       UpdateBirtdayImageTap event, Emitter<UpdateBirthdayState> emit) async {
-    final File? file = await _imagePicker.getImageFromGallery();
+    final File? file = await AppImagePickerService.getImageFromGallery();
 
     emit(state.copyWith(file: file));
   }

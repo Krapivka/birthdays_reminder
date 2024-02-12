@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:birthdays_reminder/core/data/models/person_model.dart';
-import 'package:birthdays_reminder/core/data/services/image_picker.dart';
+import 'package:birthdays_reminder/core/data/services/image_picker_service.dart';
 import 'package:birthdays_reminder/core/domain/repositories/person_repository.dart';
 import 'package:birthdays_reminder/features/home/home.dart';
 import 'package:birthdays_reminder/features/update_birthday/bloc/update_birthday_bloc.dart';
@@ -24,8 +24,8 @@ class UpdateBirthdayPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => UpdateBirthdayBloc(context.read<PersonRepository>(),
-          AppImagePicker(source: ImageSource.gallery), personmodel),
+      create: (context) =>
+          UpdateBirthdayBloc(context.read<PersonRepository>(), personmodel),
       child: UpdateBirthdayPageView(),
     );
   }
