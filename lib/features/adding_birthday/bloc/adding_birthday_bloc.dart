@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:birthdays_reminder/core/data/services/image_picker.dart';
+import 'package:birthdays_reminder/core/data/services/image_picker_service.dart';
 import 'package:birthdays_reminder/core/data/models/person_model.dart';
 import 'package:birthdays_reminder/core/data/services/notification_service.dart';
 import 'package:birthdays_reminder/core/domain/repositories/person_repository.dart';
@@ -14,8 +14,7 @@ part 'adding_birthday_state.dart';
 
 class AddingBirthdayBloc
     extends Bloc<AddingBirthdayEvent, AddingBirthdayState> {
-  AddingBirthdayBloc(this._personRepository, this._imagePicker)
-      : super(AddingBirthdayState()) {
+  AddingBirthdayBloc(this._personRepository) : super(AddingBirthdayState()) {
     on<AddingBirtdayNameChanged>(_onNameChanged);
     on<AddingBirtdayDateTap>(_onDateTap);
     on<AddingBirtdayImageTap>(_onImageTap);
@@ -24,11 +23,11 @@ class AddingBirthdayBloc
 
   final PersonRepository _personRepository;
 
-  final AppImagePicker _imagePicker;
+  //final AppImagePicker _imagePicker;
 
   void _onImageTap(
       AddingBirtdayImageTap event, Emitter<AddingBirthdayState> emit) async {
-    final File? file = await _imagePicker.getImageFromGallery();
+    final File? file = await AppImagePickerService.getImageFromGallery();
 
     emit(state.copyWith(file: file));
   }
@@ -63,7 +62,7 @@ class AddingBirthdayBloc
       await _personRepository.addPerson(person);
       //show notification !!!
 
-      final moonLanding = DateTime.parse('2024-02-10 18:10:00Z');
+      final moonLanding = DateTime.parse('2024-02-11 15:15:00Z');
       await NotificationService.showScheduleNotification(
         title: "Schedule Notification",
         scheduleTime: moonLanding,

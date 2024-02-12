@@ -36,14 +36,15 @@ class HomeView extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
-              onPressed: () async {
-                await NotificationService.showNotification(
-                    title: "Schedule Notification",
-                    body: "Check App, maybe you have birthdays today",
-                    scheduled: true,
-                    interval: 5);
+              onPressed: () {
+                // await NotificationService.showNotification(
+                //     title: "Schedule Notification",
+                //     body: "Check App, maybe you have birthdays today",
+                //     scheduled: true,
+                //     interval: 5);
+                AutoRouter.of(context).push(const SettingsRoute());
               },
-              icon: Icon(Icons.notification_add)),
+              icon: Icon(Icons.settings_outlined)),
           title: const Text(
             "Birthdays",
           ),

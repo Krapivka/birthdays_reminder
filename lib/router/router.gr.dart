@@ -21,10 +21,46 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const AddingBirthdayPage(),
       );
     },
+    DateFormatSelectionRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: DateFormatSelectionPage(),
+      );
+    },
     HomeRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const HomePage(),
+      );
+    },
+    InfoRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: InfoPage(),
+      );
+    },
+    LanguageSelectionRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const LanguageSelectionPage(),
+      );
+    },
+    SettingsNotificationRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const SettingsNotificationPage(),
+      );
+    },
+    SettingsRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const SettingsPage(),
+      );
+    },
+    ThemeSelectionRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const ThemeSelectionPage(),
       );
     },
     UpdateBirthdayRoute.name: (routeData) {
@@ -55,6 +91,20 @@ class AddingBirthdayRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [DateFormatSelectionPage]
+class DateFormatSelectionRoute extends PageRouteInfo<void> {
+  const DateFormatSelectionRoute({List<PageRouteInfo>? children})
+      : super(
+          DateFormatSelectionRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'DateFormatSelectionRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [HomePage]
 class HomeRoute extends PageRouteInfo<void> {
   const HomeRoute({List<PageRouteInfo>? children})
@@ -64,6 +114,76 @@ class HomeRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'HomeRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [InfoPage]
+class InfoRoute extends PageRouteInfo<void> {
+  const InfoRoute({List<PageRouteInfo>? children})
+      : super(
+          InfoRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'InfoRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [LanguageSelectionPage]
+class LanguageSelectionRoute extends PageRouteInfo<void> {
+  const LanguageSelectionRoute({List<PageRouteInfo>? children})
+      : super(
+          LanguageSelectionRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'LanguageSelectionRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [SettingsNotificationPage]
+class SettingsNotificationRoute extends PageRouteInfo<void> {
+  const SettingsNotificationRoute({List<PageRouteInfo>? children})
+      : super(
+          SettingsNotificationRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SettingsNotificationRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [SettingsPage]
+class SettingsRoute extends PageRouteInfo<void> {
+  const SettingsRoute({List<PageRouteInfo>? children})
+      : super(
+          SettingsRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SettingsRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [ThemeSelectionPage]
+class ThemeSelectionRoute extends PageRouteInfo<void> {
+  const ThemeSelectionRoute({List<PageRouteInfo>? children})
+      : super(
+          ThemeSelectionRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ThemeSelectionRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

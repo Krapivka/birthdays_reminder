@@ -129,19 +129,15 @@ class NotificationService {
   }) async {
     String localTimeZone =
         await AwesomeNotifications().getLocalTimeZoneIdentifier();
-    String utcTimeZone =
-        await AwesomeNotifications().getLocalTimeZoneIdentifier();
+    debugPrint("Your local time zone is {$localTimeZone}");
     //assert(!scheduled || (scheduled && interval != null));
     await AwesomeNotifications().createNotification(
         content: NotificationContent(
           id: -1,
           channelKey: "birthday_notification",
           title: title,
-          body: 'This notification was schedule to shows at ' +
-              (DateTimeUtils.formatDate(scheduleTime.toLocal()) ?? '?') +
-              ' ru (' +
-              (DateTimeUtils.parseDateToString(scheduleTime.toUtc()) ?? '?') +
-              ' utc)',
+          body:
+              'This notification was schedule to shows at ${DateTimeUtils.parseDateToString(scheduleTime.toLocal())} {$localTimeZone} (${DateTimeUtils.parseDateToString(scheduleTime.toUtc())} utc)',
           wakeUpScreen: true,
           category: NotificationCategory.Reminder,
           notificationLayout: notificationLayout,
@@ -149,6 +145,12 @@ class NotificationService {
           payload: payload,
           autoDismissible: false,
         ),
-        schedule: NotificationCalendar.fromDate(date: scheduleTime));
+        schedule: NotificationCalendar(
+            timeZone: localTimeZone,
+            year: scheduleTime.year,
+            month: scheduleTime.month,
+            day: scheduleTime.day,
+            hour: scheduleTime.hour,
+            minute: scheduleTime.minute));
   }
 }
