@@ -1,5 +1,7 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:birthdays_reminder/features/settings/bloc/bloc/settings_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 @RoutePage()
 class DateFormatSelectionPage extends StatelessWidget {
@@ -7,10 +9,10 @@ class DateFormatSelectionPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Выбор формата даты'),
+        title: const Text('Выбор формата даты'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
+      body: const Padding(
+        padding: EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -20,20 +22,11 @@ class DateFormatSelectionPage extends StatelessWidget {
             ),
             SizedBox(height: 20),
             DateFormatOption(
-              format: 'dd/MM/yyyy',
-              isSelected: true, // Здесь можно установить начальное состояние
-              onTap: () {
-                // Здесь можно обработать выбор формата даты
-                // Например, сохранить выбранный формат в настройках приложения.
-              },
+              dateFormat: 'dd/MM/yyyy',
             ),
             DateFormatOption(
-              format: 'MM/dd/yyyy',
-              onTap: () {
-                // Обработать выбор другого формата
-              },
+              dateFormat: 'MM/dd/yyyy',
             ),
-            // Добавьте другие форматы по аналогии
           ],
         ),
       ),
@@ -42,37 +35,42 @@ class DateFormatSelectionPage extends StatelessWidget {
 }
 
 class DateFormatOption extends StatelessWidget {
-  final String format;
-  final bool isSelected;
-  final VoidCallback onTap;
+  final String dateFormat;
 
   const DateFormatOption({
-    Key? key,
-    required this.format,
-    this.isSelected = false,
-    required this.onTap,
-  }) : super(key: key);
+    super.key,
+    required this.dateFormat,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10),
-        child: Row(
-          children: <Widget>[
-            Icon(
-              isSelected ? Icons.check_circle : Icons.radio_button_unchecked,
-              color: isSelected ? Colors.green : Colors.grey,
+    return BlocBuilder<SettingsBloc, SettingsState>(
+      builder: (context, state) {
+        return InkWell(
+          onTap: () => BlocProvider.of<SettingsBloc>(context)
+              .add(SetDateFormatEvent(dateFormat)),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: Row(
+              children: <Widget>[
+                Icon(
+                  state.dateFormat == dateFormat
+                      ? Icons.check_circle
+                      : Icons.radio_button_unchecked,
+                  color: state.dateFormat == dateFormat
+                      ? Colors.green
+                      : Colors.grey,
+                ),
+                const SizedBox(width: 10),
+                Text(
+                  dateFormat,
+                  style: const TextStyle(fontSize: 16),
+                ),
+              ],
             ),
-            SizedBox(width: 10),
-            Text(
-              format,
-              style: TextStyle(fontSize: 16),
-            ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

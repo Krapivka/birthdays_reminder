@@ -1,11 +1,9 @@
-import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:birthdays_reminder/core/data/services/notification_service.dart';
-import 'package:birthdays_reminder/features/adding_birthday/adding_birthday.dart';
 import 'package:birthdays_reminder/features/birthdays_list/birthdays_list.dart';
 import 'package:birthdays_reminder/features/calendar/calendar.dart';
 import 'package:birthdays_reminder/features/home/cubit/home_cubit.dart';
+import 'package:birthdays_reminder/features/settings/bloc/bloc/settings_bloc.dart';
+import 'package:birthdays_reminder/features/settings/data/repository/abstract_settings_repository.dart';
 import 'package:birthdays_reminder/router/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,10 +16,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => HomeCubit(),
-      child: const HomeView(),
-    );
+    return HomeView();
   }
 }
 

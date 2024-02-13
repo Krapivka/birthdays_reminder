@@ -34,8 +34,9 @@ class _CalendarPageViewState extends State<CalendarPageView> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<CalendarBloc>(context).add(const LoadBirthdaysCalendar());
     _selectedDay = _focusedDay;
+    BlocProvider.of<CalendarBloc>(context).add(const LoadBirthdaysCalendar());
+    BlocProvider.of<CalendarBloc>(context).add(CalendarDateTap(_focusedDay));
   }
 
   void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {

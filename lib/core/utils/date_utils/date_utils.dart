@@ -1,8 +1,11 @@
 import 'package:intl/intl.dart';
 
 class DateTimeUtils {
-  static String formatDate(DateTime dateTime) {
-    return dateTime.toIso8601String().split('T').first;
+  static String formatDate(DateTime dateTime, String dateFormat) {
+    final DateFormat formatter = DateFormat(dateFormat);
+    final date = formatter.format(dateTime);
+
+    return date;
   }
 
   static int getDifferenceDate(DateTime startDate, DateTime endDate) {

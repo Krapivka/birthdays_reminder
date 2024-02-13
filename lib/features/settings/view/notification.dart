@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:birthdays_reminder/features/settings/bloc/bloc/settings_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 @RoutePage()
 class SettingsNotificationPage extends StatelessWidget {
@@ -12,20 +14,12 @@ class SettingsNotificationPage extends StatelessWidget {
   }
 }
 
-class SettingsNotificationPageView extends StatefulWidget {
+class SettingsNotificationPageView extends StatelessWidget {
   const SettingsNotificationPageView({super.key});
 
   @override
-  State<SettingsNotificationPageView> createState() =>
-      _SettingsNotificationPageViewState();
-}
-
-class _SettingsNotificationPageViewState
-    extends State<SettingsNotificationPageView> {
-  TimeOfDay selectedTime = TimeOfDay.now();
-
-  @override
   Widget build(BuildContext context) {
+    int notificationDay = 1;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Notification'),
@@ -45,7 +39,9 @@ class _SettingsNotificationPageViewState
             ),
             CupertinoPicker(
               itemExtent: 60,
-              onSelectedItemChanged: (index) {},
+              onSelectedItemChanged: (index) {
+                notificationDay = index + 1;
+              },
               children: List.generate(
                   30, (index) => Center(child: Text('${index + 1}'))),
             ),
@@ -53,7 +49,11 @@ class _SettingsNotificationPageViewState
                 child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
-                  onPressed: () {}, child: const Text("Set the day")),
+                  onPressed: () {
+                    BlocProvider.of<SettingsBloc>(context)
+                        .add(SetNotificationDayEvent(notificationDay));
+                  },
+                  child: const Text("Set the day")),
             ))
           ],
         ),

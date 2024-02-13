@@ -5,12 +5,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:birthdays_reminder/core/data/models/person_model.dart';
 import 'package:birthdays_reminder/core/data/services/image_picker_service.dart';
 import 'package:birthdays_reminder/core/domain/repositories/person_repository.dart';
-import 'package:birthdays_reminder/features/home/home.dart';
 import 'package:birthdays_reminder/features/update_birthday/bloc/update_birthday_bloc.dart';
 import 'package:birthdays_reminder/router/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
 
 @RoutePage()
 class UpdateBirthdayPage extends StatelessWidget {

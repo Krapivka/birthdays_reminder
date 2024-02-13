@@ -1,5 +1,7 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:birthdays_reminder/features/settings/bloc/bloc/settings_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 @RoutePage()
 class LanguageSelectionPage extends StatelessWidget {
@@ -12,29 +14,23 @@ class LanguageSelectionPage extends StatelessWidget {
         title: const Text('Language'),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
+      body: const Padding(
+        padding: EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            const Text(
+            Text(
               'Choose your language:',
               style: TextStyle(fontSize: 18),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
             LanguageOption(
+              keyLang: 'en',
               language: 'English',
-              isSelected: true, // Здесь можно установить начальное состояние
-              onTap: () {
-                // Здесь можно обработать выбор языка
-                // Например, сохранить выбранный язык в настройках приложения.
-              },
             ),
             LanguageOption(
+              keyLang: 'ru',
               language: 'Русский',
-              onTap: () {
-                // Обработать выбор другого языка
-              },
             ),
             // Добавьте другие языки по аналогии
           ],
@@ -45,37 +41,45 @@ class LanguageSelectionPage extends StatelessWidget {
 }
 
 class LanguageOption extends StatelessWidget {
+  final String keyLang;
+
   final String language;
-  final bool isSelected;
-  final VoidCallback onTap;
 
   const LanguageOption({
-    Key? key,
+    super.key,
     required this.language,
-    this.isSelected = false,
-    required this.onTap,
-  }) : super(key: key);
+    required this.keyLang,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10),
-        child: Row(
-          children: <Widget>[
-            Icon(
-              isSelected ? Icons.check_circle : Icons.radio_button_unchecked,
-              color: isSelected ? Colors.green : Colors.grey,
+    return BlocBuilder<SettingsBloc, SettingsState>(
+      builder: (context, state) {
+        return InkWell(
+          onTap: () {
+            BlocProvider.of<SettingsBloc>(context)
+                .add(SetLanguageEvent(keyLang));
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: Row(
+              children: <Widget>[
+                Icon(
+                  state.language == keyLang
+                      ? Icons.check_circle
+                      : Icons.radio_button_unchecked,
+                  color: state.language == keyLang ? Colors.green : Colors.grey,
+                ),
+                const SizedBox(width: 10),
+                Text(
+                  language,
+                  style: const TextStyle(fontSize: 16),
+                ),
+              ],
             ),
-            SizedBox(width: 10),
-            Text(
-              language,
-              style: TextStyle(fontSize: 16),
-            ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

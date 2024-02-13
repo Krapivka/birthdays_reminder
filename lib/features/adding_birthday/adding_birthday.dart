@@ -1,12 +1,9 @@
-import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:birthdays_reminder/core/data/services/image_picker_service.dart';
 import 'package:birthdays_reminder/core/domain/repositories/person_repository.dart';
 import 'package:birthdays_reminder/features/adding_birthday/bloc/adding_birthday_bloc.dart';
 import 'package:birthdays_reminder/router/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
 
 @RoutePage()
 class AddingBirthdayPage extends StatelessWidget {
@@ -24,7 +21,7 @@ class AddingBirthdayPage extends StatelessWidget {
 }
 
 class AddingBirthdayView extends StatelessWidget {
-  AddingBirthdayView({
+  const AddingBirthdayView({
     super.key,
   });
 
@@ -44,7 +41,7 @@ class AddingBirthdayView extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
-                  _EditableAvatar(),
+                  const _EditableAvatar(),
                   _TextField(
                     labelText: "Enter name",
                     hintText: "Name",
@@ -76,7 +73,7 @@ class AddingBirthdayView extends StatelessWidget {
                     },
                     icon: const Icon(Icons.date_range_outlined),
                   ),
-                  _ButtonAddBirthday(),
+                  const _ButtonAddBirthday(),
                 ],
               ),
             ));
@@ -86,7 +83,7 @@ class AddingBirthdayView extends StatelessWidget {
 }
 
 class _EditableAvatar extends StatelessWidget {
-  const _EditableAvatar({super.key});
+  const _EditableAvatar();
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +93,7 @@ class _EditableAvatar extends StatelessWidget {
     return Center(
       child: InkWell(
         onTap: () {
-          bloc.add(AddingBirtdayImageTap());
+          bloc.add(const AddingBirtdayImageTap());
         },
         child: CircleAvatar(
             radius: width / 1.5,

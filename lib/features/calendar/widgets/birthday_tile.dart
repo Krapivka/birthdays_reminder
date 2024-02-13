@@ -4,6 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:birthdays_reminder/core/data/models/person_model.dart';
 import 'package:birthdays_reminder/core/utils/date_utils/date_utils.dart';
 import 'package:birthdays_reminder/features/birthdays_list/bloc/birthdays_list_bloc.dart';
+import 'package:birthdays_reminder/features/settings/bloc/bloc/settings_bloc.dart';
 import 'package:birthdays_reminder/router/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,7 +39,8 @@ class BirthdayTile extends StatelessWidget {
                   person.name,
                   maxLines: 1,
                 ),
-                subtitle: Text(DateTimeUtils.formatDate(person.birthdate)),
+                subtitle: Text(DateTimeUtils.formatDate(person.birthdate,
+                    BlocProvider.of<SettingsBloc>(context).state.dateFormat)),
                 trailing: Container(
                     height: 30,
                     width: 30,
