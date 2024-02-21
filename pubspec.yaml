@@ -24,6 +24,7 @@ dependencies:
   auto_route: ^7.8.4
   table_calendar: ^3.0.9
   awesome_notifications: ^0.8.2
+  scroll_date_picker: ^3.7.3
   flutter_svg: ^2.0.9
   intl: ^0.18.1
   bloc: ^8.1.3
