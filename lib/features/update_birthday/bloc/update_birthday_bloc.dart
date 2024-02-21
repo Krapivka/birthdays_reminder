@@ -59,7 +59,6 @@ class UpdateBirthdayBloc
           listOfGifts: const []);
 
       final updatePerson = await _personRepository.updatePerson(person);
-
       updatePerson.fold(
           (failure) =>
               emit(state.copyWith(status: UpdateBirthdayStatus.failure)),
@@ -80,13 +79,11 @@ class UpdateBirthdayBloc
             birthday: birthday,
           );
         });
-        debugPrint("Update Person with id: ${person.id}");
-        emit(state.copyWith(status: UpdateBirthdayStatus.success));
       });
+      debugPrint("Update Person with id: ${person.id}");
+      emit(state.copyWith(status: UpdateBirthdayStatus.success));
     } catch (e) {
       emit(state.copyWith(status: UpdateBirthdayStatus.failure));
-    } finally {
-      Completer.sync().complete();
-    }
+    } finally {}
   }
 }

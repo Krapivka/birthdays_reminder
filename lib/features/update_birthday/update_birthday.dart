@@ -40,12 +40,11 @@ class UpdateBirthdayPageView extends StatelessWidget {
     final bloc = BlocProvider.of<UpdateBirthdayBloc>(context).state;
     nameController.text = bloc.name;
     dataController.text = bloc.birthdate.toString().split(' ')[0];
-    if (context.watch<UpdateBirthdayBloc>().state.status ==
-        UpdateBirthdayStatus.success) {
-      AutoRouter.of(context).popAndPush(const HomeRoute());
-    }
     return BlocBuilder<UpdateBirthdayBloc, UpdateBirthdayState>(
         builder: (context, state) {
+      if (state.status == UpdateBirthdayStatus.success) {
+        AutoRouter.of(context).popAndPush(const HomeRoute());
+      }
       return Scaffold(
           appBar: AppBar(
             title: const Text(
@@ -102,7 +101,7 @@ class _EditableAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<UpdateBirthdayBloc>(context);
+    final bloc = context.watch<UpdateBirthdayBloc>();
     final width = MediaQuery.of(context).size.width / 3;
     final avatarPath = bloc.state.file.absolute.path;
     return Center(

@@ -94,7 +94,7 @@ class _EditableAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = context.read<AddingBirthdayBloc>();
+    final bloc = context.watch<AddingBirthdayBloc>();
     final width = MediaQuery.of(context).size.width / 3;
     final avatarPath = bloc.state.file.absolute.path;
     return Center(
