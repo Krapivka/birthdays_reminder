@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:birthdays_reminder/core/data/models/person_model.dart';
 import 'package:birthdays_reminder/core/domain/repositories/person_repository.dart';
 import 'package:equatable/equatable.dart';
@@ -53,7 +54,9 @@ class BirthdaysListBloc extends Bloc<BirthdaysListEvent, BirthdaysListState> {
   _onDeletePerson(DeletePersonBirthdaysListEvent event,
       Emitter<BirthdaysListState> emit) async {
     final delPerson = await _personRepository.deletePerson(event.id);
-    delPerson.fold((failure) => emit(BirthdaysListFailure()), (result) {
+    delPerson.fold((failure) => emit(BirthdaysListFailure()), (result) async {
+      ///Cancel scheduling notifications
+      await AwesomeNotifications().cancel(event.id);
       debugPrint("Delete Person with ID: ${event.id}");
     });
   }
@@ -67,24 +70,18 @@ class BirthdaysListBloc extends Bloc<BirthdaysListEvent, BirthdaysListState> {
           DateTime(today.year, a.birthdate.month, a.birthdate.day);
       DateTime bNextBirthday =
           DateTime(today.year, b.birthdate.month, b.birthdate.day);
-
       if (aNextBirthday.isBefore(yesterday)) {
         aNextBirthday = aNextBirthday.add(Duration(days: 365));
       }
-
       if (bNextBirthday.isBefore(yesterday)) {
         bNextBirthday = bNextBirthday.add(Duration(days: 365));
       }
-
       int result = aNextBirthday.compareTo(bNextBirthday);
-
       if (result == 0) {
         result = a.id.compareTo(b.id);
       }
-
       return result;
     });
-
     return persons;
   }
 }
