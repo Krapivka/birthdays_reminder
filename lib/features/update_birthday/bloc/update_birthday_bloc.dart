@@ -1,9 +1,12 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:birthdays_reminder/core/data/services/image_picker_service.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:birthdays_reminder/core/data/services/image_picker/image_picker_service.dart';
 import 'package:birthdays_reminder/core/data/models/person_model.dart';
+import 'package:birthdays_reminder/core/data/services/notification/notification_service.dart';
 import 'package:birthdays_reminder/core/domain/repositories/person_repository.dart';
+import 'package:birthdays_reminder/features/settings/data/repository/abstract_settings_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,7 +16,7 @@ part 'update_birthday_state.dart';
 
 class UpdateBirthdayBloc
     extends Bloc<UpdateBirthdayEvent, UpdateBirthdayState> {
-  UpdateBirthdayBloc(this._personRepository, person)
+  UpdateBirthdayBloc(this._personRepository, person, this._settingsRepository)
       : super(UpdateBirthdayState.personModel(person: person)) {
     on<UpdateBirtdayNameChanged>(_onNameChanged);
     on<UpdateBirtdayDateTap>(_onDateTap);
@@ -22,7 +25,7 @@ class UpdateBirthdayBloc
   }
 
   final PersonRepository _personRepository;
-
+  final AbstractSettingsRepository _settingsRepository;
   void _onImageTap(
       UpdateBirtdayImageTap event, Emitter<UpdateBirthdayState> emit) async {
     final File? file = await AppImagePickerService.getImageFromGallery();
@@ -60,7 +63,23 @@ class UpdateBirthdayBloc
       updatePerson.fold(
           (failure) =>
               emit(state.copyWith(status: UpdateBirthdayStatus.failure)),
-          (result) {
+          (result) async {
+        //cancel notification
+        await AwesomeNotifications().cancel(person.id);
+        //scheduling notification
+        final notificationInterval =
+            await _settingsRepository.getNotificationDay();
+        notificationInterval.fold(
+            (failure) =>
+                emit(state.copyWith(status: UpdateBirthdayStatus.failure)),
+            (result) async {
+          final birthday = state.birthdate;
+          await NotificationService.scheduleBirthdayNotification(
+            id: person.id,
+            interval: result,
+            birthday: birthday,
+          );
+        });
         debugPrint("Update Person with id: ${person.id}");
         emit(state.copyWith(status: UpdateBirthdayStatus.success));
       });

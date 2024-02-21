@@ -1,10 +1,8 @@
-import 'dart:async';
-
-import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:birthdays_reminder/core/data/models/person_model.dart';
-import 'package:birthdays_reminder/core/data/services/image_picker_service.dart';
+
 import 'package:birthdays_reminder/core/domain/repositories/person_repository.dart';
+import 'package:birthdays_reminder/features/settings/data/repository/abstract_settings_repository.dart';
 import 'package:birthdays_reminder/features/update_birthday/bloc/update_birthday_bloc.dart';
 import 'package:birthdays_reminder/router/router.dart';
 import 'package:flutter/material.dart';
@@ -22,13 +20,14 @@ class UpdateBirthdayPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          UpdateBirthdayBloc(context.read<PersonRepository>(), personmodel),
+      create: (context) => UpdateBirthdayBloc(context.read<PersonRepository>(),
+          personmodel, context.read<AbstractSettingsRepository>()),
       child: UpdateBirthdayPageView(),
     );
   }
 }
 
+// ignore: must_be_immutable
 class UpdateBirthdayPageView extends StatelessWidget {
   UpdateBirthdayPageView({
     super.key,
@@ -58,7 +57,7 @@ class UpdateBirthdayPageView extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                _EditableAvatar(),
+                const _EditableAvatar(),
                 _TextField(
                   labelText: "Enter name",
                   hintText: "Name",
@@ -90,7 +89,7 @@ class UpdateBirthdayPageView extends StatelessWidget {
                   },
                   icon: const Icon(Icons.date_range_outlined),
                 ),
-                _ButtonSaveBirthday(),
+                const _ButtonSaveBirthday(),
               ],
             ),
           ));
@@ -99,7 +98,7 @@ class UpdateBirthdayPageView extends StatelessWidget {
 }
 
 class _EditableAvatar extends StatelessWidget {
-  const _EditableAvatar({super.key});
+  const _EditableAvatar();
 
   @override
   Widget build(BuildContext context) {
@@ -109,7 +108,7 @@ class _EditableAvatar extends StatelessWidget {
     return Center(
       child: InkWell(
         onTap: () {
-          bloc.add(UpdateBirtdayImageTap());
+          bloc.add(const UpdateBirtdayImageTap());
         },
         child: CircleAvatar(
             radius: width / 1.5,
@@ -130,6 +129,7 @@ class _TextField extends StatelessWidget {
       this.onTap,
       this.showCursor = true,
       this.controller,
+      // ignore: unused_element
       this.readOnly = false});
   final void Function(String)? onChanged;
   final String? labelText;
@@ -172,7 +172,7 @@ class _TextField extends StatelessWidget {
 }
 
 class _ButtonSaveBirthday extends StatelessWidget {
-  const _ButtonSaveBirthday({super.key});
+  const _ButtonSaveBirthday();
 
   @override
   Widget build(BuildContext context) {
