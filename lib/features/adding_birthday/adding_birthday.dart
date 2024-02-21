@@ -1,9 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:birthdays_reminder/core/domain/repositories/person_repository.dart';
 import 'package:birthdays_reminder/features/adding_birthday/bloc/adding_birthday_bloc.dart';
+import 'package:birthdays_reminder/features/settings/data/repository/abstract_settings_repository.dart';
 import 'package:birthdays_reminder/router/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:scroll_date_picker/scroll_date_picker.dart';
 
 @RoutePage()
 class AddingBirthdayPage extends StatelessWidget {
@@ -14,6 +16,7 @@ class AddingBirthdayPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => AddingBirthdayBloc(
         context.read<PersonRepository>(),
+        context.read<AbstractSettingsRepository>(),
       ),
       child: AddingBirthdayView(),
     );
@@ -52,27 +55,31 @@ class AddingBirthdayView extends StatelessWidget {
                     },
                     icon: const Icon(Icons.person_2_outlined),
                   ),
-                  _TextField(
-                    labelText: "Enter date",
-                    hintText: "Date",
-                    showCursor: false,
-                    controller: dataController,
-                    onTap: () async {
-                      final bloc = BlocProvider.of<AddingBirthdayBloc>(context);
-                      final birthdate = await showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime(1930),
-                          lastDate: DateTime.now());
-
-                      if (birthdate != null) {
-                        bloc.add(AddingBirtdayDateTap(birthdate));
-                        dataController.text =
-                            birthdate.toString().split(' ')[0];
-                      }
-                    },
-                    icon: const Icon(Icons.date_range_outlined),
+                  SizedBox(
+                    height: 100,
+                    child: DatePicker(),
                   ),
+                  // _TextField(
+                  //   labelText: "Enter date",
+                  //   hintText: "Date",
+                  //   showCursor: false,
+                  //   controller: dataController,
+                  //   onTap: () async {
+                  //     final bloc = BlocProvider.of<AddingBirthdayBloc>(context);
+                  //     final birthdate = await showDatePicker(
+                  //         context: context,
+                  //         initialDate: DateTime.now(),
+                  //         firstDate: DateTime(1900),
+                  //         lastDate: DateTime.now());
+
+                  //     if (birthdate != null) {
+                  //       bloc.add(AddingBirtdayDateTap(birthdate));
+                  //       dataController.text =
+                  //           birthdate.toString().split(' ')[0];
+                  //     }
+                  //   },
+                  //   icon: const Icon(Icons.date_range_outlined),
+                  // ),
                   const _ButtonAddBirthday(),
                 ],
               ),
@@ -87,7 +94,7 @@ class _EditableAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<AddingBirthdayBloc>(context);
+    final bloc = context.read<AddingBirthdayBloc>();
     final width = MediaQuery.of(context).size.width / 3;
     final avatarPath = bloc.state.file.absolute.path;
     return Center(
@@ -101,6 +108,22 @@ class _EditableAvatar extends StatelessWidget {
                 ? const AssetImage("assets/images/avatar.png")
                 : FileImage(bloc.state.file) as ImageProvider),
       ),
+    );
+  }
+}
+
+class DatePicker extends StatelessWidget {
+  const DatePicker({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final bloc = context.read<AddingBirthdayBloc>();
+    return ScrollDatePicker(
+      selectedDate: bloc.state.birthdate,
+      locale: const Locale('ru'),
+      onDateTimeChanged: (DateTime value) {
+        bloc.add(AddingBirtdayDateTap(value));
+      },
     );
   }
 }
