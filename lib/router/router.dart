@@ -4,12 +4,12 @@ import 'package:birthdays_reminder/features/adding_birthday/adding_birthday.dart
 import 'package:birthdays_reminder/features/home/home.dart';
 import 'package:birthdays_reminder/features/update_birthday/update_birthday.dart';
 import 'package:flutter/material.dart';
-import 'package:birthdays_reminder/features/settings/view/settings_list.dart';
-import 'package:birthdays_reminder/features/settings/view/notification.dart';
-import 'package:birthdays_reminder/features/settings/view/language_selection.dart';
-import 'package:birthdays_reminder/features/settings/view/data_format_selection.dart';
-import 'package:birthdays_reminder/features/settings/view/info.dart';
-import 'package:birthdays_reminder/features/settings/view/theme_selection.dart';
+import 'package:birthdays_reminder/features/settings/screens/settings_list.dart';
+import 'package:birthdays_reminder/features/settings/screens/notification.dart';
+import 'package:birthdays_reminder/features/settings/screens/language_selection.dart';
+import 'package:birthdays_reminder/features/settings/screens/data_format_selection.dart';
+import 'package:birthdays_reminder/features/settings/screens/info.dart';
+import 'package:birthdays_reminder/features/settings/screens/theme_selection.dart';
 
 part 'router.gr.dart';
 
