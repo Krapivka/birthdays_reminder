@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:io';
 
 import 'package:awesome_notifications/awesome_notifications.dart';

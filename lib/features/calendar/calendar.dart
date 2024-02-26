@@ -1,5 +1,6 @@
 import 'package:birthdays_reminder/core/data/models/person_model.dart';
 import 'package:birthdays_reminder/core/domain/repositories/person_repository.dart';
+import 'package:birthdays_reminder/features/birthdays_list/bloc/birthdays_list_bloc.dart';
 import 'package:birthdays_reminder/features/birthdays_list/widgets/birthday_card.dart';
 import 'package:birthdays_reminder/features/calendar/bloc/bloc/calendar_bloc.dart';
 import 'package:birthdays_reminder/features/calendar/widgets/birthday_tile.dart';
@@ -53,11 +54,21 @@ class _CalendarPageViewState extends State<CalendarPageView> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        BlocBuilder<CalendarBloc, CalendarState>(
-          builder: (context, state) {
-            return TableCalendar<PersonModel>(
+    return BlocListener<BirthdaysListBloc, BirthdaysListState>(
+      listener: (context, state) {
+        if (state.birthdayListStatus ==
+            BirthdaysListStatus.selectedBirthdaysDeleted) {
+          BlocProvider.of<CalendarBloc>(context)
+              .add(const LoadBirthdaysCalendar());
+          BlocProvider.of<CalendarBloc>(context)
+              .add(CalendarDateTap(_focusedDay));
+        }
+      },
+      child:
+          BlocBuilder<CalendarBloc, CalendarState>(builder: (context, state) {
+        return Column(
+          children: [
+            TableCalendar<PersonModel>(
               firstDay: state.firstDay,
               lastDay: state.lastDay,
               focusedDay: _focusedDay,
@@ -82,32 +93,32 @@ class _CalendarPageViewState extends State<CalendarPageView> {
               onPageChanged: (focusedDay) {
                 _focusedDay = focusedDay;
               },
-            );
-          },
-        ),
-        const SizedBox(height: 8.0),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: BlocBuilder<CalendarBloc, CalendarState>(
-              builder: (context, state) {
-                if (state.birthdaysInSelectedDay.isEmpty) {
-                  return const Center(
-                    child: Text('В этот день нет дней рождения'),
-                  );
-                }
-                return ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: state.birthdaysInSelectedDay.length,
-                  itemBuilder: (context, index) => BirthdayTile(
-                      index: index,
-                      person: state.birthdaysInSelectedDay[index]),
-                );
-              },
             ),
-          ),
-        ),
-      ],
+            const SizedBox(height: 8.0),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: BlocBuilder<CalendarBloc, CalendarState>(
+                  builder: (context, state) {
+                    if (state.birthdaysInSelectedDay.isEmpty) {
+                      return const Center(
+                        child: Text('В этот день нет дней рождения'),
+                      );
+                    }
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: state.birthdaysInSelectedDay.length,
+                      itemBuilder: (context, index) => BirthdayTile(
+                          index: index,
+                          person: state.birthdaysInSelectedDay[index]),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ],
+        );
+      }),
     );
   }
 }
