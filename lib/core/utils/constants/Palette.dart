@@ -13,6 +13,6 @@ class Palette {
   static const Color accentOrange = Color.fromARGB(255, 234, 133, 1);
   static final Color onAccent = Color.fromARGB(255, 255, 255, 255);
   static const Color backWhite = Color.fromARGB(255, 255, 255, 255);
-  static const Color backGrey = Color.fromARGB(255, 255, 255, 255);
+  static const Color backGrey = Color.fromARGB(255, 136, 136, 136);
   static const Color textBlack = Color.fromARGB(255, 0, 0, 0);
 }

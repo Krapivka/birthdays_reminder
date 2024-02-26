@@ -16,11 +16,9 @@ class LoadBirthdaysListEvent extends BirthdaysListEvent {
 }
 
 class DeletePersonBirthdaysListEvent extends BirthdaysListEvent {
-  const DeletePersonBirthdaysListEvent({required this.id});
-  final int id;
-
+  const DeletePersonBirthdaysListEvent();
   @override
-  List<Object?> get props => [id];
+  List<Object?> get props => [];
 }
 
 class SearchBirthdaysListEvent extends BirthdaysListEvent {
@@ -29,4 +27,20 @@ class SearchBirthdaysListEvent extends BirthdaysListEvent {
 
   @override
   List<Object?> get props => [query];
+}
+
+class LongPressBirthdayCardEvent extends BirthdaysListEvent {
+  const LongPressBirthdayCardEvent({required this.id});
+  final int id;
+
+  @override
+  List<Object?> get props => [id];
+}
+
+class TapBirthdayCardEvent extends BirthdaysListEvent {
+  const TapBirthdayCardEvent({required this.id});
+  final int id;
+
+  @override
+  List<Object?> get props => [id];
 }

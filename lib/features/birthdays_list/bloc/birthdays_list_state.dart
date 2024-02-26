@@ -1,35 +1,42 @@
 part of 'birthdays_list_bloc.dart';
 
-sealed class BirthdaysListState extends Equatable {
-  const BirthdaysListState();
-  @override
-  List<Object> get props => [];
+enum BirthdaysListStatus {
+  initial,
+  loading,
+  loaded,
+  searchLoaded,
+  failure,
+  selectedBirthdaysDeleted
 }
 
-class BirthdaysListInitial extends BirthdaysListState {}
+class BirthdaysListState {
+  const BirthdaysListState({
+    required this.birthdayListStatus,
+    required this.listPersonModel,
+    required this.selectedPersonId,
+    required this.sortedListPersonModel,
+  });
 
-class BirthdaysListLoading extends BirthdaysListState {}
-
-class BirthdaysListLoaded extends BirthdaysListState {
-  const BirthdaysListLoaded({required this.listPersonModel});
-
+  final BirthdaysListStatus birthdayListStatus;
   final List<PersonModel> listPersonModel;
-
-  @override
-  List<Object> get props => [listPersonModel];
-}
-
-class SearchBirthdaysListEmpty extends BirthdaysListState {}
-
-class BirthdaysListEmpty extends BirthdaysListState {}
-
-class SearchBirthdaysListLoaded extends BirthdaysListState {
-  SearchBirthdaysListLoaded({required this.sortedListPersonModel});
-
+  final List<int> selectedPersonId;
   final List<PersonModel> sortedListPersonModel;
 
-  @override
-  List<Object> get props => [sortedListPersonModel];
-}
+  List<Object> get props =>
+      [listPersonModel, selectedPersonId, sortedListPersonModel];
 
-class BirthdaysListFailure extends BirthdaysListState {}
+  BirthdaysListState copyWith({
+    BirthdaysListStatus? birthdayListStatus,
+    List<PersonModel>? listPersonModel,
+    List<int>? selectedPersonId,
+    List<PersonModel>? sortedListPersonModel,
+  }) {
+    return BirthdaysListState(
+      birthdayListStatus: birthdayListStatus ?? this.birthdayListStatus,
+      listPersonModel: listPersonModel ?? this.listPersonModel,
+      selectedPersonId: selectedPersonId ?? this.selectedPersonId,
+      sortedListPersonModel:
+          sortedListPersonModel ?? this.sortedListPersonModel,
+    );
+  }
+}

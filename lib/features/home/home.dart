@@ -1,9 +1,9 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:birthdays_reminder/core/domain/repositories/person_repository.dart';
 import 'package:birthdays_reminder/features/birthdays_list/birthdays_list.dart';
+import 'package:birthdays_reminder/features/birthdays_list/bloc/birthdays_list_bloc.dart';
 import 'package:birthdays_reminder/features/calendar/calendar.dart';
 import 'package:birthdays_reminder/features/home/cubit/home_cubit.dart';
-import 'package:birthdays_reminder/features/settings/bloc/bloc/settings_bloc.dart';
-import 'package:birthdays_reminder/features/settings/data/repository/abstract_settings_repository.dart';
 import 'package:birthdays_reminder/router/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,7 +16,10 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return HomeView();
+    return BlocProvider(
+        create: (context) =>
+            BirthdaysListBloc(RepositoryProvider.of<PersonRepository>(context)),
+        child: HomeView());
   }
 }
 
@@ -39,11 +42,27 @@ class HomeView extends StatelessWidget {
                 //     interval: 5);
                 AutoRouter.of(context).push(const SettingsRoute());
               },
-              icon: Icon(Icons.settings_outlined)),
+              icon: const Icon(Icons.menu)),
           title: const Text(
             "Birthdays",
           ),
           centerTitle: true,
+          actions: [
+            BlocBuilder<BirthdaysListBloc, BirthdaysListState>(
+              builder: (context, state) {
+                return Visibility(
+                  visible: state.selectedPersonId.isNotEmpty,
+                  child: IconButton(
+                    icon: const Icon(Icons.delete),
+                    onPressed: () {
+                      BlocProvider.of<BirthdaysListBloc>(context)
+                          .add(DeletePersonBirthdaysListEvent());
+                    },
+                  ),
+                );
+              },
+            )
+          ],
         ),
         bottomNavigationBar: NavigationBar(
           selectedIndex: selectedTab.index,
