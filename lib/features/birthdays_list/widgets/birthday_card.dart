@@ -1,96 +1,120 @@
 import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
+
 import 'package:birthdays_reminder/core/data/models/person_model.dart';
 import 'package:birthdays_reminder/core/utils/constants/Palette.dart';
 import 'package:birthdays_reminder/core/utils/date_utils/date_utils.dart';
 import 'package:birthdays_reminder/features/birthdays_list/bloc/birthdays_list_bloc.dart';
 import 'package:birthdays_reminder/features/settings/bloc/bloc/settings_bloc.dart';
 import 'package:birthdays_reminder/router/router.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 
-class BirthdayCard extends StatelessWidget {
+class BirthdayCard extends StatefulWidget {
   const BirthdayCard({
-    super.key,
     required this.person,
     required this.index,
   });
   final PersonModel person;
   final int index;
+
+  @override
+  State<BirthdayCard> createState() => _BirthdayCardState();
+}
+
+class _BirthdayCardState extends State<BirthdayCard> {
+  bool _visible = false;
+
+  void animate() async {
+    await Future.delayed(const Duration(milliseconds: 300))
+        .then((value) => _visible = true);
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
-    final file = File(person.filePath);
-    final bloc = BlocProvider.of<BirthdaysListBloc>(context);
-    return BlocBuilder<SettingsBloc, SettingsState>(
+    final file = File(widget.person.filePath);
+    final settingsBloc = context.watch<SettingsBloc>();
+    final birthdayListBloc = BlocProvider.of<BirthdaysListBloc>(context);
+    return BlocBuilder<BirthdaysListBloc, BirthdaysListState>(
       builder: (context, state) {
+        if (state.birthdayListStatus == BirthdaysListStatus.loaded) {
+          //TODO:animate card
+        }
         return InkWell(
-            onTap: () {
-              if (bloc.state.selectedPersonId.isEmpty) {
-                AutoRouter.of(context)
-                    .push(UpdateBirthdayRoute(personmodel: person));
-              } else {
-                bloc.add(TapBirthdayCardEvent(id: person.id));
-              }
-            },
-            // child: Dismissible(
-            //   key: UniqueKey(),
-            //   background: const Card(
-            //     color: Color.fromARGB(255, 253, 253, 253),
-            //     child: Icon(Icons.delete),
-            //   ),
-            //   onDismissed: (direction) {
-            //     bloc.add(DeletePersonBirthdaysListEvent(id: person.id));
-            //   },
+          onTap: () {
+            if (state.selectedPersonId.isEmpty) {
+              AutoRouter.of(context)
+                  .push(UpdateBirthdayRoute(personmodel: widget.person));
+            } else {
+              birthdayListBloc.add(TapBirthdayCardEvent(id: widget.person.id));
+            }
+          },
+          // child: Dismissible(
+          //   key: UniqueKey(),
+          //   background: const Card(
+          //     color: Color.fromARGB(255, 253, 253, 253),
+          //     child: Icon(Icons.delete),
+          //   ),
+          //   onDismissed: (direction) {
+          //     bloc.add(DeletePersonBirthdaysListEvent(id: person.id));
+          //   },
 
-            onLongPress: () {
-              bloc.add(LongPressBirthdayCardEvent(id: person.id));
-            },
-            child: Container(
-              decoration:
-                  BoxDecoration(borderRadius: BorderRadius.circular(20)),
-              child: Card(
-                  color: bloc.state.selectedPersonId.contains(person.id)
-                      ? const Color.fromARGB(255, 230, 230, 230)
-                      : Palette.primary,
-                  child: ListTile(
-                      leading: CircleAvatar(
-                        radius: 28,
-                        backgroundImage: person.filePath == "/"
-                            ? const AssetImage("assets/images/avatar.png")
-                            : FileImage(file) as ImageProvider,
-                      ),
-                      title: Text(
-                        person.name,
-                        maxLines: 1,
-                      ),
-                      subtitle: Text(DateTimeUtils.formatDate(
-                          person.birthdate, state.dateFormat)),
-                      trailing: DateTimeUtils.getDifferenceCurrentDayBirthDay(
-                                  person.birthdate) !=
-                              '0'
-                          ? Container(
-                              height: 40,
-                              width: 40,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(width: 2),
-                              ),
-                              child: Center(
-                                  child: Text(
-                                DateTimeUtils.getDifferenceCurrentDayBirthDay(
-                                    person.birthdate),
-                                style: const TextStyle(fontSize: 12),
-                              )))
-                          : SizedBox(
-                              height: 40,
-                              width: 40,
-                              child: SvgPicture.asset(
-                                  'assets/images/confetti.svg',
-                                  semanticsLabel: 'Confetti'),
-                            ))),
-            ));
+          onLongPress: () {
+            birthdayListBloc
+                .add(LongPressBirthdayCardEvent(id: widget.person.id));
+          },
+          child: AnimatedOpacity(
+            //TODO: animate widget
+            opacity:
+                state.birthdayListStatus == BirthdaysListStatus.loaded ? 1 : 0,
+            duration: const Duration(milliseconds: 500),
+            child: Card(
+                color: birthdayListBloc.state.selectedPersonId
+                        .contains(widget.person.id)
+                    ? const Color.fromARGB(255, 230, 230, 230)
+                    : Palette.primary,
+                child: ListTile(
+                    leading: CircleAvatar(
+                      radius: 28,
+                      backgroundImage: widget.person.filePath == "/"
+                          ? const AssetImage("assets/images/avatar.png")
+                          : FileImage(file) as ImageProvider,
+                    ),
+                    title: Text(
+                      widget.person.name,
+                      maxLines: 1,
+                    ),
+                    subtitle: Text(DateTimeUtils.formatDate(
+                        widget.person.birthdate,
+                        settingsBloc.state.dateFormat)),
+                    trailing: DateTimeUtils.getDifferenceCurrentDayBirthDay(
+                                widget.person.birthdate) !=
+                            '0'
+                        ? Container(
+                            height: 40,
+                            width: 40,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(width: 2),
+                            ),
+                            child: Center(
+                                child: Text(
+                              DateTimeUtils.getDifferenceCurrentDayBirthDay(
+                                  widget.person.birthdate),
+                              style: const TextStyle(fontSize: 12),
+                            )))
+                        : SizedBox(
+                            height: 40,
+                            width: 40,
+                            child: SvgPicture.asset(
+                                'assets/images/confetti.svg',
+                                semanticsLabel: 'Confetti'),
+                          ))),
+          ),
+        );
       },
     );
   }

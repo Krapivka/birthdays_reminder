@@ -19,7 +19,7 @@ class BirthdayTile extends StatelessWidget {
   final int index;
   @override
   Widget build(BuildContext context) {
-    //final bloc = BlocProvider.of<BirthdaysListBloc>(context);
+    final bloc = context.watch<SettingsBloc>();
     final file = File(person.filePath);
     return InkWell(
       onTap: () {
@@ -39,8 +39,8 @@ class BirthdayTile extends StatelessWidget {
                   person.name,
                   maxLines: 1,
                 ),
-                subtitle: Text(DateTimeUtils.formatDate(person.birthdate,
-                    BlocProvider.of<SettingsBloc>(context).state.dateFormat)),
+                subtitle: Text(DateTimeUtils.formatDate(
+                    person.birthdate, bloc.state.dateFormat)),
                 trailing: Container(
                     height: 30,
                     width: 30,
