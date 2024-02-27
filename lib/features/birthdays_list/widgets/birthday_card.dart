@@ -28,9 +28,13 @@ class _BirthdayCardState extends State<BirthdayCard> {
   bool _visible = false;
 
   void animate() async {
-    await Future.delayed(const Duration(milliseconds: 300))
-        .then((value) => _visible = true);
-    setState(() {});
+    await Future.delayed(const Duration(milliseconds: 300)).then((value) {
+      if (mounted) {
+        setState(() {
+          _visible = true;
+        });
+      }
+    });
   }
 
   @override
@@ -38,11 +42,11 @@ class _BirthdayCardState extends State<BirthdayCard> {
     final file = File(widget.person.filePath);
     final settingsBloc = context.watch<SettingsBloc>();
     final birthdayListBloc = BlocProvider.of<BirthdaysListBloc>(context);
+
     return BlocBuilder<BirthdaysListBloc, BirthdaysListState>(
       builder: (context, state) {
-        if (state.birthdayListStatus == BirthdaysListStatus.loaded) {
-          //TODO:animate card
-        }
+        //use animate when widget rebuild
+        animate();
         return InkWell(
           onTap: () {
             if (state.selectedPersonId.isEmpty) {
@@ -68,9 +72,8 @@ class _BirthdayCardState extends State<BirthdayCard> {
           },
           child: AnimatedOpacity(
             //TODO: animate widget
-            opacity:
-                state.birthdayListStatus == BirthdaysListStatus.loaded ? 1 : 0,
-            duration: const Duration(milliseconds: 500),
+            opacity: _visible ? 1 : 0,
+            duration: const Duration(milliseconds: 300),
             child: Card(
                 color: birthdayListBloc.state.selectedPersonId
                         .contains(widget.person.id)

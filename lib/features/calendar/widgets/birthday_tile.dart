@@ -9,7 +9,7 @@ import 'package:birthdays_reminder/router/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class BirthdayTile extends StatelessWidget {
+class BirthdayTile extends StatefulWidget {
   const BirthdayTile({
     super.key,
     required this.person,
@@ -17,41 +17,65 @@ class BirthdayTile extends StatelessWidget {
   });
   final PersonModel person;
   final int index;
+
+  @override
+  State<BirthdayTile> createState() => _BirthdayTileState();
+}
+
+class _BirthdayTileState extends State<BirthdayTile> {
+  bool _visible = false;
+
+  void animate() async {
+    await Future.delayed(const Duration(milliseconds: 300)).then((value) {
+      if (mounted) {
+        setState(() {
+          _visible = true;
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final bloc = context.watch<SettingsBloc>();
-    final file = File(person.filePath);
+    animate();
+    final file = File(widget.person.filePath);
     return InkWell(
       onTap: () {
-        AutoRouter.of(context).push(UpdateBirthdayRoute(personmodel: person));
+        AutoRouter.of(context)
+            .push(UpdateBirthdayRoute(personmodel: widget.person));
       },
-      child: Container(
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
-        child: Card(
-            child: ListTile(
-                leading: CircleAvatar(
-                  radius: 28,
-                  backgroundImage: person.filePath == "/"
-                      ? const AssetImage("assets/images/avatar.png")
-                      : FileImage(file) as ImageProvider,
-                ),
-                title: Text(
-                  person.name,
-                  maxLines: 1,
-                ),
-                subtitle: Text(DateTimeUtils.formatDate(
-                    person.birthdate, bloc.state.dateFormat)),
-                trailing: Container(
-                    height: 30,
-                    width: 30,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(width: 2),
-                    ),
-                    child: Center(
-                        child: Text(
-                            DateTimeUtils.getDifferenceCurrentDayBirthDay(
-                                person.birthdate)))))),
+      child: AnimatedOpacity(
+        opacity: _visible ? 1 : 0,
+        duration: Duration(milliseconds: 300),
+        child: Container(
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
+          child: Card(
+              child: ListTile(
+                  leading: CircleAvatar(
+                    radius: 28,
+                    backgroundImage: widget.person.filePath == "/"
+                        ? const AssetImage("assets/images/avatar.png")
+                        : FileImage(file) as ImageProvider,
+                  ),
+                  title: Text(
+                    widget.person.name,
+                    maxLines: 1,
+                  ),
+                  subtitle: Text(DateTimeUtils.formatDate(
+                      widget.person.birthdate, bloc.state.dateFormat)),
+                  trailing: Container(
+                      height: 30,
+                      width: 30,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(width: 2),
+                      ),
+                      child: Center(
+                          child: Text(
+                              DateTimeUtils.getDifferenceCurrentDayBirthDay(
+                                  widget.person.birthdate)))))),
+        ),
       ),
     );
   }

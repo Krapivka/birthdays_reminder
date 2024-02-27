@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:birthdays_reminder/core/domain/repositories/person_repository.dart';
-import 'package:birthdays_reminder/features/adding_birthday/bloc/adding_birthday_bloc.dart';
+import 'package:birthdays_reminder/features/birthday_changes/adding_birthday/bloc/adding_birthday_bloc.dart';
 import 'package:birthdays_reminder/features/settings/data/repository/abstract_settings_repository.dart';
 import 'package:birthdays_reminder/router/router.dart';
 import 'package:flutter/material.dart';

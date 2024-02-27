@@ -3,7 +3,7 @@ import 'package:birthdays_reminder/core/data/models/person_model.dart';
 
 import 'package:birthdays_reminder/core/domain/repositories/person_repository.dart';
 import 'package:birthdays_reminder/features/settings/data/repository/abstract_settings_repository.dart';
-import 'package:birthdays_reminder/features/update_birthday/bloc/update_birthday_bloc.dart';
+import 'package:birthdays_reminder/features/birthday_changes/update_birthday/bloc/update_birthday_bloc.dart';
 import 'package:birthdays_reminder/router/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
