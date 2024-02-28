@@ -1,5 +1,4 @@
 import 'package:birthdays_reminder/core/data/models/person_model.dart';
-import 'package:birthdays_reminder/core/domain/repositories/person_repository.dart';
 import 'package:birthdays_reminder/features/birthdays_list/bloc/birthdays_list_bloc.dart';
 import 'package:birthdays_reminder/features/birthdays_list/widgets/birthday_card.dart';
 import 'package:birthdays_reminder/features/birthdays_list/widgets/birthday_search.dart';
