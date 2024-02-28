@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:birthdays_reminder/core/data/services/image_picker/image_picker_service.dart';
+import 'package:birthdays_reminder/core/services/image_picker/image_picker_service.dart';
 import 'package:birthdays_reminder/core/data/models/person_model.dart';
-import 'package:birthdays_reminder/core/data/services/notification/notification_service.dart';
+import 'package:birthdays_reminder/core/services/notification/notification_service.dart';
 import 'package:birthdays_reminder/core/domain/repositories/person_repository.dart';
 import 'package:birthdays_reminder/features/settings/data/repository/abstract_settings_repository.dart';
 import 'package:equatable/equatable.dart';
@@ -51,35 +51,40 @@ class AddingBirthdayBloc
     emit(state.copyWith(status: AddingBirthdayStatus.loading));
 
     try {
-      //preparing the model for creation
-      final lastInd = await _personRepository.lastIndex();
-      PersonModel person = PersonModel(
-          id: lastInd + 1,
-          filePath: state.file.absolute.path,
-          name: state.name,
-          birthdate: state.birthdate,
-          listOfGifts: const []);
+      if (state.name != '') {
+        //preparing the model for creation
+        final lastInd = await _personRepository.lastIndex();
+        PersonModel person = PersonModel(
+            id: lastInd + 1,
+            filePath: state.file.absolute.path,
+            name: state.name,
+            birthdate: state.birthdate,
+            listOfGifts: const []);
 
-      //adding to the local storage
-      await _personRepository.addPerson(person);
+        //adding to the local storage
+        await _personRepository.addPerson(person);
 
-      //scheduling notifications
-      final notificationInterval =
-          await _settingsRepository.getNotificationDay();
-      notificationInterval.fold(
-          (failure) =>
-              emit(state.copyWith(status: AddingBirthdayStatus.failure)),
-          (result) async {
-        final birthday = state.birthdate;
-        await NotificationService.scheduleBirthdayNotification(
-          id: person.id,
-          interval: result,
-          birthday: birthday,
-        );
-      });
+        //scheduling notifications
+        final notificationInterval =
+            await _settingsRepository.getNotificationDay();
+        notificationInterval.fold(
+            (failure) =>
+                emit(state.copyWith(status: AddingBirthdayStatus.failure)),
+            (result) async {
+          final birthday = state.birthdate;
+          await NotificationService.scheduleBirthdayNotification(
+            id: person.id,
+            interval: result,
+            birthday: birthday,
+          );
+        });
 
-      debugPrint("Add new Birthday for: ${person.name}");
-      emit(state.copyWith(status: AddingBirthdayStatus.success));
+        debugPrint("Add new Birthday for: ${person.name}");
+        emit(state.copyWith(status: AddingBirthdayStatus.success));
+      } else {
+        emit(state.copyWith(status: AddingBirthdayStatus.validatorFailure));
+        emit(state.copyWith(status: AddingBirthdayStatus.initial));
+      }
     } catch (e) {
       emit(state.copyWith(status: AddingBirthdayStatus.failure));
     } finally {

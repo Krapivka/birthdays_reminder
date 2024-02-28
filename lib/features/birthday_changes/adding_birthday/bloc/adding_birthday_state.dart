@@ -1,6 +1,12 @@
 part of 'adding_birthday_bloc.dart';
 
-enum AddingBirthdayStatus { initial, loading, success, failure }
+enum AddingBirthdayStatus {
+  initial,
+  loading,
+  validatorFailure,
+  success,
+  failure
+}
 
 final currentDate = DateTime.now();
 

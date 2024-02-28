@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:birthdays_reminder/core/domain/repositories/person_repository.dart';
+import 'package:birthdays_reminder/core/utils/snack_bar/snack_bar.dart';
 import 'package:birthdays_reminder/features/birthday_changes/adding_birthday/bloc/adding_birthday_bloc.dart';
+import 'package:birthdays_reminder/features/birthday_changes/widgets/text_field_birthday_changes.dart';
 import 'package:birthdays_reminder/features/settings/data/repository/abstract_settings_repository.dart';
 import 'package:birthdays_reminder/router/router.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +20,7 @@ class AddingBirthdayPage extends StatelessWidget {
         context.read<PersonRepository>(),
         context.read<AbstractSettingsRepository>(),
       ),
-      child: AddingBirthdayView(),
+      child: const AddingBirthdayView(),
     );
   }
 }
@@ -31,7 +33,16 @@ class AddingBirthdayView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TextEditingController dataController = TextEditingController();
-    return BlocBuilder<AddingBirthdayBloc, AddingBirthdayState>(
+    return BlocConsumer<AddingBirthdayBloc, AddingBirthdayState>(
+      listener: (context, state) {
+        if (state.status == AddingBirthdayStatus.validatorFailure) {
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        }
+        if (state.status == AddingBirthdayStatus.success) {
+          AutoRouter.of(context).pushAndPopUntil(const HomeRoute(),
+              predicate: (Route<dynamic> route) => false);
+        }
+      },
       builder: (context, state) {
         return Scaffold(
             appBar: AppBar(
@@ -45,7 +56,7 @@ class AddingBirthdayView extends StatelessWidget {
               child: Column(
                 children: [
                   const _EditableAvatar(),
-                  _TextField(
+                  TextFieldBirthdayChanges(
                     labelText: "Enter name",
                     hintText: "Name",
                     onChanged: (value) {
@@ -55,7 +66,7 @@ class AddingBirthdayView extends StatelessWidget {
                     },
                     icon: const Icon(Icons.person_2_outlined),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 100,
                     child: DatePicker(),
                   ),
@@ -98,16 +109,48 @@ class _EditableAvatar extends StatelessWidget {
     final width = MediaQuery.of(context).size.width / 3;
     final avatarPath = bloc.state.file.absolute.path;
     return Center(
-      child: InkWell(
-        onTap: () {
-          bloc.add(const AddingBirtdayImageTap());
-        },
-        child: CircleAvatar(
-            radius: width / 1.5,
-            backgroundImage: avatarPath == '/'
-                ? const AssetImage("assets/images/avatar.png")
-                : FileImage(bloc.state.file) as ImageProvider),
+      child: Material(
+        child: InkWell(
+          borderRadius: BorderRadius.circular(100),
+          onTap: () {
+            bloc.add(const AddingBirtdayImageTap());
+          },
+          child: Ink(
+            child: Stack(children: [
+              CircleAvatar(
+                  radius: width / 1.3,
+                  backgroundImage: avatarPath == '/'
+                      ? const AssetImage("assets/images/avatar.png")
+                      : FileImage(bloc.state.file) as ImageProvider),
+              Positioned(
+                right: 0,
+                bottom: 0,
+                child: FloatingActionButton(
+                  mini: true,
+                  onPressed: () {
+                    bloc.add(const AddingBirtdayImageTap());
+                  },
+                  child: const Icon(Icons.brush),
+                ),
+              ),
+            ]),
+          ),
+        ),
       ),
+    );
+  }
+}
+
+class _ButtonAddBirthday extends StatelessWidget {
+  const _ButtonAddBirthday({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return OutlinedButton(
+      onPressed: () {
+        context.read<AddingBirthdayBloc>().add(const AddingBirthdaySubmitted());
+      },
+      child: const Text("Add birthday"),
     );
   }
 }
@@ -124,72 +167,6 @@ class DatePicker extends StatelessWidget {
       onDateTimeChanged: (DateTime value) {
         bloc.add(AddingBirtdayDateTap(value));
       },
-    );
-  }
-}
-
-class _TextField extends StatelessWidget {
-  const _TextField(
-      {this.onChanged,
-      this.labelText,
-      this.hintText,
-      this.icon,
-      this.onTap,
-      this.showCursor = true,
-      this.controller,
-      this.readOnly = false});
-  final void Function(String)? onChanged;
-  final String? labelText;
-  final String? hintText;
-  final bool readOnly;
-  final Icon? icon;
-  final void Function()? onTap;
-  final TextEditingController? controller;
-  final bool? showCursor;
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: TextField(
-        readOnly: readOnly,
-        showCursor: showCursor,
-        enableInteractiveSelection: false,
-        onChanged: onChanged,
-        controller: controller,
-        decoration: InputDecoration(
-          prefixIcon: icon,
-          border: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20.0))),
-          enabledBorder: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(20.0)),
-          ),
-          disabledBorder: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20.0))),
-          focusedBorder: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20.0))),
-          focusedErrorBorder: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20.0))),
-          labelText: labelText,
-          hintText: hintText,
-        ),
-        onTap: onTap,
-      ),
-    );
-  }
-}
-
-class _ButtonAddBirthday extends StatelessWidget {
-  const _ButtonAddBirthday({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return OutlinedButton(
-      onPressed: () {
-        context.read<AddingBirthdayBloc>().add(const AddingBirthdaySubmitted());
-        AutoRouter.of(context).pushAndPopUntil(const HomeRoute(),
-            predicate: (Route<dynamic> route) => false);
-      },
-      child: const Text("Add birthday"),
     );
   }
 }

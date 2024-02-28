@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:birthdays_reminder/core/data/services/image_picker/image_picker_service.dart';
+import 'package:birthdays_reminder/core/services/image_picker/image_picker_service.dart';
 import 'package:birthdays_reminder/core/data/models/person_model.dart';
-import 'package:birthdays_reminder/core/data/services/notification/notification_service.dart';
+import 'package:birthdays_reminder/core/services/notification/notification_service.dart';
 import 'package:birthdays_reminder/core/domain/repositories/person_repository.dart';
 import 'package:birthdays_reminder/features/settings/data/repository/abstract_settings_repository.dart';
 import 'package:equatable/equatable.dart';
@@ -50,37 +50,42 @@ class UpdateBirthdayBloc
     emit(state.copyWith(status: UpdateBirthdayStatus.loading));
 
     try {
-      PersonModel person = PersonModel(
-          id: state.id,
-          filePath: state.file.absolute.path,
-          name: state.name,
-          birthdate: state.birthdate,
-          listOfGifts: const []);
+      if (state.name != '') {
+        PersonModel person = PersonModel(
+            id: state.id,
+            filePath: state.file.absolute.path,
+            name: state.name,
+            birthdate: state.birthdate,
+            listOfGifts: const []);
 
-      final updatePerson = await _personRepository.updatePerson(person);
-      updatePerson.fold(
-          (failure) =>
-              emit(state.copyWith(status: UpdateBirthdayStatus.failure)),
-          (result) async {
-        //cancel notification
-        await AwesomeNotifications().cancel(person.id);
-        //scheduling notification
-        final notificationInterval =
-            await _settingsRepository.getNotificationDay();
-        notificationInterval.fold(
+        final updatePerson = await _personRepository.updatePerson(person);
+        updatePerson.fold(
             (failure) =>
                 emit(state.copyWith(status: UpdateBirthdayStatus.failure)),
             (result) async {
-          final birthday = state.birthdate;
-          await NotificationService.scheduleBirthdayNotification(
-            id: person.id,
-            interval: result,
-            birthday: birthday,
-          );
+          //cancel notification
+          await AwesomeNotifications().cancel(person.id);
+          //scheduling notification
+          final notificationInterval =
+              await _settingsRepository.getNotificationDay();
+          notificationInterval.fold(
+              (failure) =>
+                  emit(state.copyWith(status: UpdateBirthdayStatus.failure)),
+              (result) async {
+            final birthday = state.birthdate;
+            await NotificationService.scheduleBirthdayNotification(
+              id: person.id,
+              interval: result,
+              birthday: birthday,
+            );
+          });
         });
-      });
-      debugPrint("Update Person with id: ${person.id}");
-      emit(state.copyWith(status: UpdateBirthdayStatus.success));
+        debugPrint("Update Person with id: ${person.id}");
+        emit(state.copyWith(status: UpdateBirthdayStatus.success));
+      } else {
+        emit(state.copyWith(status: UpdateBirthdayStatus.validatorFailure));
+        emit(state.copyWith(status: UpdateBirthdayStatus.initial));
+      }
     } catch (e) {
       emit(state.copyWith(status: UpdateBirthdayStatus.failure));
     } finally {}
