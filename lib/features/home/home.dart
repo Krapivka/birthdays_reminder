@@ -19,7 +19,7 @@ class HomePage extends StatelessWidget {
     return BlocProvider(
         create: (context) =>
             BirthdaysListBloc(RepositoryProvider.of<PersonRepository>(context)),
-        child: HomeView());
+        child: const HomeView());
   }
 }
 
@@ -35,11 +35,6 @@ class HomeView extends StatelessWidget {
         appBar: AppBar(
           leading: IconButton(
               onPressed: () {
-                // await NotificationService.showNotification(
-                //     title: "Schedule Notification",
-                //     body: "Check App, maybe you have birthdays today",
-                //     scheduled: true,
-                //     interval: 5);
                 AutoRouter.of(context).push(const SettingsRoute());
               },
               icon: const Icon(Icons.menu)),
@@ -51,12 +46,13 @@ class HomeView extends StatelessWidget {
             BlocBuilder<BirthdaysListBloc, BirthdaysListState>(
               builder: (context, state) {
                 return Visibility(
-                  visible: state.selectedPersonId.isNotEmpty,
+                  visible: state.selectedPersonId.isNotEmpty &&
+                      selectedTab.index == 0,
                   child: IconButton(
                     icon: const Icon(Icons.delete),
                     onPressed: () {
                       BlocProvider.of<BirthdaysListBloc>(context)
-                          .add(DeletePersonBirthdaysListEvent());
+                          .add(const DeletePersonBirthdaysListEvent());
                     },
                   ),
                 );
@@ -76,7 +72,8 @@ class HomeView extends StatelessWidget {
               label: 'Birthdays',
             ),
             NavigationDestination(
-              icon: Icon(Icons.calendar_month),
+              selectedIcon: Icon(Icons.calendar_month),
+              icon: Icon(Icons.calendar_month_outlined),
               label: 'Calendar',
             ),
           ],

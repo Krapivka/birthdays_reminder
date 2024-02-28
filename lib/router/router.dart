@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:birthdays_reminder/core/data/models/person_model.dart';
-import 'package:birthdays_reminder/features/adding_birthday/adding_birthday.dart';
+import 'package:birthdays_reminder/features/birthday_changes/adding_birthday/adding_birthday.dart';
 import 'package:birthdays_reminder/features/home/home.dart';
-import 'package:birthdays_reminder/features/update_birthday/update_birthday.dart';
+import 'package:birthdays_reminder/features/birthday_changes/update_birthday/update_birthday.dart';
 import 'package:flutter/material.dart';
 import 'package:birthdays_reminder/features/settings/screens/settings_list.dart';
 import 'package:birthdays_reminder/features/settings/screens/notification.dart';
