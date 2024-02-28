@@ -1,3 +1,4 @@
+import 'package:birthdays_reminder/core/utils/constants/Palette.dart';
 import 'package:birthdays_reminder/features/birthdays_list/bloc/birthdays_list_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,6 +20,7 @@ class BirthdaySearch extends StatelessWidget {
           bloc.add(SearchBirthdaysListEvent(query: value));
         },
         controller: controller,
+        cursorColor: Colors.black,
         decoration: InputDecoration(
           prefixIcon: const Icon(Icons.search),
           suffixIcon: BlocConsumer<BirthdaysListBloc, BirthdaysListState>(
