@@ -2,46 +2,135 @@ import 'package:birthdays_reminder/core/utils/constants/Palette.dart';
 import 'package:flutter/material.dart';
 
 String _fontFamily = 'Montserrat';
-ThemeData theme = ThemeData(
+
+ThemeData lightTheme = ThemeData(
   useMaterial3: true,
   brightness: Brightness.light,
-  primaryColor: Palette.primary,
-  primaryColorDark: Palette.accentOrange,
-  textSelectionTheme: const TextSelectionThemeData(
-    cursorColor: Palette.accentOrange,
-    selectionHandleColor: Palette.accentOrange,
-    selectionColor: Palette.accentOrange,
+  colorScheme: const ColorScheme.light(
+    background: Palette.primaryLight,
+    primary: Palette.primaryLight,
+    secondary: Palette.secondaryLight,
   ),
-  focusColor: Palette.accentOrange,
-  inputDecorationTheme: InputDecorationTheme(
-    focusColor: Palette.accentOrange,
-    hoverColor: Palette.accentOrange,
-    floatingLabelStyle: MaterialStateTextStyle.resolveWith((states) {
-      if (states.contains(MaterialState.error)) {
-        return const TextStyle(
-          color: Colors.red,
-        );
-      } else {
-        return const TextStyle(
-          color: Palette.accentOrange,
-        );
-      }
-    }),
-    focusedBorder: const UnderlineInputBorder(
-      borderSide: BorderSide(
-        color: Palette.accentOrange,
-        width: 2.0,
-      ),
-    ),
+  appBarTheme: const AppBarTheme(
+    color: Palette.primaryLight,
   ),
-  scaffoldBackgroundColor: Palette.primary,
-  textButtonTheme: TextButtonThemeData(
-    style: TextButton.styleFrom(
-      foregroundColor: Palette.accentOrange,
-      textStyle: const TextStyle(
-        fontWeight: FontWeight.bold,
-      ),
-    ),
+  bottomAppBarTheme: const BottomAppBarTheme(
+    color: Palette.primaryLight,
+  ),
+  floatingActionButtonTheme: const FloatingActionButtonThemeData(
+    backgroundColor: Palette.secondaryLight,
+  ),
+  iconTheme: IconThemeData(color: Palette.textLight),
+  fontFamily: _fontFamily,
+);
+
+ThemeData darkTheme = ThemeData(
+  useMaterial3: true,
+  brightness: Brightness.dark,
+  colorScheme: const ColorScheme.dark(
+    background: Palette.primaryDark,
+    primary: Palette.primaryDark,
+    secondary: Palette.secondaryDark,
+  ),
+  appBarTheme: const AppBarTheme(
+    color: Palette.primaryDark,
+  ),
+  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+    backgroundColor: Palette.primaryDark,
   ),
   fontFamily: _fontFamily,
 );
+
+
+//   useMaterial3: true,
+//   brightness: Brightness.light,
+//   primaryColor: Palette.primary,
+//   primaryColorDark: Palette.primaryDark,
+//   appBarTheme: AppBarTheme(
+//     color: Palette.primary,
+//   ),
+//   textSelectionTheme: const TextSelectionThemeData(
+//     cursorColor: Palette.primaryDark,
+//     selectionHandleColor: Palette.primaryDark,
+//     selectionColor: Palette.primaryDark,
+//   ),
+//   focusColor: Palette.primaryDark,
+//   inputDecorationTheme: InputDecorationTheme(
+//     focusColor: Palette.primaryDark,
+//     hoverColor: Palette.primaryDark,
+//     floatingLabelStyle: MaterialStateTextStyle.resolveWith((states) {
+//       if (states.contains(MaterialState.error)) {
+//         return const TextStyle(
+//           color: Colors.red,
+//         );
+//       } else {
+//         return const TextStyle(
+//           color: Palette.primaryDark,
+//         );
+//       }
+//     }),
+//     focusedBorder: const UnderlineInputBorder(
+//       borderSide: BorderSide(
+//         color: Palette.primaryDark,
+//         width: 2.0,
+//       ),
+//     ),
+//   ),
+//   scaffoldBackgroundColor: Palette.primary,
+//   textButtonTheme: TextButtonThemeData(
+//     style: TextButton.styleFrom(
+//       foregroundColor: Palette.primaryDark,
+//       textStyle: const TextStyle(
+//         fontWeight: FontWeight.bold,
+//       ),
+//     ),
+//   ),
+//   fontFamily: _fontFamily,
+// );
+
+// ThemeData darkTheme = ThemeData(
+//   useMaterial3: true,
+//   brightness: Brightness.dark,
+//   primaryColor: Palette.primaryDark,
+//   primaryColorDark: Palette.accentDark,
+//   appBarTheme: const AppBarTheme(
+//     color: Palette.primaryDark,
+//   ),
+//   textSelectionTheme: const TextSelectionThemeData(
+//     cursorColor: Palette.primary,
+//     selectionHandleColor: Palette.primary,
+//     selectionColor: Palette.primary,
+//   ),
+//   focusColor: Palette.primary,
+//   inputDecorationTheme: InputDecorationTheme(
+//     focusColor: Palette.primary,
+//     hoverColor: Palette.primary,
+//     floatingLabelStyle: MaterialStateTextStyle.resolveWith((states) {
+//       if (states.contains(MaterialState.error)) {
+//         return const TextStyle(
+//           color: Colors.red,
+//         );
+//       } else {
+//         return const TextStyle(
+//           color: Palette.primary,
+//         );
+//       }
+//     }),
+//     focusedBorder: const UnderlineInputBorder(
+//       borderSide: BorderSide(
+//         color: Palette.primary,
+//         width: 2.0,
+//       ),
+//     ),
+//   ),
+//   scaffoldBackgroundColor: Palette.primaryDark,
+//   textButtonTheme: TextButtonThemeData(
+//     style: TextButton.styleFrom(
+//       foregroundColor: Palette.primary,
+//       textStyle: const TextStyle(
+//         fontWeight: FontWeight.bold,
+//       ),
+//     ),
+//   ),
+//   fontFamily: _fontFamily,
+// );

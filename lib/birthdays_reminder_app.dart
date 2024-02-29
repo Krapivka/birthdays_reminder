@@ -57,11 +57,17 @@ class AppView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      debugShowCheckedModeBanner: false,
-      title: 'Birthdays-reminder',
-      theme: theme,
-      routerConfig: _appRouter.config(),
+    return BlocBuilder<SettingsBloc, SettingsState>(
+      builder: (context, state) {
+        return MaterialApp.router(
+          debugShowCheckedModeBanner: false,
+          title: 'Memo birthday',
+          theme: lightTheme,
+          darkTheme: darkTheme,
+          themeMode: state.theme == "light" ? ThemeMode.light : ThemeMode.dark,
+          routerConfig: _appRouter.config(),
+        );
+      },
     );
   }
 }

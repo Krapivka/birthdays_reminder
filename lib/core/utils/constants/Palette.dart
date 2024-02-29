@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 
 class Palette {
   Palette._();
+  //light theme
+  static const Color primaryLight = Color(0xffffffff);
+  static const Color secondaryLight = Color.fromARGB(255, 239, 231, 252);
+  static const Color textLight = Color.fromARGB(255, 53, 53, 53);
 
-  static const Color primary = Color(0xffffffff);
+  //dark theme
+  static const Color primaryDark = Color.fromARGB(255, 37, 37, 37);
+  static const Color secondaryDark = Color.fromARGB(255, 72, 66, 82);
+  static const Color textDark = Color.fromARGB(255, 247, 247, 247);
 
-  // static final Color accent = Color(0xFFe89500);
-  static const Color accent = Color.fromARGB(255, 239, 231, 252);
-  static const Color primaryDark = Colors.deepPurple;
-  static const Color primaryDarkVariant = Color.fromARGB(255, 124, 104, 160);
-
-  static const Color accentOrange = Color.fromARGB(255, 234, 133, 1);
-  static const Color onAccent = Color.fromARGB(255, 255, 255, 255);
-  static const Color backWhite = Color.fromARGB(255, 255, 255, 255);
-  static const Color backGrey = Color.fromARGB(255, 136, 136, 136);
-  static const Color textBlack = Color.fromARGB(255, 0, 0, 0);
+  //calendar
+  static const Color primaryAccent = Colors.deepPurple;
+  static const Color secondaryAccent = Color.fromARGB(255, 169, 138, 223);
 }

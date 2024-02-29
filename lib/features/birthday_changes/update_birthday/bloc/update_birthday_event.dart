@@ -32,6 +32,15 @@ class UpdateBirtdayDateTap extends UpdateBirthdayEvent {
   List<Object> get props => [birthdate];
 }
 
+class UpdateBirtdayDelete extends UpdateBirthdayEvent {
+  const UpdateBirtdayDelete(this.id);
+
+  final int id;
+
+  @override
+  List<Object> get props => [id];
+}
+
 final class UpdateBirthdaySave extends UpdateBirthdayEvent {
   const UpdateBirthdaySave();
   @override

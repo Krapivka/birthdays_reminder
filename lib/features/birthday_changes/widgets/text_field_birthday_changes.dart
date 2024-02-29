@@ -22,7 +22,7 @@ class TextFieldBirthdayChanges extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: TextField(
         readOnly: readOnly,
         showCursor: showCursor,
@@ -42,7 +42,7 @@ class TextFieldBirthdayChanges extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(20.0))),
           focusedErrorBorder: const OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(20.0))),
-          labelText: labelText,
+          //labelText: labelText,
           hintText: hintText,
         ),
         onTap: onTap,

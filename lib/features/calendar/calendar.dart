@@ -1,5 +1,6 @@
 import 'package:birthdays_reminder/core/data/models/person_model.dart';
 import 'package:birthdays_reminder/core/domain/repositories/person_repository.dart';
+import 'package:birthdays_reminder/core/utils/constants/Palette.dart';
 import 'package:birthdays_reminder/features/birthdays_list/bloc/birthdays_list_bloc.dart';
 import 'package:birthdays_reminder/features/birthdays_list/widgets/birthday_card.dart';
 import 'package:birthdays_reminder/features/calendar/bloc/bloc/calendar_bloc.dart';
@@ -66,38 +67,42 @@ class _CalendarPageViewState extends State<CalendarPageView> {
       },
       child:
           BlocBuilder<CalendarBloc, CalendarState>(builder: (context, state) {
-        return Column(
-          children: [
-            TableCalendar<PersonModel>(
-              firstDay: state.firstDay,
-              lastDay: state.lastDay,
-              focusedDay: _focusedDay,
-              selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
-              calendarFormat: _calendarFormat,
-              rangeSelectionMode: _rangeSelectionMode,
-              eventLoader: (day) {
-                return state.birthdays[day] ?? [];
-              },
-              startingDayOfWeek: StartingDayOfWeek.monday,
-              calendarStyle: const CalendarStyle(
-                outsideDaysVisible: false,
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: Column(
+            children: [
+              TableCalendar<PersonModel>(
+                firstDay: state.firstDay,
+                lastDay: state.lastDay,
+                focusedDay: _focusedDay,
+                selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
+                calendarFormat: _calendarFormat,
+                rangeSelectionMode: _rangeSelectionMode,
+                eventLoader: (day) {
+                  return state.birthdays[day] ?? [];
+                },
+                startingDayOfWeek: StartingDayOfWeek.monday,
+                calendarStyle: const CalendarStyle(
+                    outsideDaysVisible: false,
+                    selectedDecoration: BoxDecoration(
+                        color: Palette.primaryAccent, shape: BoxShape.circle),
+                    todayDecoration: BoxDecoration(
+                        color: Palette.secondaryAccent,
+                        shape: BoxShape.circle)),
+                onDaySelected: _onDaySelected,
+                onFormatChanged: (format) {
+                  if (_calendarFormat != format) {
+                    setState(() {
+                      _calendarFormat = format;
+                    });
+                  }
+                },
+                onPageChanged: (focusedDay) {
+                  _focusedDay = focusedDay;
+                },
               ),
-              onDaySelected: _onDaySelected,
-              onFormatChanged: (format) {
-                if (_calendarFormat != format) {
-                  setState(() {
-                    _calendarFormat = format;
-                  });
-                }
-              },
-              onPageChanged: (focusedDay) {
-                _focusedDay = focusedDay;
-              },
-            ),
-            const SizedBox(height: 8.0),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
+              const SizedBox(height: 8.0),
+              Expanded(
                 child: BlocBuilder<CalendarBloc, CalendarState>(
                   builder: (context, state) {
                     if (state.birthdaysInSelectedDay.isEmpty) {
@@ -115,8 +120,8 @@ class _CalendarPageViewState extends State<CalendarPageView> {
                   },
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         );
       }),
     );

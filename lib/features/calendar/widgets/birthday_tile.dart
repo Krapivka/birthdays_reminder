@@ -68,7 +68,7 @@ class _BirthdayTileState extends State<BirthdayTile> {
               child: Ink(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    color: Palette.accent,
+                    color: Theme.of(context).colorScheme.secondary,
                   ),
                   child: ListTile(
                       leading: CircleAvatar(

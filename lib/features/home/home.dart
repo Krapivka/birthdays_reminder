@@ -61,6 +61,7 @@ class HomeView extends StatelessWidget {
           ],
         ),
         bottomNavigationBar: NavigationBar(
+          backgroundColor: Theme.of(context).colorScheme.background,
           selectedIndex: selectedTab.index,
           onDestinationSelected: (index) {
             context.read<HomeCubit>().setTab(index);
@@ -83,7 +84,10 @@ class HomeView extends StatelessWidget {
           onPressed: () {
             AutoRouter.of(context).push(const AddingBirthdayRoute());
           },
-          child: const Icon(Icons.add),
+          child: Icon(
+            Icons.add,
+            color: Theme.of(context).colorScheme.onSecondary,
+          ),
         ),
         body: IndexedStack(
           index: selectedTab.index,

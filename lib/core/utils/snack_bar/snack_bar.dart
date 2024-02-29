@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 const snackBar = SnackBar(
   content: Text(
     'You have not entered a required field!',
-    style: TextStyle(color: Palette.primary),
+    style: TextStyle(color: Palette.textLight),
   ),
-  backgroundColor: Palette.primaryDark,
+  backgroundColor: Palette.secondaryAccent,
 );

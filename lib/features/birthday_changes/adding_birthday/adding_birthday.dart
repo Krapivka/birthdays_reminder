@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:birthdays_reminder/core/domain/repositories/person_repository.dart';
+import 'package:birthdays_reminder/core/utils/constants/Palette.dart';
 import 'package:birthdays_reminder/core/utils/snack_bar/snack_bar.dart';
 import 'package:birthdays_reminder/features/birthday_changes/adding_birthday/bloc/adding_birthday_bloc.dart';
 import 'package:birthdays_reminder/features/birthday_changes/widgets/text_field_birthday_changes.dart';
@@ -32,7 +33,6 @@ class AddingBirthdayView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController dataController = TextEditingController();
     return BlocConsumer<AddingBirthdayBloc, AddingBirthdayState>(
       listener: (context, state) {
         if (state.status == AddingBirthdayStatus.validatorFailure) {
@@ -53,46 +53,48 @@ class AddingBirthdayView extends StatelessWidget {
             ),
             body: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  const _EditableAvatar(),
-                  TextFieldBirthdayChanges(
-                    labelText: "Enter name",
-                    hintText: "Name",
-                    onChanged: (value) {
-                      context
-                          .read<AddingBirthdayBloc>()
-                          .add(AddingBirtdayNameChanged(value));
-                    },
-                    icon: const Icon(Icons.person_2_outlined),
-                  ),
-                  const SizedBox(
-                    height: 100,
-                    child: DatePicker(),
-                  ),
-                  // _TextField(
-                  //   labelText: "Enter date",
-                  //   hintText: "Date",
-                  //   showCursor: false,
-                  //   controller: dataController,
-                  //   onTap: () async {
-                  //     final bloc = BlocProvider.of<AddingBirthdayBloc>(context);
-                  //     final birthdate = await showDatePicker(
-                  //         context: context,
-                  //         initialDate: DateTime.now(),
-                  //         firstDate: DateTime(1900),
-                  //         lastDate: DateTime.now());
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const EditableAvatar(),
+                    TextFieldBirthdayChanges(
+                      labelText: "Enter name",
+                      hintText: "Name",
+                      onChanged: (value) {
+                        context
+                            .read<AddingBirthdayBloc>()
+                            .add(AddingBirtdayNameChanged(value));
+                      },
+                      icon: const Icon(Icons.person_2_outlined),
+                    ),
+                    const SizedBox(
+                      height: 100,
+                      child: DatePicker(),
+                    ),
+                    // _TextField(
+                    //   labelText: "Enter date",
+                    //   hintText: "Date",
+                    //   showCursor: false,
+                    //   controller: dataController,
+                    //   onTap: () async {
+                    //     final bloc = BlocProvider.of<AddingBirthdayBloc>(context);
+                    //     final birthdate = await showDatePicker(
+                    //         context: context,
+                    //         initialDate: DateTime.now(),
+                    //         firstDate: DateTime(1900),
+                    //         lastDate: DateTime.now());
 
-                  //     if (birthdate != null) {
-                  //       bloc.add(AddingBirtdayDateTap(birthdate));
-                  //       dataController.text =
-                  //           birthdate.toString().split(' ')[0];
-                  //     }
-                  //   },
-                  //   icon: const Icon(Icons.date_range_outlined),
-                  // ),
-                  const _ButtonAddBirthday(),
-                ],
+                    //     if (birthdate != null) {
+                    //       bloc.add(AddingBirtdayDateTap(birthdate));
+                    //       dataController.text =
+                    //           birthdate.toString().split(' ')[0];
+                    //     }
+                    //   },
+                    //   icon: const Icon(Icons.date_range_outlined),
+                    // ),
+                    const _ButtonAddBirthday(),
+                  ],
+                ),
               ),
             ));
       },
@@ -100,8 +102,8 @@ class AddingBirthdayView extends StatelessWidget {
   }
 }
 
-class _EditableAvatar extends StatelessWidget {
-  const _EditableAvatar();
+class EditableAvatar extends StatelessWidget {
+  const EditableAvatar();
 
   @override
   Widget build(BuildContext context) {
@@ -116,6 +118,7 @@ class _EditableAvatar extends StatelessWidget {
             bloc.add(const AddingBirtdayImageTap());
           },
           child: Ink(
+            color: Theme.of(context).colorScheme.primary,
             child: Stack(children: [
               CircleAvatar(
                   radius: width / 1.3,
@@ -160,12 +163,23 @@ class DatePicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = context.read<AddingBirthdayBloc>();
-    return ScrollDatePicker(
-      selectedDate: bloc.state.birthdate,
-      locale: const Locale('ru'),
-      onDateTimeChanged: (DateTime value) {
-        bloc.add(AddingBirtdayDateTap(value));
+    final bloc = BlocProvider.of<AddingBirthdayBloc>(context);
+    return BlocBuilder<AddingBirthdayBloc, AddingBirthdayState>(
+      builder: (context, state) {
+        return ScrollDatePicker(
+          scrollViewOptions: const DatePickerScrollViewOptions(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly),
+          options: DatePickerOptions(
+              backgroundColor: Theme.of(context).colorScheme.background,
+              itemExtent: 30,
+              diameterRatio: 10),
+          minimumDate: DateTime(1930),
+          selectedDate: state.birthdate,
+          locale: const Locale('en'),
+          onDateTimeChanged: (DateTime value) {
+            bloc.add(AddingBirtdayDateTap(value));
+          },
+        );
       },
     );
   }

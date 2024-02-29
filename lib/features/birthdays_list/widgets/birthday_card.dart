@@ -86,7 +86,7 @@ class _BirthdayCardState extends State<BirthdayCard> {
                     color: birthdayListBloc.state.selectedPersonId
                             .contains(widget.person.id)
                         ? Color.fromARGB(255, 223, 223, 223)
-                        : Palette.accent,
+                        : Theme.of(context).colorScheme.secondary,
                   ),
                   child: ListTile(
                       leading: CircleAvatar(

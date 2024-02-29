@@ -17,6 +17,7 @@ class UpdateBirthdayBloc
     extends Bloc<UpdateBirthdayEvent, UpdateBirthdayState> {
   UpdateBirthdayBloc(this._personRepository, person, this._settingsRepository)
       : super(UpdateBirthdayState.personModel(person: person)) {
+    on<UpdateBirtdayDelete>(_onDeleteTap);
     on<UpdateBirtdayNameChanged>(_onNameChanged);
     on<UpdateBirtdayDateTap>(_onDateTap);
     on<UpdateBirtdayImageTap>(_onImageTap);
@@ -36,6 +37,21 @@ class UpdateBirthdayBloc
       UpdateBirtdayNameChanged event, Emitter<UpdateBirthdayState> emit) {
     debugPrint("Name: ${event.name}");
     emit(state.copyWith(name: event.name));
+  }
+
+  void _onDeleteTap(
+      UpdateBirtdayDelete event, Emitter<UpdateBirthdayState> emit) async {
+    final delPerson = await _personRepository.deletePerson(event.id);
+    delPerson.fold(
+        (failure) => emit(state.copyWith(status: UpdateBirthdayStatus.failure)),
+        (result) async {
+      ///Cancel scheduling notifications
+
+      await AwesomeNotifications().cancel(event.id);
+      debugPrint("Delete Person with ID: ${event.id}");
+    });
+
+    emit(state.copyWith(status: UpdateBirthdayStatus.success));
   }
 
   void _onDateTap(
