@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:birthdays_reminder/core/domain/repositories/person_repository.dart';
+import 'package:birthdays_reminder/core/utils/constants/Palette.dart';
 import 'package:birthdays_reminder/core/utils/snack_bar/snack_bar.dart';
 import 'package:birthdays_reminder/features/birthday_changes/adding_birthday/bloc/adding_birthday_bloc.dart';
 import 'package:birthdays_reminder/features/birthday_changes/widgets/text_field_birthday_changes.dart';
@@ -150,11 +151,23 @@ class _ButtonAddBirthday extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return OutlinedButton(
-      onPressed: () {
+    return InkWell(
+      onTap: () {
         context.read<AddingBirthdayBloc>().add(const AddingBirthdaySubmitted());
       },
-      child: Text(S.of(context).addBirthdayButton),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: Palette.primaryAccent,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          child: Text(
+            S.of(context).addBirthdayButton,
+            style: const TextStyle(color: Palette.secondaryLight),
+          ),
+        ),
+      ),
     );
   }
 }

@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:birthdays_reminder/core/data/models/person_model.dart';
 
 import 'package:birthdays_reminder/core/domain/repositories/person_repository.dart';
+import 'package:birthdays_reminder/core/utils/constants/Palette.dart';
 import 'package:birthdays_reminder/core/utils/snack_bar/snack_bar.dart';
 import 'package:birthdays_reminder/features/birthday_changes/widgets/text_field_birthday_changes.dart';
 import 'package:birthdays_reminder/features/settings/data/repository/abstract_settings_repository.dart';
@@ -174,12 +175,23 @@ class _ButtonSaveBirthday extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return OutlinedButton(
-      onPressed: () async {
-        BlocProvider.of<UpdateBirthdayBloc>(context)
-            .add(const UpdateBirthdaySave());
+    return InkWell(
+      onTap: () {
+        context.read<UpdateBirthdayBloc>().add(const UpdateBirthdaySave());
       },
-      child: Text(S.of(context).save),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: Palette.primaryAccent,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          child: Text(
+            S.of(context).updateBirthday,
+            style: const TextStyle(color: Palette.secondaryLight),
+          ),
+        ),
+      ),
     );
   }
 }

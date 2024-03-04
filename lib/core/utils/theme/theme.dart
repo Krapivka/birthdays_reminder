@@ -40,6 +40,7 @@ ThemeData darkTheme = ThemeData(
   // bottomNavigationBarTheme: const BottomNavigationBarThemeData(
   //   backgroundColor: Palette.primaryDark,
   // ),
+  appBarTheme: const AppBarTheme(backgroundColor: Palette.primaryDark),
   floatingActionButtonTheme: const FloatingActionButtonThemeData(
       backgroundColor: Palette.primaryAccent),
   fontFamily: _fontFamily,
