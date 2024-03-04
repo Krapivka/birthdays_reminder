@@ -3,7 +3,6 @@ import 'package:birthdays_reminder/core/domain/repositories/person_repository.da
 import 'package:birthdays_reminder/core/utils/theme/theme.dart';
 import 'package:birthdays_reminder/features/home/cubit/home_cubit.dart';
 import 'package:birthdays_reminder/features/settings/bloc/bloc/settings_bloc.dart';
-import 'package:birthdays_reminder/features/settings/data/datasource/settings_local_data_source.dart';
 import 'package:birthdays_reminder/features/settings/data/repository/abstract_settings_repository.dart';
 import 'package:birthdays_reminder/generated/l10n.dart';
 import 'package:birthdays_reminder/router/router.dart';
@@ -79,7 +78,7 @@ class AppView extends StatelessWidget {
           routerConfig: _appRouter.config(),
         );
       } else {
-        return MaterialApp();
+        return const Placeholder();
       }
     });
   }

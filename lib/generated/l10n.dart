@@ -190,10 +190,10 @@ class S {
     );
   }
 
-  /// `Application Version:: {appVersion}`
+  /// `Application Version: {appVersion}`
   String appVersionN(Object appVersion) {
     return Intl.message(
-      'Application Version:: $appVersion',
+      'Application Version: $appVersion',
       name: 'appVersionN',
       desc: '',
       args: [appVersion],

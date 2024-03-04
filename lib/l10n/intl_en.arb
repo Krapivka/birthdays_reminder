@@ -13,7 +13,7 @@
   "save": "Save",
   "chooseYourLanguage": "Select a language:",
   "aboutApp": "About app",
-  "appVersionN": "Application Version:: {appVersion}",
+  "appVersionN": "Application Version: {appVersion}",
   "authorN": "Author: {author}",
   "welcomeMessageInInfo": "Welcome to our birthday reminder app!",
   "purposeMessageAppInInfo": "The application is designed so that you never forget about the birthdays of your loved ones and dear ones. Easily set notifications to wish them a happy holiday on time!",

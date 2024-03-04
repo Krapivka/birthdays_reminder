@@ -1,11 +1,9 @@
 import 'package:birthdays_reminder/core/data/datasources/person_local_data_source.dart';
 import 'package:birthdays_reminder/core/data/repositories/person_repository_impl.dart';
-import 'package:birthdays_reminder/core/domain/repositories/person_repository.dart';
 import 'package:birthdays_reminder/core/services/notification/notification_service.dart';
 import 'package:birthdays_reminder/features/settings/data/datasource/settings_local_data_source.dart';
 import 'package:birthdays_reminder/features/settings/data/repository/settings_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'birthdays_reminder_app.dart';
 
