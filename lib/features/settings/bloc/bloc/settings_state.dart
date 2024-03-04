@@ -9,13 +9,13 @@ class SettingsState extends Equatable {
         status = status ?? SettingsStatus.initial,
         language = language ?? '',
         dateFormat = dateFormat ?? '',
-        theme = theme ?? '';
+        theme = theme ?? AppThemeMode.system;
 
   final int notificationDay;
   final SettingsStatus status;
   final String language;
   final String dateFormat;
-  final String theme;
+  final AppThemeMode theme;
   @override
   List<Object> get props =>
       [notificationDay, status, language, dateFormat, theme];
@@ -24,7 +24,7 @@ class SettingsState extends Equatable {
     int? notificationDay,
     String? language,
     String? dateFormat,
-    String? theme,
+    AppThemeMode? theme,
     SettingsStatus? status,
   }) {
     return SettingsState(

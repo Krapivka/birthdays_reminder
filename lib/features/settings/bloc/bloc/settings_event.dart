@@ -38,7 +38,7 @@ class SetDateFormatEvent extends SettingsEvent {
 class SetThemeEvent extends SettingsEvent {
   const SetThemeEvent(this.theme);
 
-  final String theme;
+  final AppThemeMode theme;
   @override
   List<Object> get props => [theme];
 }

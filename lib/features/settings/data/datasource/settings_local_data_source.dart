@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class AbstractSettingsLocalDataSource {
@@ -8,7 +9,17 @@ abstract class AbstractSettingsLocalDataSource {
   Future<String> getDateFormatFromCache();
   Future<void> dateFormatToCache(String dateFormat);
   Future<String> getThemeFromCache();
-  Future<void> themeToCache(String theme);
+  Future<void> themeToCache(AppThemeMode appThemeMode);
+}
+
+enum AppThemeMode {
+  system("system", ThemeMode.system),
+  light("light", ThemeMode.light),
+  dark("dark", ThemeMode.dark);
+
+  const AppThemeMode(this.localization, this.themeMode);
+  final ThemeMode themeMode;
+  final String localization;
 }
 
 class SettingsLocalDataSource extends AbstractSettingsLocalDataSource {
@@ -56,11 +67,11 @@ class SettingsLocalDataSource extends AbstractSettingsLocalDataSource {
   @override
   Future<String> getThemeFromCache() async {
     return sharedPreferences.getString(keyTheme) ??
-        'light'; // Значение по умолчанию - 'light'
+        "system"; // Значение по умолчанию - 'light'
   }
 
   @override
-  Future<void> themeToCache(String theme) async {
-    await sharedPreferences.setString(keyTheme, theme);
+  Future<void> themeToCache(AppThemeMode appThemeMode) async {
+    await sharedPreferences.setString(keyTheme, appThemeMode.localization);
   }
 }

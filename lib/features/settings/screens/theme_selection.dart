@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:birthdays_reminder/features/settings/bloc/bloc/settings_bloc.dart';
+import 'package:birthdays_reminder/features/settings/data/datasource/settings_local_data_source.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -11,19 +12,23 @@ class ThemeSelectionPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Выбор темы'),
+        title: const Text('Выбор темы'),
       ),
       body: const Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             ThemeOption(
-              keyTheme: 'light',
+              keyTheme: AppThemeMode.system,
+              themeName: 'Системная тема',
+            ),
+            ThemeOption(
+              keyTheme: AppThemeMode.light,
               themeName: 'Светлая тема',
             ),
             ThemeOption(
-              keyTheme: 'dark',
+              keyTheme: AppThemeMode.dark,
               themeName: 'Темная тема',
             )
           ],
@@ -35,8 +40,9 @@ class ThemeSelectionPage extends StatelessWidget {
 
 class ThemeOption extends StatelessWidget {
   final String themeName;
-  final String keyTheme;
+  final AppThemeMode keyTheme;
   const ThemeOption({
+    super.key,
     required this.themeName,
     required this.keyTheme,
   });

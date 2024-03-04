@@ -1,3 +1,4 @@
+import 'package:birthdays_reminder/features/settings/data/datasource/settings_local_data_source.dart';
 import 'package:equatable/equatable.dart';
 
 class SettingsModel extends Equatable {
@@ -9,7 +10,7 @@ class SettingsModel extends Equatable {
   final int notificationDay;
   final String language;
   final String dateFormat;
-  final String theme;
+  final AppThemeMode theme;
 
   @override
   List<Object?> get props => [notificationDay, language, dateFormat, theme];

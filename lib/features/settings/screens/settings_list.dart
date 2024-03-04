@@ -10,7 +10,7 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SettingsPageView();
+    return const SettingsPageView();
   }
 }
 
@@ -56,7 +56,7 @@ class SettingsPageView extends StatelessWidget {
               ListTile(
                 leading: const Icon(Icons.color_lens_outlined),
                 title: const Text('Тема'),
-                subtitle: Text(state.theme),
+                subtitle: Text(state.theme.localization),
                 onTap: () {
                   AutoRouter.of(context).push(const ThemeSelectionRoute());
                 },

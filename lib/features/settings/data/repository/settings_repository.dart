@@ -79,7 +79,7 @@ class SettingsRepository implements AbstractSettingsRepository {
   }
 
   @override
-  Future<Either<Failure, void>> setTheme(String theme) async {
+  Future<Either<Failure, void>> setTheme(AppThemeMode theme) async {
     try {
       return Right(await localDataSource.themeToCache(theme));
     } on CacheException {
@@ -92,7 +92,7 @@ class SettingsRepository implements AbstractSettingsRepository {
     String dateFormat = '';
     String language = '';
     int notificationDay = 0;
-    String theme = '';
+    AppThemeMode theme = AppThemeMode.system;
     try {
       (await getDateFormat())
           .fold((failure) => CacheFailure(), (result) => dateFormat = result);
@@ -100,8 +100,19 @@ class SettingsRepository implements AbstractSettingsRepository {
           .fold((failure) => CacheFailure(), (result) => language = result);
       (await getNotificationDay()).fold(
           (failure) => CacheFailure(), (result) => notificationDay = result);
-      (await getTheme())
-          .fold((failure) => CacheFailure(), (result) => theme = result);
+      (await getTheme()).fold((failure) => CacheFailure(), (result) {
+        switch (result) {
+          case "system":
+            theme = AppThemeMode.system;
+            break;
+          case "dark":
+            theme = AppThemeMode.dark;
+            break;
+          case "light":
+            theme = AppThemeMode.light;
+            break;
+        }
+      });
       return (Right(SettingsModel(
           notificationDay: notificationDay,
           language: language,

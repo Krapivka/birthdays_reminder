@@ -3,13 +3,14 @@ import 'package:birthdays_reminder/core/domain/repositories/person_repository.da
 import 'package:birthdays_reminder/core/utils/theme/theme.dart';
 import 'package:birthdays_reminder/features/home/cubit/home_cubit.dart';
 import 'package:birthdays_reminder/features/settings/bloc/bloc/settings_bloc.dart';
+import 'package:birthdays_reminder/features/settings/data/datasource/settings_local_data_source.dart';
 import 'package:birthdays_reminder/features/settings/data/repository/abstract_settings_repository.dart';
 import 'package:birthdays_reminder/router/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class App extends StatelessWidget {
-  final PersonRepository personRepository;
+  final AbstractPersonRepository personRepository;
   final AbstractSettingsRepository settingsRepository;
   static final GlobalKey<NavigatorState> navigatorKey =
       GlobalKey<NavigatorState>();
@@ -64,7 +65,7 @@ class AppView extends StatelessWidget {
           title: 'Memo birthday',
           theme: lightTheme,
           darkTheme: darkTheme,
-          themeMode: state.theme == "light" ? ThemeMode.light : ThemeMode.dark,
+          themeMode: state.theme.themeMode,
           routerConfig: _appRouter.config(),
         );
       },

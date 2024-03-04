@@ -1,3 +1,4 @@
+import 'package:birthdays_reminder/features/settings/data/datasource/settings_local_data_source.dart';
 import 'package:birthdays_reminder/features/settings/data/repository/abstract_settings_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -48,7 +49,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     theme.fold(
         (failure) => emit(state.copyWith(status: SettingsStatus.failure)),
         (result) => emit(state.copyWith(theme: event.theme)));
-    debugPrint(state.theme);
+    debugPrint(state.theme.localization);
   }
 
   void _onSetLanguageEvent(
