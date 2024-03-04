@@ -18,7 +18,7 @@ class AddingBirthdayPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => AddingBirthdayBloc(
-        context.read<PersonRepository>(),
+        context.read<AbstractPersonRepository>(),
         context.read<AbstractSettingsRepository>(),
       ),
       child: const AddingBirthdayView(),

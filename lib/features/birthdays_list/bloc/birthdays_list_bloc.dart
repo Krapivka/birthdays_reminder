@@ -26,7 +26,7 @@ class BirthdaysListBloc extends Bloc<BirthdaysListEvent, BirthdaysListState> {
     on<TapBirthdayCardEvent>(_onTapBirthdayCardEvent);
     on<DeletePersonBirthdaysListEvent>(_onDeletePerson);
   }
-  final PersonRepository _personRepository;
+  final AbstractPersonRepository _personRepository;
 
   _onLoadBirthdaysList(
       LoadBirthdaysListEvent event, Emitter<BirthdaysListState> emit) async {

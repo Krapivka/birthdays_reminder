@@ -23,7 +23,7 @@ class AddingBirthdayBloc
     on<AddingBirthdaySubmitted>(_onSubmitted);
   }
 
-  final PersonRepository _personRepository;
+  final AbstractPersonRepository _personRepository;
   final AbstractSettingsRepository _settingsRepository;
   //final AppImagePicker _imagePicker;
 

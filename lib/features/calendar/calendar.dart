@@ -15,8 +15,8 @@ class CalendarPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          CalendarBloc(RepositoryProvider.of<PersonRepository>(context)),
+      create: (context) => CalendarBloc(
+          RepositoryProvider.of<AbstractPersonRepository>(context)),
       child: CalendarPageView(),
     );
   }

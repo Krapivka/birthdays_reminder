@@ -10,7 +10,7 @@ part 'calendar_event.dart';
 part 'calendar_state.dart';
 
 class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
-  final PersonRepository _personRepository;
+  final AbstractPersonRepository _personRepository;
 
   CalendarBloc(this._personRepository) : super(CalendarState()) {
     on<LoadBirthdaysCalendar>(_onLoadBirthdaysCalendar);

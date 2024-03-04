@@ -24,7 +24,7 @@ class UpdateBirthdayBloc
     on<UpdateBirthdaySave>(_onSave);
   }
 
-  final PersonRepository _personRepository;
+  final AbstractPersonRepository _personRepository;
   final AbstractSettingsRepository _settingsRepository;
   void _onImageTap(
       UpdateBirtdayImageTap event, Emitter<UpdateBirthdayState> emit) async {

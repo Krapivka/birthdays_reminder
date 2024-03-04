@@ -17,8 +17,8 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (context) =>
-            BirthdaysListBloc(RepositoryProvider.of<PersonRepository>(context)),
+        create: (context) => BirthdaysListBloc(
+            RepositoryProvider.of<AbstractPersonRepository>(context)),
         child: const HomeView());
   }
 }
@@ -84,9 +84,8 @@ class HomeView extends StatelessWidget {
           onPressed: () {
             AutoRouter.of(context).push(const AddingBirthdayRoute());
           },
-          child: Icon(
+          child: const Icon(
             Icons.add,
-            color: Theme.of(context).colorScheme.onSecondary,
           ),
         ),
         body: IndexedStack(

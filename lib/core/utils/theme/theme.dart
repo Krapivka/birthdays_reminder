@@ -11,16 +11,18 @@ ThemeData lightTheme = ThemeData(
     primary: Palette.primaryLight,
     secondary: Palette.secondaryLight,
   ),
-  appBarTheme: const AppBarTheme(
-    color: Palette.primaryLight,
-  ),
-  bottomAppBarTheme: const BottomAppBarTheme(
-    color: Palette.primaryLight,
-  ),
+  // appBarTheme: const AppBarTheme(
+  //   color: Palette.primaryLight,
+  // ),
+  // bottomAppBarTheme: const BottomAppBarTheme(
+  //   color: Palette.primaryLight,
+  // ),
+  // floatingActionButtonTheme: const FloatingActionButtonThemeData(
+  //   backgroundColor: Palette.secondaryLight,
+  // ),
+  // iconTheme: IconThemeData(color: Palette.textLight),
   floatingActionButtonTheme: const FloatingActionButtonThemeData(
-    backgroundColor: Palette.secondaryLight,
-  ),
-  iconTheme: IconThemeData(color: Palette.textLight),
+      backgroundColor: Palette.secondaryAccent),
   fontFamily: _fontFamily,
 );
 
@@ -32,12 +34,14 @@ ThemeData darkTheme = ThemeData(
     primary: Palette.primaryDark,
     secondary: Palette.secondaryDark,
   ),
-  appBarTheme: const AppBarTheme(
-    color: Palette.primaryDark,
-  ),
-  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-    backgroundColor: Palette.primaryDark,
-  ),
+  // appBarTheme: const AppBarTheme(
+  //   color: Palette.primaryDark,
+  // ),
+  // bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+  //   backgroundColor: Palette.primaryDark,
+  // ),
+  floatingActionButtonTheme: const FloatingActionButtonThemeData(
+      backgroundColor: Palette.primaryAccent),
   fontFamily: _fontFamily,
 );
 

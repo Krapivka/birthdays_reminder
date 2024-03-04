@@ -6,10 +6,10 @@ import 'package:birthdays_reminder/core/domain/enteties/person_entity.dart';
 import 'package:birthdays_reminder/core/domain/repositories/person_repository.dart';
 import 'package:dartz/dartz.dart';
 
-class PersonRepositoryImpl implements PersonRepository {
+class PersonRepository implements AbstractPersonRepository {
   final PersonLocalDataSource localDataSource;
 
-  PersonRepositoryImpl({required this.localDataSource});
+  PersonRepository({required this.localDataSource});
 
   @override
   Future<Either<Failure, List<PersonEntity>>> getAllPersons() async {

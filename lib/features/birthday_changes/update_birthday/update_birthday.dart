@@ -25,8 +25,10 @@ class UpdateBirthdayPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => UpdateBirthdayBloc(context.read<PersonRepository>(),
-          personmodel, context.read<AbstractSettingsRepository>()),
+      create: (context) => UpdateBirthdayBloc(
+          context.read<AbstractPersonRepository>(),
+          personmodel,
+          context.read<AbstractSettingsRepository>()),
       child: UpdateBirthdayPageView(),
     );
   }
