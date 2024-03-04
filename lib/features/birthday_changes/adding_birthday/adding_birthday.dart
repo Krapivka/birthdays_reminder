@@ -1,13 +1,14 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:birthdays_reminder/core/domain/repositories/person_repository.dart';
-import 'package:birthdays_reminder/core/utils/constants/Palette.dart';
 import 'package:birthdays_reminder/core/utils/snack_bar/snack_bar.dart';
 import 'package:birthdays_reminder/features/birthday_changes/adding_birthday/bloc/adding_birthday_bloc.dart';
 import 'package:birthdays_reminder/features/birthday_changes/widgets/text_field_birthday_changes.dart';
 import 'package:birthdays_reminder/features/settings/data/repository/abstract_settings_repository.dart';
+import 'package:birthdays_reminder/generated/l10n.dart';
 import 'package:birthdays_reminder/router/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:scroll_date_picker/scroll_date_picker.dart';
 
 @RoutePage()
@@ -46,8 +47,8 @@ class AddingBirthdayView extends StatelessWidget {
       builder: (context, state) {
         return Scaffold(
             appBar: AppBar(
-              title: const Text(
-                "Add birthday",
+              title: Text(
+                S.of(context).addBirthday,
               ),
               centerTitle: true,
             ),
@@ -58,8 +59,8 @@ class AddingBirthdayView extends StatelessWidget {
                   children: [
                     const EditableAvatar(),
                     TextFieldBirthdayChanges(
-                      labelText: "Enter name",
-                      hintText: "Name",
+                      labelText: S.of(context).enterNameInTextField,
+                      hintText: S.of(context).hintTextNameInTextField,
                       onChanged: (value) {
                         context
                             .read<AddingBirthdayBloc>()
@@ -153,7 +154,7 @@ class _ButtonAddBirthday extends StatelessWidget {
       onPressed: () {
         context.read<AddingBirthdayBloc>().add(const AddingBirthdaySubmitted());
       },
-      child: const Text("Add birthday"),
+      child: Text(S.of(context).addBirthdayButton),
     );
   }
 }
@@ -175,7 +176,7 @@ class DatePicker extends StatelessWidget {
               diameterRatio: 10),
           minimumDate: DateTime(1930),
           selectedDate: state.birthdate,
-          locale: const Locale('en'),
+          locale: Locale(Intl.getCurrentLocale()),
           onDateTimeChanged: (DateTime value) {
             bloc.add(AddingBirtdayDateTap(value));
           },

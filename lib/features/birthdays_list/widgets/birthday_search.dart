@@ -1,5 +1,6 @@
 import 'package:birthdays_reminder/core/utils/constants/Palette.dart';
 import 'package:birthdays_reminder/features/birthdays_list/bloc/birthdays_list_bloc.dart';
+import 'package:birthdays_reminder/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -52,7 +53,7 @@ class BirthdaySearch extends StatelessWidget {
           focusedErrorBorder: const OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(20.0))),
           //     labelText: labelText,
-          hintText: "Search",
+          hintText: S.of(context).search,
           //   ),
           //   onTap: onTap,
           // ),

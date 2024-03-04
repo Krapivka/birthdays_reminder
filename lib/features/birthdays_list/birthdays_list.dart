@@ -2,6 +2,7 @@ import 'package:birthdays_reminder/core/data/models/person_model.dart';
 import 'package:birthdays_reminder/features/birthdays_list/bloc/birthdays_list_bloc.dart';
 import 'package:birthdays_reminder/features/birthdays_list/widgets/birthday_card.dart';
 import 'package:birthdays_reminder/features/birthdays_list/widgets/birthday_search.dart';
+import 'package:birthdays_reminder/generated/l10n.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -51,14 +52,13 @@ class BirthdaysListView extends StatelessWidget {
                             BirthdayCard(index: index, person: persons[index]),
                       );
                     } else {
-                      return const Center(
+                      return Center(
                           child: Padding(
-                        padding: EdgeInsets.all(50.0),
+                        padding: const EdgeInsets.all(50.0),
                         child: Align(
-                          child: Text(
-                              "Добавьте день рождения, чтобы не забыть поздравить",
+                          child: Text(S.of(context).emptyBirthdaysList,
                               textAlign: TextAlign.center,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Colors.black54,
                               )),
                         ),
@@ -78,9 +78,9 @@ class BirthdaysListView extends StatelessWidget {
                             BirthdayCard(index: index, person: persons[index]),
                       );
                     } else {
-                      return const Center(
-                          child: Text("День рождения не найден",
-                              style: TextStyle(
+                      return Center(
+                          child: Text(S.of(context).birthdaysNotFound,
+                              style: const TextStyle(
                                 color: Colors.black54,
                               )));
                     }

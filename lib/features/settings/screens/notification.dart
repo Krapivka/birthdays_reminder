@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:birthdays_reminder/features/settings/bloc/bloc/settings_bloc.dart';
+import 'package:birthdays_reminder/generated/l10n.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,7 +23,7 @@ class SettingsNotificationPageView extends StatelessWidget {
     int notificationDay = 1;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Notification'),
+        title: Text(S.of(context).notification),
         centerTitle: true,
       ),
       body: Padding(
@@ -30,11 +31,11 @@ class SettingsNotificationPageView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            const Padding(
-              padding: EdgeInsets.all(8.0),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
               child: Text(
-                'How many days should I notify about birthdays?',
-                style: TextStyle(fontSize: 16),
+                S.of(context).daysShouldINotifyAboutBirthdays,
+                style: const TextStyle(fontSize: 16),
               ),
             ),
             CupertinoPicker(
@@ -53,7 +54,7 @@ class SettingsNotificationPageView extends StatelessWidget {
                     BlocProvider.of<SettingsBloc>(context)
                         .add(SetNotificationDayEvent(notificationDay));
                   },
-                  child: const Text("Set the day")),
+                  child: Text(S.of(context).save)),
             ))
           ],
         ),

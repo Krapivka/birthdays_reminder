@@ -2,15 +2,16 @@ import 'package:auto_route/auto_route.dart';
 import 'package:birthdays_reminder/core/data/models/person_model.dart';
 
 import 'package:birthdays_reminder/core/domain/repositories/person_repository.dart';
-import 'package:birthdays_reminder/core/utils/constants/Palette.dart';
 import 'package:birthdays_reminder/core/utils/snack_bar/snack_bar.dart';
 import 'package:birthdays_reminder/features/birthday_changes/widgets/text_field_birthday_changes.dart';
 import 'package:birthdays_reminder/features/settings/data/repository/abstract_settings_repository.dart';
 import 'package:birthdays_reminder/features/birthday_changes/update_birthday/bloc/update_birthday_bloc.dart';
+import 'package:birthdays_reminder/generated/l10n.dart';
 import 'package:birthdays_reminder/router/router.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:scroll_date_picker/scroll_date_picker.dart';
 
 @RoutePage()
@@ -59,8 +60,8 @@ class UpdateBirthdayPageView extends StatelessWidget {
     }, builder: (context, state) {
       return Scaffold(
           appBar: AppBar(
-            title: const Text(
-              "Update birthday",
+            title: Text(
+              S.of(context).updateBirthday,
             ),
             centerTitle: true,
             actions: [
@@ -80,8 +81,8 @@ class UpdateBirthdayPageView extends StatelessWidget {
                 children: [
                   const EditableImage(),
                   TextFieldBirthdayChanges(
-                    labelText: "Enter name",
-                    hintText: "Name",
+                    labelText: S.of(context).enterNameInTextField,
+                    hintText: S.of(context).hintTextNameInTextField,
                     onChanged: (value) {
                       context
                           .read<UpdateBirthdayBloc>()
@@ -178,7 +179,7 @@ class _ButtonSaveBirthday extends StatelessWidget {
         BlocProvider.of<UpdateBirthdayBloc>(context)
             .add(const UpdateBirthdaySave());
       },
-      child: const Text("Save"),
+      child: Text(S.of(context).save),
     );
   }
 }
@@ -201,7 +202,7 @@ class DatePicker extends StatelessWidget {
           ),
           minimumDate: DateTime(1930),
           selectedDate: state.birthdate,
-          locale: const Locale('en'),
+          locale: Locale(Intl.getCurrentLocale()),
           onDateTimeChanged: (DateTime value) {
             bloc.add(UpdateBirtdayDateTap(value));
           },

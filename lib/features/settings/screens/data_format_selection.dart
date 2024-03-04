@@ -1,30 +1,33 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:birthdays_reminder/features/settings/bloc/bloc/settings_bloc.dart';
+import 'package:birthdays_reminder/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 @RoutePage()
 class DateFormatSelectionPage extends StatelessWidget {
+  const DateFormatSelectionPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Выбор формата даты'),
+        title: Text(S.of(context).dateFormat),
       ),
-      body: const Padding(
-        padding: EdgeInsets.all(16.0),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              'Выберите формат даты:',
-              style: TextStyle(fontSize: 18),
+              S.of(context).chooseDateFormat,
+              style: const TextStyle(fontSize: 18),
             ),
-            SizedBox(height: 20),
-            DateFormatOption(
+            const SizedBox(height: 20),
+            const DateFormatOption(
               dateFormat: 'dd/MM/yyyy',
             ),
-            DateFormatOption(
+            const DateFormatOption(
               dateFormat: 'MM/dd/yyyy',
             ),
           ],

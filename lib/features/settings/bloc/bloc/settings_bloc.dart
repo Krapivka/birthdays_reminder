@@ -25,10 +25,12 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         .fold((failure) => emit(state.copyWith(status: SettingsStatus.failure)),
             (result) {
       emit(state.copyWith(
-          notificationDay: result.notificationDay,
-          language: result.language,
-          dateFormat: result.dateFormat,
-          theme: result.theme));
+        notificationDay: result.notificationDay,
+        language: result.language,
+        dateFormat: result.dateFormat,
+        theme: result.theme,
+        status: SettingsStatus.success,
+      ));
     });
   }
 

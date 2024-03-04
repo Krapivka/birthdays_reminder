@@ -38,64 +38,66 @@ class _BirthdayTileState extends State<BirthdayTile> {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = context.watch<SettingsBloc>();
-    animate();
     final file = File(widget.person.filePath);
-    return AnimatedOpacity(
-        //TODO: animate widget
-        opacity: _visible ? 1 : 0,
-        duration: const Duration(milliseconds: 300),
-        child: Container(
-          margin: const EdgeInsets.symmetric(vertical: 2, horizontal: 8),
-          child: Material(
-            child: InkWell(
-              borderRadius: BorderRadius.circular(20),
+    return BlocBuilder<SettingsBloc, SettingsState>(builder: (context, state) {
+      animate();
+      return AnimatedOpacity(
+          opacity: _visible ? 1 : 0,
+          duration: const Duration(milliseconds: 300),
+          child: Container(
+            margin: const EdgeInsets.symmetric(vertical: 2, horizontal: 8),
+            child: Material(
+              child: InkWell(
+                borderRadius: BorderRadius.circular(20),
 
-              onTap: () {
-                AutoRouter.of(context)
-                    .push(UpdateBirthdayRoute(personmodel: widget.person));
-              },
-              // child: Dismissible(
-              //   key: UniqueKey(),
-              //   background: const Card(
-              //     color: Color.fromARGB(255, 253, 253, 253),
-              //     child: Icon(Icons.delete),
-              //   ),
-              //   onDismissed: (direction) {
-              //     bloc.add(DeletePersonBirthdaysListEvent(id: person.id));
-              //   },
+                onTap: () {
+                  AutoRouter.of(context)
+                      .push(UpdateBirthdayRoute(personmodel: widget.person));
+                },
+                // child: Dismissible(
+                //   key: UniqueKey(),
+                //   background: const Card(
+                //     color: Color.fromARGB(255, 253, 253, 253),
+                //     child: Icon(Icons.delete),
+                //   ),
+                //   onDismissed: (direction) {
+                //     bloc.add(DeletePersonBirthdaysListEvent(id: person.id));
+                //   },
 
-              child: Ink(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Theme.of(context).colorScheme.secondary,
-                  ),
-                  child: ListTile(
-                      leading: CircleAvatar(
-                        radius: 28,
-                        backgroundImage: widget.person.filePath == "/"
-                            ? const AssetImage("assets/images/avatar.png")
-                            : FileImage(file) as ImageProvider,
-                      ),
-                      title: Text(
-                        widget.person.name,
-                        maxLines: 1,
-                      ),
-                      subtitle: Text(DateTimeUtils.formatDate(
-                          widget.person.birthdate, bloc.state.dateFormat)),
-                      trailing: Container(
-                          height: 30,
-                          width: 30,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(width: 2),
-                          ),
-                          child: Center(
-                              child: Text(
-                                  DateTimeUtils.getDifferenceCurrentDayBirthDay(
-                                      widget.person.birthdate)))))),
+                child: Ink(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Theme.of(context).colorScheme.secondary,
+                    ),
+                    child: ListTile(
+                        leading: CircleAvatar(
+                          radius: 28,
+                          backgroundImage: widget.person.filePath == "/"
+                              ? const AssetImage("assets/images/avatar.png")
+                              : FileImage(file) as ImageProvider,
+                        ),
+                        title: Text(
+                          widget.person.name,
+                          maxLines: 1,
+                        ),
+                        subtitle: Text(DateTimeUtils.formatDate(
+                            widget.person.birthdate, state.dateFormat)),
+                        trailing: Container(
+                            height: 40,
+                            width: 40,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(width: 1),
+                            ),
+                            child: Center(
+                                child: Text(
+                              DateTimeUtils.getDifferenceCurrentDayBirthDay(
+                                  widget.person.birthdate),
+                              style: const TextStyle(fontSize: 12),
+                            ))))),
+              ),
             ),
-          ),
-        ));
+          ));
+    });
   }
 }

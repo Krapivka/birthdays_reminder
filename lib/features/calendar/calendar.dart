@@ -2,9 +2,9 @@ import 'package:birthdays_reminder/core/data/models/person_model.dart';
 import 'package:birthdays_reminder/core/domain/repositories/person_repository.dart';
 import 'package:birthdays_reminder/core/utils/constants/Palette.dart';
 import 'package:birthdays_reminder/features/birthdays_list/bloc/birthdays_list_bloc.dart';
-import 'package:birthdays_reminder/features/birthdays_list/widgets/birthday_card.dart';
 import 'package:birthdays_reminder/features/calendar/bloc/bloc/calendar_bloc.dart';
 import 'package:birthdays_reminder/features/calendar/widgets/birthday_tile.dart';
+import 'package:birthdays_reminder/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -17,13 +17,16 @@ class CalendarPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => CalendarBloc(
           RepositoryProvider.of<AbstractPersonRepository>(context)),
-      child: CalendarPageView(),
+      child: const CalendarPageView(),
     );
   }
 }
 
 class CalendarPageView extends StatefulWidget {
+  const CalendarPageView({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _CalendarPageViewState createState() => _CalendarPageViewState();
 }
 
@@ -106,8 +109,8 @@ class _CalendarPageViewState extends State<CalendarPageView> {
                 child: BlocBuilder<CalendarBloc, CalendarState>(
                   builder: (context, state) {
                     if (state.birthdaysInSelectedDay.isEmpty) {
-                      return const Center(
-                        child: Text('В этот день нет дней рождения'),
+                      return Center(
+                        child: Text(S.of(context).emptyDayCalendar),
                       );
                     }
                     return ListView.builder(

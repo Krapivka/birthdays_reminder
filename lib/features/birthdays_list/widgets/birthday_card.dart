@@ -1,12 +1,12 @@
 import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:birthdays_reminder/core/utils/animations/show_up.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:birthdays_reminder/core/data/models/person_model.dart';
-import 'package:birthdays_reminder/core/utils/constants/Palette.dart';
 import 'package:birthdays_reminder/core/utils/date_utils/date_utils.dart';
 import 'package:birthdays_reminder/features/birthdays_list/bloc/birthdays_list_bloc.dart';
 import 'package:birthdays_reminder/features/settings/bloc/bloc/settings_bloc.dart';
@@ -56,7 +56,6 @@ class _BirthdayCardState extends State<BirthdayCard> {
             child: Material(
               child: InkWell(
                 borderRadius: BorderRadius.circular(20),
-
                 onTap: () {
                   if (state.selectedPersonId.isEmpty) {
                     AutoRouter.of(context)
@@ -66,16 +65,6 @@ class _BirthdayCardState extends State<BirthdayCard> {
                         .add(TapBirthdayCardEvent(id: widget.person.id));
                   }
                 },
-                // child: Dismissible(
-                //   key: UniqueKey(),
-                //   background: const Card(
-                //     color: Color.fromARGB(255, 253, 253, 253),
-                //     child: Icon(Icons.delete),
-                //   ),
-                //   onDismissed: (direction) {
-                //     bloc.add(DeletePersonBirthdaysListEvent(id: person.id));
-                //   },
-
                 onLongPress: () {
                   birthdayListBloc
                       .add(LongPressBirthdayCardEvent(id: widget.person.id));
@@ -95,13 +84,19 @@ class _BirthdayCardState extends State<BirthdayCard> {
                             ? const AssetImage("assets/images/avatar.png")
                             : FileImage(file) as ImageProvider,
                       ),
-                      title: Text(
-                        widget.person.name,
-                        maxLines: 1,
+                      title: ShowUp(
+                        delay: 100,
+                        child: Text(
+                          widget.person.name,
+                          maxLines: 1,
+                        ),
                       ),
-                      subtitle: Text(DateTimeUtils.formatDate(
-                          widget.person.birthdate,
-                          settingsBloc.state.dateFormat)),
+                      subtitle: ShowUp(
+                        delay: 300,
+                        child: Text(DateTimeUtils.formatDate(
+                            widget.person.birthdate,
+                            settingsBloc.state.dateFormat)),
+                      ),
                       trailing: DateTimeUtils.getDifferenceCurrentDayBirthDay(
                                   widget.person.birthdate) !=
                               '0'
@@ -110,7 +105,7 @@ class _BirthdayCardState extends State<BirthdayCard> {
                               width: 40,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                border: Border.all(width: 2),
+                                border: Border.all(width: 1),
                               ),
                               child: Center(
                                   child: Text(

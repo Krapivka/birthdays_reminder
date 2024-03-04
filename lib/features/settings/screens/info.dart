@@ -1,16 +1,19 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:birthdays_reminder/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
 @RoutePage()
 class InfoPage extends StatelessWidget {
   final String appVersion = '1.0.0';
-  final String author = 'Ваше Имя';
+  final String author = 'KrapStudio';
+
+  const InfoPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('О приложении'),
+        title: Text(S.of(context).aboutApp),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -18,33 +21,29 @@ class InfoPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              'Версия приложения: $appVersion',
-              style: TextStyle(fontSize: 18),
+              S.of(context).appVersionN(appVersion),
+              style: const TextStyle(fontSize: 18),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Text(
-              'Добро пожаловать в наше приложение напоминаний о днях рождения!',
-              style: TextStyle(fontSize: 16),
+              S.of(context).welcomeMessageInInfo,
+              style: const TextStyle(fontSize: 16),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Text(
-              'Приложение предназначено для того, чтобы вы никогда не забывали о днях рождения ваших близких и дорогих людей. С легкостью устанавливайте уведомления, чтобы вовремя поздравить их с праздником!',
-              style: TextStyle(fontSize: 16),
+              S.of(context).purposeMessageAppInInfo,
+              style: const TextStyle(fontSize: 16),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Text(
-              'Мы надеемся, что наше приложение сделает ваши поздравления более организованными и запоминающимися.',
-              style: TextStyle(fontSize: 16),
+              S.of(context).hopeMessageAppInInfo,
+              style: const TextStyle(fontSize: 16),
             ),
-            SizedBox(height: 20),
+
+            const Spacer(), // Размещаем автора внизу экрана
             Text(
-              'Благодарим вас за использование нашего приложения!',
-              style: TextStyle(fontSize: 16),
-            ),
-            Spacer(), // Размещаем автора внизу экрана
-            Text(
-              'Автор: $author',
-              style: TextStyle(fontSize: 14),
+              S.of(context).authorN(author),
+              style: const TextStyle(fontSize: 14),
             ),
           ],
         ),
