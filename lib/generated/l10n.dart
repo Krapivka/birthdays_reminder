@@ -339,6 +339,27 @@ class S {
       args: [],
     );
   }
+
+  /// `What time do you want to receive notifications?`
+  String get receiveNotificationsTime {
+    return Intl.message(
+      'What time do you want to receive notifications?',
+      name: 'receiveNotificationsTime',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `notify {day} days in advance at {hour}:{minute}`
+  String notifyDayNInAdvanceAtHourNminuteN(
+      Object day, Object hour, Object minute) {
+    return Intl.message(
+      'notify $day days in advance at $hour:$minute',
+      name: 'notifyDayNInAdvanceAtHourNminuteN',
+      desc: '',
+      args: [day, hour, minute],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -66,7 +66,7 @@ class AddingBirthdayBloc
 
         //scheduling notifications
         final notificationInterval =
-            await _settingsRepository.getNotificationDay();
+            await _settingsRepository.getNotificationDayTime();
         notificationInterval.fold(
             (failure) =>
                 emit(state.copyWith(status: AddingBirthdayStatus.failure)),
@@ -74,7 +74,7 @@ class AddingBirthdayBloc
           final birthday = state.birthdate;
           await NotificationService.scheduleBirthdayNotification(
             id: person.id,
-            interval: result,
+            interval: result.day,
             birthday: birthday,
           );
         });

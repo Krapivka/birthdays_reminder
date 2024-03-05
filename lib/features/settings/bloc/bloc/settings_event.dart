@@ -11,12 +11,12 @@ class InitializeSettingsEvent extends SettingsEvent {
   const InitializeSettingsEvent();
 }
 
-class SetNotificationDayEvent extends SettingsEvent {
-  const SetNotificationDayEvent(this.notificationDay);
+class SetNotificationDayTimeEvent extends SettingsEvent {
+  const SetNotificationDayTimeEvent(this.dayTimeNotification);
 
-  final int notificationDay;
+  final DayTimeNotification dayTimeNotification;
   @override
-  List<Object> get props => [notificationDay];
+  List<Object> get props => [dayTimeNotification];
 }
 
 class SetLanguageEvent extends SettingsEvent {

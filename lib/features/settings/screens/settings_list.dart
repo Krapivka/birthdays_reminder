@@ -32,7 +32,12 @@ class SettingsPageView extends StatelessWidget {
               ListTile(
                 leading: const Icon(Icons.notifications_on_outlined),
                 title: Text(S.of(context).notification),
-                subtitle: Text(state.notificationDay.toString()),
+                subtitle: Text(S.of(context).notifyDayNInAdvanceAtHourNminuteN(
+                    state.dayTimeNotification.day,
+                    state.dayTimeNotification.hour,
+                    state.dayTimeNotification.minute == 0
+                        ? "00"
+                        : state.dayTimeNotification.minute)),
                 onTap: () {
                   AutoRouter.of(context)
                       .push(const SettingsNotificationRoute());

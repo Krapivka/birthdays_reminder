@@ -56,11 +56,10 @@ class BirthdaysListView extends StatelessWidget {
                           child: Padding(
                         padding: const EdgeInsets.all(50.0),
                         child: Align(
-                          child: Text(S.of(context).emptyBirthdaysList,
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                color: Colors.black54,
-                              )),
+                          child: Text(
+                            S.of(context).emptyBirthdaysList,
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       ));
                     }
@@ -79,10 +78,9 @@ class BirthdaysListView extends StatelessWidget {
                       );
                     } else {
                       return Center(
-                          child: Text(S.of(context).birthdaysNotFound,
-                              style: const TextStyle(
-                                color: Colors.black54,
-                              )));
+                          child: Text(
+                        S.of(context).birthdaysNotFound,
+                      ));
                     }
                   }
                   return const SizedBox();

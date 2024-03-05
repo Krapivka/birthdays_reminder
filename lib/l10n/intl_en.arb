@@ -27,5 +27,7 @@
   "hintTextNameInTextField": "Name",
   "addBirthday": "Add birthday",
   "addBirthdayButton": "Add birthday",
-  "updateBirthday": "Update birthday"
+  "updateBirthday": "Update birthday",
+  "receiveNotificationsTime": "What time do you want to receive notifications?",
+  "notifyDayNInAdvanceAtHourNminuteN": "notify {day} days in advance at {hour}:{minute}"
 }

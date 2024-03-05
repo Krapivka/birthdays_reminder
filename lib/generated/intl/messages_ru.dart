@@ -24,6 +24,9 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m1(author) => "Автор: ${author}";
 
+  static String m2(day, hour, minute) =>
+      "Уведомлять за ${day} дней в ${hour}:${minute}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "aboutApp": MessageLookupByLibrary.simpleMessage("О приложении"),
@@ -58,8 +61,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "lightThemeModeName":
             MessageLookupByLibrary.simpleMessage("Светлая тема"),
         "notification": MessageLookupByLibrary.simpleMessage("Уведомления"),
+        "notifyDayNInAdvanceAtHourNminuteN": m2,
         "purposeMessageAppInInfo": MessageLookupByLibrary.simpleMessage(
             "Приложение предназначено для того, чтобы вы никогда не забывали о днях рождения ваших близких и дорогих людей. С легкостью устанавливайте уведомления, чтобы вовремя поздравить их с праздником!"),
+        "receiveNotificationsTime": MessageLookupByLibrary.simpleMessage(
+            "В какое время хотите получать уведомления?"),
         "save": MessageLookupByLibrary.simpleMessage("Сохранить"),
         "search": MessageLookupByLibrary.simpleMessage("Поиск"),
         "settings": MessageLookupByLibrary.simpleMessage("Настройки"),

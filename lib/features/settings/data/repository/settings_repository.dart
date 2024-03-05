@@ -1,12 +1,13 @@
 import 'package:birthdays_reminder/core/error/exception.dart';
 import 'package:birthdays_reminder/core/error/failure.dart';
 import 'package:birthdays_reminder/features/settings/data/datasource/settings_local_data_source.dart';
+import 'package:birthdays_reminder/features/settings/data/models/day_time_notification.dart';
 import 'package:birthdays_reminder/features/settings/data/models/settings.dart';
 import 'package:birthdays_reminder/features/settings/data/repository/abstract_settings_repository.dart';
 import 'package:dartz/dartz.dart';
 
 class SettingsRepository implements AbstractSettingsRepository {
-  final SettingsLocalDataSource localDataSource;
+  final AbstractSettingsLocalDataSource localDataSource;
 
   SettingsRepository({required this.localDataSource});
   @override
@@ -30,10 +31,10 @@ class SettingsRepository implements AbstractSettingsRepository {
   }
 
   @override
-  Future<Either<Failure, int>> getNotificationDay() async {
+  Future<Either<Failure, DayTimeNotification>> getNotificationDayTime() async {
     try {
       final notificationDay =
-          await localDataSource.getNotificationDayFromCache();
+          await localDataSource.getNotificationDayTimeNotificationFromCache();
       return Right(notificationDay);
     } on CacheException {
       return Left(CacheFailure());
@@ -69,10 +70,11 @@ class SettingsRepository implements AbstractSettingsRepository {
   }
 
   @override
-  Future<Either<Failure, void>> setNotificationDay(int notificationDay) async {
+  Future<Either<Failure, void>> setNotificationDayTime(
+      DayTimeNotification dayTime) async {
     try {
-      return Right(
-          await localDataSource.notificationDayToCache(notificationDay));
+      return Right(await localDataSource
+          .notificationDayTimeNotificationToCache(dayTime));
     } on CacheException {
       return Left(CacheFailure());
     }
@@ -91,15 +93,16 @@ class SettingsRepository implements AbstractSettingsRepository {
   Future<Either<Failure, SettingsModel>> getSettingsData() async {
     String dateFormat = '';
     String language = '';
-    int notificationDay = 0;
+    DayTimeNotification dayTimeNotification =
+        DayTimeNotification(day: 0, hour: 0, minute: 0);
     AppThemeMode theme = AppThemeMode.system;
     try {
       (await getDateFormat())
           .fold((failure) => CacheFailure(), (result) => dateFormat = result);
       (await getLanguage())
           .fold((failure) => CacheFailure(), (result) => language = result);
-      (await getNotificationDay()).fold(
-          (failure) => CacheFailure(), (result) => notificationDay = result);
+      (await getNotificationDayTime()).fold((failure) => CacheFailure(),
+          (result) => dayTimeNotification = result);
       (await getTheme()).fold((failure) => CacheFailure(), (result) {
         switch (result) {
           case "system":
@@ -114,7 +117,7 @@ class SettingsRepository implements AbstractSettingsRepository {
         }
       });
       return (Right(SettingsModel(
-          notificationDay: notificationDay,
+          dayTimeNotification: dayTimeNotification,
           language: language,
           dateFormat: dateFormat,
           theme: theme)));

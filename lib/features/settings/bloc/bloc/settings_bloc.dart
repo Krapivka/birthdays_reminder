@@ -1,4 +1,5 @@
 import 'package:birthdays_reminder/features/settings/data/datasource/settings_local_data_source.dart';
+import 'package:birthdays_reminder/features/settings/data/models/day_time_notification.dart';
 import 'package:birthdays_reminder/features/settings/data/repository/abstract_settings_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -8,10 +9,9 @@ part 'settings_event.dart';
 part 'settings_state.dart';
 
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
-  SettingsBloc({required this.settingsRepository})
-      : super(const SettingsState()) {
+  SettingsBloc({required this.settingsRepository}) : super(SettingsState()) {
     on<InitializeSettingsEvent>(_onInitializeSettingsEvent);
-    on<SetNotificationDayEvent>(_onSetNotificationDayEvent);
+    on<SetNotificationDayTimeEvent>(_onSetNotificationDayEvent);
     on<SetThemeEvent>(_onSetThemeEvent);
     on<SetLanguageEvent>(_onSetLanguageEvent);
     on<SetDateFormatEvent>(_onSetDateFormatEvent);
@@ -25,7 +25,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         .fold((failure) => emit(state.copyWith(status: SettingsStatus.failure)),
             (result) {
       emit(state.copyWith(
-        notificationDay: result.notificationDay,
+        dayTimeNotification: result.dayTimeNotification,
         language: result.language,
         dateFormat: result.dateFormat,
         theme: result.theme,
@@ -35,14 +35,14 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   }
 
   void _onSetNotificationDayEvent(
-      SetNotificationDayEvent event, Emitter<SettingsState> emit) async {
-    final notificationDay =
-        await settingsRepository.setNotificationDay(event.notificationDay);
+      SetNotificationDayTimeEvent event, Emitter<SettingsState> emit) async {
+    final notificationDay = await settingsRepository
+        .setNotificationDayTime(event.dayTimeNotification);
     notificationDay.fold(
         (failure) => emit(state.copyWith(status: SettingsStatus.failure)),
-        (result) =>
-            emit(state.copyWith(notificationDay: event.notificationDay)));
-    debugPrint(state.notificationDay.toString());
+        (result) => emit(
+            state.copyWith(dayTimeNotification: event.dayTimeNotification)));
+    debugPrint(state.dayTimeNotification.toString());
   }
 
   void _onSetThemeEvent(

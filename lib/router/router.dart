@@ -22,7 +22,7 @@ class AppRouter extends _$AppRouter {
         AutoRoute(path: '/add_birthday', page: AddingBirthdayRoute.page),
         AutoRoute(path: '/settings_list', page: SettingsRoute.page),
         AutoRoute(
-            path: '/settings/notification',
+            path: '/settings/notification_selection',
             page: SettingsNotificationRoute.page),
         AutoRoute(
             path: '/settings/language_selection',

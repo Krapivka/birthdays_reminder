@@ -1,9 +1,11 @@
+import 'package:birthdays_reminder/features/settings/data/models/day_time_notification.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-abstract class AbstractSettingsLocalDataSource {
-  Future<int> getNotificationDayFromCache();
-  Future<void> notificationDayToCache(int notificationDay);
+abstract interface class AbstractSettingsLocalDataSource {
+  Future<DayTimeNotification> getNotificationDayTimeNotificationFromCache();
+  Future<void> notificationDayTimeNotificationToCache(
+      DayTimeNotification dayTime);
   Future<String> getLanguageFromCache();
   Future<void> languageToCache(String lang);
   Future<String> getDateFormatFromCache();
@@ -23,7 +25,7 @@ enum AppThemeMode {
 }
 
 class SettingsLocalDataSource extends AbstractSettingsLocalDataSource {
-  static const String keyNotifications = 'notifications';
+  static const String keyDayTimeNotification = 'day_time_notification';
   static const String keyLanguage = 'language';
   static const String keyDateFormat = 'date_format';
   static const String keyTheme = 'theme';
@@ -33,13 +35,21 @@ class SettingsLocalDataSource extends AbstractSettingsLocalDataSource {
   SettingsLocalDataSource({required this.sharedPreferences});
 
   @override
-  Future<int> getNotificationDayFromCache() async {
-    return sharedPreferences.getInt(keyNotifications) ?? 10;
+  Future<DayTimeNotification>
+      getNotificationDayTimeNotificationFromCache() async {
+    String? dayTimeNotification =
+        sharedPreferences.getString(keyDayTimeNotification);
+    if (dayTimeNotification != null) {
+      return DayTimeNotification.fromJson(dayTimeNotification);
+    }
+    // Значение по умолчанию - day 10, hour 11, minute 0
+    return DayTimeNotification(day: 10, hour: 11, minute: 0);
   }
 
   @override
-  Future<void> notificationDayToCache(int notificationDay) async {
-    await sharedPreferences.setInt(keyNotifications, notificationDay);
+  Future<void> notificationDayTimeNotificationToCache(
+      DayTimeNotification dayTime) async {
+    await sharedPreferences.setString(keyDayTimeNotification, dayTime.toJson());
   }
 
   @override
@@ -74,4 +84,8 @@ class SettingsLocalDataSource extends AbstractSettingsLocalDataSource {
   Future<void> themeToCache(AppThemeMode appThemeMode) async {
     await sharedPreferences.setString(keyTheme, appThemeMode.localization);
   }
+
+  getDayTimeNotificationFromCache() {}
+
+  notificationDayToCache(int notificationDay) {}
 }

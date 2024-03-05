@@ -83,7 +83,7 @@ class UpdateBirthdayBloc
           await AwesomeNotifications().cancel(person.id);
           //scheduling notification
           final notificationInterval =
-              await _settingsRepository.getNotificationDay();
+              await _settingsRepository.getNotificationDayTime();
           notificationInterval.fold(
               (failure) =>
                   emit(state.copyWith(status: UpdateBirthdayStatus.failure)),
@@ -91,7 +91,7 @@ class UpdateBirthdayBloc
             final birthday = state.birthdate;
             await NotificationService.scheduleBirthdayNotification(
               id: person.id,
-              interval: result,
+              interval: result.day,
               birthday: birthday,
             );
           });

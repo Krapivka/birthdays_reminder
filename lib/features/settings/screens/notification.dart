@@ -1,5 +1,7 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:birthdays_reminder/core/utils/constants/Palette.dart';
 import 'package:birthdays_reminder/features/settings/bloc/bloc/settings_bloc.dart';
+import 'package:birthdays_reminder/features/settings/data/models/day_time_notification.dart';
 import 'package:birthdays_reminder/generated/l10n.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +22,11 @@ class SettingsNotificationPageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int notificationDay = 1;
+    DayTimeNotification dayTimeNotification =
+        BlocProvider.of<SettingsBloc>(context).state.dayTimeNotification;
+    int notificationDay = dayTimeNotification.day;
+    int notificationHour = dayTimeNotification.hour;
+    int notificationMinute = dayTimeNotification.minute;
     return Scaffold(
       appBar: AppBar(
         title: Text(S.of(context).notification),
@@ -38,25 +44,82 @@ class SettingsNotificationPageView extends StatelessWidget {
                 style: const TextStyle(fontSize: 16),
               ),
             ),
-            CupertinoPicker(
-              itemExtent: 60,
-              onSelectedItemChanged: (index) {
-                notificationDay = index + 1;
-              },
-              children: List.generate(
-                  30, (index) => Center(child: Text('${index + 1}'))),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 28.0),
+              child: SizedBox(
+                height: 180,
+                child: CupertinoPicker(
+                  scrollController: FixedExtentScrollController(
+                      initialItem: notificationDay - 1),
+                  looping: true,
+                  itemExtent: 60,
+                  onSelectedItemChanged: (index) {
+                    notificationDay = index + 1;
+                  },
+                  children: List.generate(
+                      30, (index) => Center(child: Text('${index + 1}'))),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                S.of(context).receiveNotificationsTime,
+                style: const TextStyle(fontSize: 16),
+              ),
+            ),
+            SizedBox(
+              height: 180,
+              child: CupertinoDatePicker(
+                  mode: CupertinoDatePickerMode.time,
+                  initialDateTime: DateTime(0, 0, notificationDay,
+                      notificationHour, notificationMinute),
+                  itemExtent: 60,
+                  use24hFormat: true,
+                  onDateTimeChanged: (dateTime) {
+                    notificationHour = dateTime.hour;
+                    notificationMinute = dateTime.minute;
+                  }),
             ),
             Center(
                 child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton(
-                  onPressed: () {
-                    BlocProvider.of<SettingsBloc>(context)
-                        .add(SetNotificationDayEvent(notificationDay));
-                  },
-                  child: Text(S.of(context).save)),
-            ))
+                    padding: const EdgeInsets.all(8.0),
+                    child: _ButtonAddBirthday(
+                      onTap: () {
+                        BlocProvider.of<SettingsBloc>(context).add(
+                            SetNotificationDayTimeEvent(DayTimeNotification(
+                                day: notificationDay,
+                                hour: notificationHour,
+                                minute: notificationMinute)));
+                      },
+                    )))
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class _ButtonAddBirthday extends StatelessWidget {
+  const _ButtonAddBirthday({
+    required this.onTap,
+  });
+  final void Function()? onTap;
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: Palette.primaryAccent,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          child: Text(
+            S.of(context).save,
+            style: const TextStyle(color: Palette.secondaryLight),
+          ),
         ),
       ),
     );
