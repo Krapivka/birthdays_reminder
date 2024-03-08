@@ -38,7 +38,8 @@ class AddingBirthdayView extends StatelessWidget {
     return BlocConsumer<AddingBirthdayBloc, AddingBirthdayState>(
       listener: (context, state) {
         if (state.status == AddingBirthdayStatus.validatorFailure) {
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          ScaffoldMessenger.of(context).showSnackBar(
+              AppSnackBar.getSnackBar(S.of(context).fillInTheRequiredFields));
         }
         if (state.status == AddingBirthdayStatus.success) {
           AutoRouter.of(context).pushAndPopUntil(const HomeRoute(),

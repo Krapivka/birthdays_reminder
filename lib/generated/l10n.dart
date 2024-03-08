@@ -360,6 +360,26 @@ class S {
       args: [day, hour, minute],
     );
   }
+
+  /// `You have not entered a required field!`
+  String get youHaveNotEnteredARequiredField {
+    return Intl.message(
+      'You have not entered a required field!',
+      name: 'youHaveNotEnteredARequiredField',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fill in the required fields`
+  String get fillInTheRequiredFields {
+    return Intl.message(
+      'Fill in the required fields',
+      name: 'fillInTheRequiredFields',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

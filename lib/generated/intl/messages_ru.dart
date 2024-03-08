@@ -53,6 +53,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "В этот день нет дней рождения"),
         "enterNameInTextField":
             MessageLookupByLibrary.simpleMessage("Введите имя"),
+        "fillInTheRequiredFields":
+            MessageLookupByLibrary.simpleMessage("Заполните обязательные поля"),
         "hintTextNameInTextField": MessageLookupByLibrary.simpleMessage("Имя"),
         "hopeMessageAppInInfo": MessageLookupByLibrary.simpleMessage(
             "Мы надеемся, что наше приложение сделает ваши поздравления более организованными и запоминающимися."),
@@ -74,6 +76,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "theme": MessageLookupByLibrary.simpleMessage("Тема"),
         "updateBirthday": MessageLookupByLibrary.simpleMessage("Обновить"),
         "welcomeMessageInInfo": MessageLookupByLibrary.simpleMessage(
-            "Добро пожаловать в наше приложение напоминаний о днях рождения!")
+            "Добро пожаловать в наше приложение напоминаний о днях рождения!"),
+        "youHaveNotEnteredARequiredField": MessageLookupByLibrary.simpleMessage(
+            "You have not entered a required field!")
       };
 }

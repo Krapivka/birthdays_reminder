@@ -52,6 +52,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "There are no birthdays on this day"),
         "enterNameInTextField":
             MessageLookupByLibrary.simpleMessage("Enter name"),
+        "fillInTheRequiredFields":
+            MessageLookupByLibrary.simpleMessage("Fill in the required fields"),
         "hintTextNameInTextField": MessageLookupByLibrary.simpleMessage("Name"),
         "hopeMessageAppInInfo": MessageLookupByLibrary.simpleMessage(
             "We hope that our application will make your greetings more organized and memorable."),
@@ -74,6 +76,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "updateBirthday":
             MessageLookupByLibrary.simpleMessage("Update birthday"),
         "welcomeMessageInInfo": MessageLookupByLibrary.simpleMessage(
-            "Welcome to our birthday reminder app!")
+            "Welcome to our birthday reminder app!"),
+        "youHaveNotEnteredARequiredField": MessageLookupByLibrary.simpleMessage(
+            "You have not entered a required field!")
       };
 }

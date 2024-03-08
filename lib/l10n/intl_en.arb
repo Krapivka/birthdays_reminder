@@ -29,5 +29,7 @@
   "addBirthdayButton": "Add birthday",
   "updateBirthday": "Update birthday",
   "receiveNotificationsTime": "What time do you want to receive notifications?",
-  "notifyDayNInAdvanceAtHourNminuteN": "notify {day} days in advance at {hour}:{minute}"
+  "notifyDayNInAdvanceAtHourNminuteN": "notify {day} days in advance at {hour}:{minute}",
+  "youHaveNotEnteredARequiredField": "You have not entered a required field!",
+  "fillInTheRequiredFields": "Fill in the required fields"
 }
