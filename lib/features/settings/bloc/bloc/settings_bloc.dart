@@ -20,6 +20,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
   void _onInitializeSettingsEvent(
       InitializeSettingsEvent event, Emitter<SettingsState> emit) async {
+    emit(state.copyWith(
+      status: SettingsStatus.loading,
+    ));
     final notificationDay = await settingsRepository.getSettingsData();
     notificationDay
         .fold((failure) => emit(state.copyWith(status: SettingsStatus.failure)),
@@ -50,7 +53,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     final theme = await settingsRepository.setTheme(event.theme);
     theme.fold(
         (failure) => emit(state.copyWith(status: SettingsStatus.failure)),
-        (result) => emit(state.copyWith(theme: event.theme)));
+        (result) => emit(state.copyWith(
+            theme: event.theme, status: SettingsStatus.success)));
     debugPrint(state.theme.localization);
   }
 

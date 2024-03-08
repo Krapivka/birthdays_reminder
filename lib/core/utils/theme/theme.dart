@@ -11,6 +11,8 @@ ThemeData lightTheme = ThemeData(
     primary: Palette.primaryLight,
     secondary: Palette.secondaryLight,
   ),
+  textSelectionTheme:
+      const TextSelectionThemeData(cursorColor: Palette.secondaryDark),
   // appBarTheme: const AppBarTheme(
   //   color: Palette.primaryLight,
   // ),
@@ -34,6 +36,8 @@ ThemeData darkTheme = ThemeData(
     primary: Palette.primaryDark,
     secondary: Palette.secondaryDark,
   ),
+  textSelectionTheme:
+      const TextSelectionThemeData(cursorColor: Palette.secondaryLight),
   // appBarTheme: const AppBarTheme(
   //   color: Palette.primaryDark,
   // ),

@@ -24,7 +24,7 @@ abstract class _$AppRouter extends RootStackRouter {
     DateFormatSelectionRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: DateFormatSelectionPage(),
+        child: const DateFormatSelectionPage(),
       );
     },
     HomeRoute.name: (routeData) {
@@ -36,7 +36,7 @@ abstract class _$AppRouter extends RootStackRouter {
     InfoRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: InfoPage(),
+        child: const InfoPage(),
       );
     },
     LanguageSelectionRoute.name: (routeData) {

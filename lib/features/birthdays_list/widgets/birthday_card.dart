@@ -74,7 +74,7 @@ class _BirthdayCardState extends State<BirthdayCard> {
                     borderRadius: BorderRadius.circular(20),
                     color: birthdayListBloc.state.selectedPersonId
                             .contains(widget.person.id)
-                        ? Color.fromARGB(255, 223, 223, 223)
+                        ? const Color.fromARGB(255, 223, 223, 223)
                         : Theme.of(context).colorScheme.secondary,
                   ),
                   child: ListTile(

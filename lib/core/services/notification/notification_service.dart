@@ -94,7 +94,7 @@ class NotificationService {
         id: id, title: title, body: body, scheduleTime: secondNotificationTime);
   }
 
-  ///the basic method for creating notification
+  ///The basic method for creating notification
   static Future<void> showNotification({
     required final String title,
     required final String body,

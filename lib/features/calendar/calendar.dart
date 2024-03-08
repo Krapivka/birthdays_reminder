@@ -86,6 +86,8 @@ class _CalendarPageViewState extends State<CalendarPageView> {
                 },
                 startingDayOfWeek: StartingDayOfWeek.monday,
                 calendarStyle: const CalendarStyle(
+                    markerDecoration: BoxDecoration(
+                        color: Palette.secondaryAccent, shape: BoxShape.circle),
                     outsideDaysVisible: false,
                     selectedDecoration: BoxDecoration(
                         color: Palette.primaryAccent, shape: BoxShape.circle),
