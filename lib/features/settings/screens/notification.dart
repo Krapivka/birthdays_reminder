@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:birthdays_reminder/core/services/notification/notification_service.dart';
 import 'package:birthdays_reminder/core/utils/constants/Palette.dart';
 import 'package:birthdays_reminder/features/settings/bloc/bloc/settings_bloc.dart';
 import 'package:birthdays_reminder/features/settings/data/models/day_time_notification.dart';
@@ -31,6 +32,13 @@ class SettingsNotificationPageView extends StatelessWidget {
       appBar: AppBar(
         title: Text(S.of(context).notification),
         centerTitle: true,
+        actions: [
+          IconButton(
+              onPressed: () {
+                NotificationService.showTestNotification();
+              },
+              icon: const Icon(Icons.notification_important))
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),

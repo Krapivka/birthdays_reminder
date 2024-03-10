@@ -86,12 +86,21 @@ class NotificationService {
     DateTime firstNotificationTime =
         DateTime(birthday.year, birthday.month, birthday.day, 11)
             .subtract(Duration(days: interval));
+
     DateTime secondNotificationTime =
         DateTime(birthday.year, birthday.month, birthday.day, 11);
+
     await showScheduleNotification(
         id: id, title: title, body: body, scheduleTime: firstNotificationTime);
+
     await showScheduleNotification(
         id: id, title: title, body: body, scheduleTime: secondNotificationTime);
+  }
+
+  static Future<void> showTestNotification() async {
+    const String title = "Memo birthay";
+    const String body = "This is a test notification. It's all right! ";
+    await showNotification(title: title, body: body);
   }
 
   ///The basic method for creating notification
