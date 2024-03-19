@@ -1,3 +1,4 @@
+import 'package:birthdays_reminder/core/utils/date_utils/date_utils.dart';
 import 'package:equatable/equatable.dart';
 
 class PersonEntity extends Equatable {
@@ -12,6 +13,12 @@ class PersonEntity extends Equatable {
       required this.name,
       required this.birthdate,
       this.listOfGifts});
+
+  String get getNextAge =>
+      (DateTimeUtils.calculateAge(birthdate) + 1).toString();
+
+  String get getHowManyDaysBirthday =>
+      DateTimeUtils.getDifferenceCurrentDayBirthDay(birthdate);
 
   @override
   List<Object?> get props => [id, name, birthdate, listOfGifts];

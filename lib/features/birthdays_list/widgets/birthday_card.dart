@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:birthdays_reminder/core/utils/animations/show_up.dart';
+import 'package:birthdays_reminder/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -14,6 +15,7 @@ import 'package:birthdays_reminder/router/router.dart';
 
 class BirthdayCard extends StatefulWidget {
   const BirthdayCard({
+    super.key,
     required this.person,
     required this.index,
   });
@@ -28,7 +30,7 @@ class _BirthdayCardState extends State<BirthdayCard> {
   bool _visible = false;
 
   void animateCard() async {
-    await Future.delayed(const Duration(milliseconds: 300)).then((value) {
+    await Future.delayed(const Duration(milliseconds: 100)).then((value) {
       if (mounted) {
         _visible = false;
         setState(() {
@@ -50,7 +52,7 @@ class _BirthdayCardState extends State<BirthdayCard> {
         animateCard();
         return AnimatedOpacity(
           opacity: _visible ? 1 : 0,
-          duration: const Duration(milliseconds: 300),
+          duration: const Duration(milliseconds: 200),
           child: Container(
             margin: const EdgeInsets.symmetric(vertical: 2, horizontal: 8),
             child: Material(
@@ -92,11 +94,19 @@ class _BirthdayCardState extends State<BirthdayCard> {
                         ),
                       ),
                       subtitle: ShowUp(
-                        delay: 300,
-                        child: Text(DateTimeUtils.formatDate(
-                            widget.person.birthdate,
-                            settingsBloc.state.dateFormat)),
-                      ),
+                          delay: 300,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(S
+                                  .of(context)
+                                  .turnsN(widget.person.getNextAge)),
+                              Text(DateTimeUtils.formatDate(
+                                  widget.person.birthdate,
+                                  settingsBloc.state.dateFormat)),
+                            ],
+                          )),
                       trailing: DateTimeUtils.getDifferenceCurrentDayBirthDay(
                                   widget.person.birthdate) !=
                               '0'

@@ -131,10 +131,10 @@ List<PersonModel> sortPersonsByNearestBirthday(List<PersonModel> persons) {
     DateTime bNextBirthday =
         DateTime(today.year, b.birthdate.month, b.birthdate.day);
     if (aNextBirthday.isBefore(yesterday)) {
-      aNextBirthday = aNextBirthday.add(Duration(days: 365));
+      aNextBirthday = aNextBirthday.add(const Duration(days: 365));
     }
     if (bNextBirthday.isBefore(yesterday)) {
-      bNextBirthday = bNextBirthday.add(Duration(days: 365));
+      bNextBirthday = bNextBirthday.add(const Duration(days: 365));
     }
     int result = aNextBirthday.compareTo(bNextBirthday);
     if (result == 0) {
