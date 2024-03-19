@@ -1,5 +1,6 @@
 import 'package:birthdays_reminder/core/data/models/person_model.dart';
 import 'package:birthdays_reminder/core/domain/repositories/person_repository.dart';
+import 'package:birthdays_reminder/core/services/ads/yandex_ads/banner/banner_ad.dart';
 import 'package:birthdays_reminder/core/utils/constants/Palette.dart';
 import 'package:birthdays_reminder/features/birthdays_list/bloc/birthdays_list_bloc.dart';
 import 'package:birthdays_reminder/features/calendar/bloc/bloc/calendar_bloc.dart';
@@ -74,6 +75,9 @@ class _CalendarPageViewState extends State<CalendarPageView> {
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Column(
             children: [
+              const BannerAdWidget(
+                isSticky: true,
+              ),
               TableCalendar<PersonModel>(
                 firstDay: state.firstDay,
                 lastDay: state.lastDay,

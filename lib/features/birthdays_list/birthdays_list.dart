@@ -1,4 +1,5 @@
 import 'package:birthdays_reminder/core/data/models/person_model.dart';
+import 'package:birthdays_reminder/core/services/ads/yandex_ads/banner/banner_ad.dart';
 import 'package:birthdays_reminder/features/birthdays_list/bloc/birthdays_list_bloc.dart';
 import 'package:birthdays_reminder/features/birthdays_list/widgets/birthday_card.dart';
 import 'package:birthdays_reminder/features/birthdays_list/widgets/birthday_search.dart';
@@ -16,11 +17,16 @@ class BirthdaysListPage extends StatelessWidget {
   }
 }
 
-class BirthdaysListView extends StatelessWidget {
+class BirthdaysListView extends StatefulWidget {
   const BirthdaysListView({
     super.key,
   });
 
+  @override
+  State<BirthdaysListView> createState() => _BirthdaysListViewState();
+}
+
+class _BirthdaysListViewState extends State<BirthdaysListView> {
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<BirthdaysListBloc>(context);
@@ -28,11 +34,14 @@ class BirthdaysListView extends StatelessWidget {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const BirthdaySearch(),
-              SizedBox(
+        child: Column(
+          children: [
+            const BannerAdWidget(
+              isSticky: true,
+            ),
+            const BirthdaySearch(),
+            Expanded(
+              child: SizedBox(
                 height: MediaQuery.of(context).size.height * 0.7,
                 child: BlocBuilder<BirthdaysListBloc, BirthdaysListState>(
                     builder: (context, state) {
@@ -86,8 +95,8 @@ class BirthdaysListView extends StatelessWidget {
                   return const SizedBox();
                 }),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
