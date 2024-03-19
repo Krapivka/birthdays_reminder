@@ -12,8 +12,6 @@ import 'package:birthdays_reminder/router/router.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
-import 'package:scroll_date_picker/scroll_date_picker.dart';
 
 @RoutePage()
 class UpdateBirthdayPage extends StatelessWidget {
@@ -113,9 +111,14 @@ class UpdateBirthdayPageView extends StatelessWidget {
                   //   },
                   //   icon: const Icon(Icons.date_range_outlined),
                   // ),
-                  const SizedBox(
+                  SizedBox(
                     height: 100,
-                    child: DatePicker(),
+                    child: DatePicker(
+                      onDateTimeChanged: (DateTime value) {
+                        BlocProvider.of<UpdateBirthdayBloc>(context)
+                            .add(UpdateBirtdayDateTap(value));
+                      },
+                    ),
                   ),
                   const _ButtonSaveBirthday(),
                 ],
@@ -149,7 +152,8 @@ class EditableImage extends StatelessWidget {
                     width: double.infinity,
                     height: MediaQuery.of(context).size.height / 3,
                     image: avatarPath == '/'
-                        ? const AssetImage("assets/images/avatar.png")
+                        ? const AssetImage(
+                            "assets/images/default_person_image.png")
                         : FileImage(bloc.state.file) as ImageProvider),
               ),
               Positioned(
@@ -198,28 +202,19 @@ class _ButtonSaveBirthday extends StatelessWidget {
 }
 
 class DatePicker extends StatelessWidget {
-  const DatePicker({super.key});
+  const DatePicker({super.key, required this.onDateTimeChanged});
 
+  final void Function(DateTime) onDateTimeChanged;
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<UpdateBirthdayBloc>(context);
     return BlocBuilder<UpdateBirthdayBloc, UpdateBirthdayState>(
       builder: (context, state) {
-        return ScrollDatePicker(
-          scrollViewOptions: const DatePickerScrollViewOptions(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly),
-          options: DatePickerOptions(
-            backgroundColor: Theme.of(context).colorScheme.background,
-            itemExtent: 30,
-            diameterRatio: 10,
-          ),
-          minimumDate: DateTime(1930),
-          selectedDate: state.birthdate,
-          locale: Locale(Intl.getCurrentLocale()),
-          onDateTimeChanged: (DateTime value) {
-            bloc.add(UpdateBirtdayDateTap(value));
-          },
-        );
+        return CupertinoDatePicker(
+            minimumDate: DateTime(1930),
+            maximumDate: DateTime.now(),
+            mode: CupertinoDatePickerMode.date,
+            initialDateTime: state.birthdate,
+            onDateTimeChanged: onDateTimeChanged);
       },
     );
   }

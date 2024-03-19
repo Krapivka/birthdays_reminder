@@ -7,10 +7,10 @@ import 'package:birthdays_reminder/features/birthday_changes/widgets/text_field_
 import 'package:birthdays_reminder/features/settings/data/repository/abstract_settings_repository.dart';
 import 'package:birthdays_reminder/generated/l10n.dart';
 import 'package:birthdays_reminder/router/router.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:scroll_date_picker/scroll_date_picker.dart';
 
 @RoutePage()
 class AddingBirthdayPage extends StatelessWidget {
@@ -70,9 +70,12 @@ class AddingBirthdayView extends StatelessWidget {
                       },
                       icon: const Icon(Icons.person_2_outlined),
                     ),
-                    const SizedBox(
+                    SizedBox(
                       height: 100,
-                      child: DatePicker(),
+                      child: DatePicker(onDateTimeChanged: (DateTime value) {
+                        BlocProvider.of<AddingBirthdayBloc>(context)
+                            .add(AddingBirtdayDateTap(value));
+                      }),
                     ),
                     // _TextField(
                     //   labelText: "Enter date",
@@ -174,27 +177,19 @@ class _ButtonAddBirthday extends StatelessWidget {
 }
 
 class DatePicker extends StatelessWidget {
-  const DatePicker({super.key});
+  const DatePicker({super.key, required this.onDateTimeChanged});
 
+  final void Function(DateTime) onDateTimeChanged;
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<AddingBirthdayBloc>(context);
     return BlocBuilder<AddingBirthdayBloc, AddingBirthdayState>(
       builder: (context, state) {
-        return ScrollDatePicker(
-          scrollViewOptions: const DatePickerScrollViewOptions(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly),
-          options: DatePickerOptions(
-              backgroundColor: Theme.of(context).colorScheme.background,
-              itemExtent: 30,
-              diameterRatio: 10),
-          minimumDate: DateTime(1930),
-          selectedDate: state.birthdate,
-          locale: Locale(Intl.getCurrentLocale()),
-          onDateTimeChanged: (DateTime value) {
-            bloc.add(AddingBirtdayDateTap(value));
-          },
-        );
+        return CupertinoDatePicker(
+            minimumDate: DateTime(1930),
+            maximumDate: DateTime.now(),
+            mode: CupertinoDatePickerMode.date,
+            initialDateTime: state.birthdate,
+            onDateTimeChanged: onDateTimeChanged);
       },
     );
   }

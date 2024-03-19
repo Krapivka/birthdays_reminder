@@ -73,10 +73,12 @@ class AddingBirthdayBloc
             (result) async {
           final birthday = state.birthdate;
           await NotificationService.scheduleBirthdayNotification(
-            id: person.id,
-            interval: result.day,
-            birthday: birthday,
-          );
+              person: person,
+              id: person.id,
+              interval: result.day,
+              birthday: birthday,
+              hourNotif: result.hour,
+              minuteNotif: result.minute);
         });
 
         debugPrint("Add new Birthday for: ${person.name}");

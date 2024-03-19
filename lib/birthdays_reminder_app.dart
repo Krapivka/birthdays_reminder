@@ -1,4 +1,5 @@
 import 'package:birthdays_reminder/core/domain/repositories/person_repository.dart';
+import 'package:birthdays_reminder/core/services/ads/yandex_ads/open/open_ad_manager.dart';
 
 import 'package:birthdays_reminder/core/utils/theme/theme.dart';
 import 'package:birthdays_reminder/features/home/cubit/home_cubit.dart';
@@ -10,9 +11,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
+late final windowSize;
+
 class App extends StatelessWidget {
   final AbstractPersonRepository personRepository;
   final AbstractSettingsRepository settingsRepository;
+  final AppOpenAdManager appOpenAdManager;
   static final GlobalKey<NavigatorState> navigatorKey =
       GlobalKey<NavigatorState>();
   static const String name = 'Awesome Notifications - Example App';
@@ -21,7 +25,8 @@ class App extends StatelessWidget {
   const App(
       {super.key,
       required this.personRepository,
-      required this.settingsRepository});
+      required this.settingsRepository,
+      required this.appOpenAdManager});
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +65,10 @@ class AppView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SettingsBloc, SettingsState>(builder: (context, state) {
+      if (state.status == SettingsStatus.initial) {
+        windowSize = MediaQuery.of(context).size;
+        // showOpenAd();
+      }
       if (state.status == SettingsStatus.success) {
         return MaterialApp.router(
           localizationsDelegates: const [
