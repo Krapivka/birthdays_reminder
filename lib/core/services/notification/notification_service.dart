@@ -1,6 +1,8 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:birthdays_reminder/birthdays_reminder_app.dart';
+import 'package:birthdays_reminder/core/domain/enteties/person_entity.dart';
 import 'package:birthdays_reminder/features/home/home.dart';
+import 'package:birthdays_reminder/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
 class NotificationService {
@@ -9,11 +11,37 @@ class NotificationService {
   static Future<void> initializeNotifications() async {
     await AwesomeNotifications().initialize(null, [
       NotificationChannel(
-        channelGroupKey: "basic_channel_group",
-        channelKey: "birthday_notification",
+        channelGroupKey: "high_importance_channel_group",
+        channelKey: "birthday_notification_in_day",
         channelName: "Birthday notification",
+        channelDescription: "This channel notification users in day",
+        defaultColor: const Color.fromARGB(255, 192, 125, 166),
+        ledColor: Colors.white,
+        importance: NotificationImportance.Max,
+        channelShowBadge: true,
+        onlyAlertOnce: true,
+        playSound: true,
+        criticalAlerts: true,
+      ),
+      NotificationChannel(
+        channelGroupKey: "high_importance_channel_group",
+        channelKey: "birthday_notification_nearby",
+        channelName: "Birthday notification nearby",
         channelDescription:
             "This channel notification users about nearby birthday",
+        defaultColor: const Color.fromARGB(255, 192, 125, 166),
+        ledColor: Colors.white,
+        importance: NotificationImportance.Max,
+        channelShowBadge: true,
+        onlyAlertOnce: true,
+        playSound: true,
+        criticalAlerts: true,
+      ),
+      NotificationChannel(
+        channelGroupKey: "high_importance_channel_group",
+        channelKey: "birthday_notification_test",
+        channelName: "Birthday notification",
+        channelDescription: "This is a test notification channel",
         defaultColor: const Color.fromARGB(255, 192, 125, 166),
         ledColor: Colors.white,
         importance: NotificationImportance.Max,
@@ -76,30 +104,41 @@ class NotificationService {
     }
   }
 
-  static Future<void> scheduleBirthdayNotification(
-      {required int id,
-      required int interval,
-      required DateTime birthday}) async {
-    const String title = "Memo birthay";
-    const String body =
-        "My birthday is coming soon. Come in and check who should prepare the gifts.";
-    DateTime firstNotificationTime =
-        DateTime(birthday.year, birthday.month, birthday.day, 11)
-            .subtract(Duration(days: interval));
+  static Future<void> scheduleBirthdayNotification({
+    required int id,
+    required PersonEntity person,
+    required int interval,
+    required DateTime birthday,
+    required int hourNotif,
+    required int minuteNotif,
+  }) async {
+    final String title = person.name;
 
-    DateTime secondNotificationTime =
-        DateTime(birthday.year, birthday.month, birthday.day, 11);
+    DateTime notificationDateTimeNearby = DateTime(
+            birthday.year, birthday.month, birthday.day, hourNotif, minuteNotif)
+        .subtract(Duration(days: interval));
+
+    DateTime notificationDateTimeInBirthday = DateTime(
+        birthday.year, birthday.month, birthday.day, hourNotif, minuteNotif);
 
     await showScheduleNotification(
-        id: id, title: title, body: body, scheduleTime: firstNotificationTime);
+        id: -id,
+        channelKey: "birthday_notification_in_day",
+        title: title,
+        body: "Сегодня день рождения!",
+        scheduleTime: notificationDateTimeInBirthday);
 
     await showScheduleNotification(
-        id: id, title: title, body: body, scheduleTime: secondNotificationTime);
+        id: id,
+        channelKey: "birthday_notification_nearby",
+        title: title,
+        body:
+            "Исполняется ${person.getNextAge} через ${person.getHowManyDaysBirthday}",
+        scheduleTime: notificationDateTimeNearby);
   }
 
-  static Future<void> showTestNotification() async {
+  static Future<void> showTestNotification(body) async {
     const String title = "Memo birthay";
-    const String body = "This is a test notification. It's all right! ";
     await showNotification(title: title, body: body);
   }
 
@@ -121,7 +160,7 @@ class NotificationService {
     await AwesomeNotifications().createNotification(
       content: NotificationContent(
         id: -1,
-        channelKey: "birthday_notification",
+        channelKey: "birthday_notification_test",
         title: title,
         body: body,
         actionType: actionType,
@@ -144,6 +183,7 @@ class NotificationService {
 
   static Future<void> showScheduleNotification({
     required final int id,
+    required final String channelKey,
     required final String title,
     required final String body,
     final String? summary,
@@ -164,20 +204,20 @@ class NotificationService {
         timeZone: localTimeZone,
         month: scheduleTime.month,
         day: scheduleTime.day,
-        hour: 11,
-        minute: 0,
+        hour: scheduleTime.hour,
+        minute: scheduleTime.minute,
         preciseAlarm: true,
         allowWhileIdle: true,
-        repeats: false);
+        repeats: true);
 
     await AwesomeNotifications().createNotification(
       content: NotificationContent(
         id: id,
-        channelKey: "birthday_notification",
+        channelKey: channelKey,
         title: title,
         body: body,
         wakeUpScreen: true,
-        category: NotificationCategory.Alarm,
+        category: NotificationCategory.Reminder,
         notificationLayout: notificationLayout,
         bigPicture: bigPicture,
         payload: payload,
@@ -186,6 +226,6 @@ class NotificationService {
       schedule: notificationCalendar,
     );
     debugPrint(
-        "Id: $id Your local time zone is $localTimeZone. The notification will be triggered at this time: ${notificationCalendar.year}-${notificationCalendar.month}-${notificationCalendar.day}-${notificationCalendar.hour}-${notificationCalendar.minute}");
+        "Id: $id Your local time zone is $localTimeZone. The notification will be triggered at this time: $scheduleTime");
   }
 }
