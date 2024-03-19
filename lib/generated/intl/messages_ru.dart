@@ -27,6 +27,8 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m2(day, hour, minute) =>
       "Уведомлять за ${day} дней в ${hour}:${minute}";
 
+  static String m3(nextAge) => "Исполняется ${nextAge}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "aboutApp": MessageLookupByLibrary.simpleMessage("О приложении"),
@@ -35,8 +37,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "addBirthdayButton": MessageLookupByLibrary.simpleMessage("Создать"),
         "appVersionN": m0,
         "authorN": m1,
+        "birthdays": MessageLookupByLibrary.simpleMessage("Дни рождения"),
         "birthdaysNotFound":
             MessageLookupByLibrary.simpleMessage("День рождения не найден"),
+        "calendar": MessageLookupByLibrary.simpleMessage("Календарь"),
         "chooseDateFormat":
             MessageLookupByLibrary.simpleMessage("Выберите формат даты:"),
         "chooseTheme": MessageLookupByLibrary.simpleMessage("Выбор темы"),
@@ -74,6 +78,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "systemThemeModeName":
             MessageLookupByLibrary.simpleMessage("Системная тема"),
         "theme": MessageLookupByLibrary.simpleMessage("Тема"),
+        "thisIsATestNotificationItsAllRight":
+            MessageLookupByLibrary.simpleMessage(
+                "Это тестовое уведомление. Всё работает!"),
+        "turnsN": m3,
         "updateBirthday": MessageLookupByLibrary.simpleMessage("Обновить"),
         "welcomeMessageInInfo": MessageLookupByLibrary.simpleMessage(
             "Добро пожаловать в наше приложение напоминаний о днях рождения!"),

@@ -4,6 +4,7 @@ import 'package:birthdays_reminder/features/birthdays_list/birthdays_list.dart';
 import 'package:birthdays_reminder/features/birthdays_list/bloc/birthdays_list_bloc.dart';
 import 'package:birthdays_reminder/features/calendar/calendar.dart';
 import 'package:birthdays_reminder/features/home/cubit/home_cubit.dart';
+import 'package:birthdays_reminder/generated/l10n.dart';
 import 'package:birthdays_reminder/router/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -66,16 +67,16 @@ class HomeView extends StatelessWidget {
           onDestinationSelected: (index) {
             context.read<HomeCubit>().setTab(index);
           },
-          destinations: const <Widget>[
+          destinations: <Widget>[
             NavigationDestination(
-              selectedIcon: Icon(Icons.home),
-              icon: Icon(Icons.home_outlined),
-              label: 'Birthdays',
+              selectedIcon: const Icon(Icons.home),
+              icon: const Icon(Icons.home_outlined),
+              label: S.of(context).birthdays,
             ),
             NavigationDestination(
-              selectedIcon: Icon(Icons.calendar_month),
-              icon: Icon(Icons.calendar_month_outlined),
-              label: 'Calendar',
+              selectedIcon: const Icon(Icons.calendar_month),
+              icon: const Icon(Icons.calendar_month_outlined),
+              label: S.of(context).calendar,
             ),
           ],
         ),

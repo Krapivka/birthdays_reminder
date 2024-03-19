@@ -4,6 +4,7 @@ import 'package:birthdays_reminder/core/utils/constants/Palette.dart';
 import 'package:birthdays_reminder/features/settings/bloc/bloc/settings_bloc.dart';
 import 'package:birthdays_reminder/features/settings/data/models/day_time_notification.dart';
 import 'package:birthdays_reminder/generated/l10n.dart';
+import 'package:birthdays_reminder/router/router.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,7 +36,8 @@ class SettingsNotificationPageView extends StatelessWidget {
         actions: [
           IconButton(
               onPressed: () {
-                NotificationService.showTestNotification();
+                NotificationService.showTestNotification(
+                    S.of(context).thisIsATestNotificationItsAllRight);
               },
               icon: const Icon(Icons.notification_important))
         ],
@@ -99,6 +101,9 @@ class SettingsNotificationPageView extends StatelessWidget {
                                 day: notificationDay,
                                 hour: notificationHour,
                                 minute: notificationMinute)));
+                        AutoRouter.of(context).pushAndPopUntil(
+                            const HomeRoute(),
+                            predicate: (Route<dynamic> route) => false);
                       },
                     )))
           ],

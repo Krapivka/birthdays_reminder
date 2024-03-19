@@ -380,6 +380,46 @@ class S {
       args: [],
     );
   }
+
+  /// `This is a test notification. It's all right!`
+  String get thisIsATestNotificationItsAllRight {
+    return Intl.message(
+      'This is a test notification. It\'s all right!',
+      name: 'thisIsATestNotificationItsAllRight',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Birthdays`
+  String get birthdays {
+    return Intl.message(
+      'Birthdays',
+      name: 'birthdays',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Calendar`
+  String get calendar {
+    return Intl.message(
+      'Calendar',
+      name: 'calendar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Turns {nextAge}`
+  String turnsN(Object nextAge) {
+    return Intl.message(
+      'Turns $nextAge',
+      name: 'turnsN',
+      desc: '',
+      args: [nextAge],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

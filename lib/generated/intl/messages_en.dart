@@ -27,6 +27,8 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m2(day, hour, minute) =>
       "notify ${day} days in advance at ${hour}:${minute}";
 
+  static String m3(nextAge) => "Turns ${nextAge}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "aboutApp": MessageLookupByLibrary.simpleMessage("About app"),
@@ -35,8 +37,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Add birthday"),
         "appVersionN": m0,
         "authorN": m1,
+        "birthdays": MessageLookupByLibrary.simpleMessage("Birthdays"),
         "birthdaysNotFound":
             MessageLookupByLibrary.simpleMessage("The birthday was not found"),
+        "calendar": MessageLookupByLibrary.simpleMessage("Calendar"),
         "chooseDateFormat":
             MessageLookupByLibrary.simpleMessage("Select the date format:"),
         "chooseTheme": MessageLookupByLibrary.simpleMessage("Select themes"),
@@ -73,6 +77,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "systemThemeModeName":
             MessageLookupByLibrary.simpleMessage("System theme"),
         "theme": MessageLookupByLibrary.simpleMessage("Theme"),
+        "thisIsATestNotificationItsAllRight":
+            MessageLookupByLibrary.simpleMessage(
+                "This is a test notification. It\'s all right!"),
+        "turnsN": m3,
         "updateBirthday":
             MessageLookupByLibrary.simpleMessage("Update birthday"),
         "welcomeMessageInInfo": MessageLookupByLibrary.simpleMessage(

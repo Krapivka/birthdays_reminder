@@ -31,5 +31,9 @@
   "receiveNotificationsTime": "В какое время хотите получать уведомления?",
   "notifyDayNInAdvanceAtHourNminuteN": "Уведомлять за {day} дней в {hour}:{minute}",
   "youHaveNotEnteredARequiredField": "You have not entered a required field!",
-  "fillInTheRequiredFields": "Заполните обязательные поля"
+  "fillInTheRequiredFields": "Заполните обязательные поля",
+  "thisIsATestNotificationItsAllRight": "Это тестовое уведомление. Всё работает!",
+  "birthdays": "Дни рождения",
+  "calendar": "Календарь",
+  "turnsN": "Исполняется {nextAge}"
 }
