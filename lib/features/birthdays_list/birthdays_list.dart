@@ -33,7 +33,7 @@ class _BirthdaysListViewState extends State<BirthdaysListView> {
     bloc.add(const LoadBirthdaysListEvent());
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
+        padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
         child: Column(
           children: [
             const BannerAdWidget(

@@ -55,7 +55,7 @@ class SettingsLocalDataSource extends AbstractSettingsLocalDataSource {
   @override
   Future<String> getLanguageFromCache() async {
     return sharedPreferences.getString(keyLanguage) ??
-        'en'; // Значение по умолчанию - 'en'
+        'ru'; // Значение по умолчанию - 'ru'
   }
 
   @override

@@ -24,6 +24,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       status: SettingsStatus.loading,
     ));
     final notificationDay = await settingsRepository.getSettingsData();
+
     notificationDay
         .fold((failure) => emit(state.copyWith(status: SettingsStatus.failure)),
             (result) {
