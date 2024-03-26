@@ -1,13 +1,15 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:birthdays_reminder/generated/l10n.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:package_info/package_info.dart';
 
 @RoutePage()
 class InfoPage extends StatelessWidget {
-  final String appVersion = '1.0.0';
+  final String appVersion = GetIt.I<PackageInfo>().version;
   final String author = 'KrapStudio';
 
-  const InfoPage({super.key});
+  InfoPage({super.key});
 
   @override
   Widget build(BuildContext context) {

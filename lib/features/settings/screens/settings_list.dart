@@ -71,7 +71,7 @@ class SettingsPageView extends StatelessWidget {
                 leading: const Icon(Icons.info_outline),
                 title: Text(S.of(context).info),
                 onTap: () {
-                  AutoRouter.of(context).push(const InfoRoute());
+                  AutoRouter.of(context).push(InfoRoute());
                 },
               ),
             ],

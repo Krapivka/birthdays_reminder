@@ -34,9 +34,11 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     InfoRoute.name: (routeData) {
+      final args =
+          routeData.argsAs<InfoRouteArgs>(orElse: () => const InfoRouteArgs());
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const InfoPage(),
+        child: InfoPage(key: args.key),
       );
     },
     LanguageSelectionRoute.name: (routeData) {
@@ -120,16 +122,30 @@ class HomeRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [InfoPage]
-class InfoRoute extends PageRouteInfo<void> {
-  const InfoRoute({List<PageRouteInfo>? children})
-      : super(
+class InfoRoute extends PageRouteInfo<InfoRouteArgs> {
+  InfoRoute({
+    Key? key,
+    List<PageRouteInfo>? children,
+  }) : super(
           InfoRoute.name,
+          args: InfoRouteArgs(key: key),
           initialChildren: children,
         );
 
   static const String name = 'InfoRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<InfoRouteArgs> page = PageInfo<InfoRouteArgs>(name);
+}
+
+class InfoRouteArgs {
+  const InfoRouteArgs({this.key});
+
+  final Key? key;
+
+  @override
+  String toString() {
+    return 'InfoRouteArgs{key: $key}';
+  }
 }
 
 /// generated route for
