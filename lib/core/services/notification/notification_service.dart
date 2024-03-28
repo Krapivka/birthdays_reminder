@@ -133,7 +133,7 @@ class NotificationService {
         channelKey: "birthday_notification_nearby",
         title: title,
         body:
-            "Исполняется ${person.getNextAge} через ${person.getHowManyDaysBirthday}",
+            "Исполняется ${person.turns} через ${person.getHowManyDaysBirthday}",
         scheduleTime: notificationDateTimeNearby);
   }
 

@@ -1,8 +1,10 @@
+import 'package:birthdays_reminder/core/utils/constants/Palette.dart';
 import 'package:flutter/material.dart';
 
 class TextFieldBirthdayChanges extends StatelessWidget {
   const TextFieldBirthdayChanges(
-      {this.onChanged,
+      {super.key,
+      this.onChanged,
       this.labelText,
       this.hintText,
       this.icon,
@@ -24,9 +26,10 @@ class TextFieldBirthdayChanges extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: TextField(
+        cursorColor: Palette.primaryAccent,
         readOnly: readOnly,
         showCursor: showCursor,
-        enableInteractiveSelection: false,
+        enableInteractiveSelection: true,
         onChanged: onChanged,
         controller: controller,
         decoration: InputDecoration(

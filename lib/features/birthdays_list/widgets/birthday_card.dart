@@ -88,10 +88,8 @@ class _BirthdayCardState extends State<BirthdayCard> {
                       ),
                       title: ShowUp(
                         delay: 100,
-                        child: Text(
-                          widget.person.name,
-                          maxLines: 1,
-                        ),
+                        child: Text(widget.person.name,
+                            maxLines: 1, overflow: TextOverflow.ellipsis),
                       ),
                       subtitle: ShowUp(
                           delay: 300,
@@ -99,9 +97,7 @@ class _BirthdayCardState extends State<BirthdayCard> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(S
-                                  .of(context)
-                                  .turnsN(widget.person.getNextAge)),
+                              Text(S.of(context).turnsN(widget.person.turns)),
                               Text(DateTimeUtils.formatDate(
                                   widget.person.birthdate,
                                   settingsBloc.state.dateFormat)),

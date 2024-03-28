@@ -14,8 +14,14 @@ class PersonEntity extends Equatable {
       required this.birthdate,
       this.listOfGifts});
 
-  String get getNextAge =>
-      (DateTimeUtils.calculateAge(birthdate) + 1).toString();
+  String get turns {
+    final DateTime dateTime = DateTime.now();
+    if (dateTime.day == birthdate.day && dateTime.month == birthdate.month) {
+      return DateTimeUtils.calculateAge(birthdate).toString();
+    } else {
+      return (DateTimeUtils.calculateAge(birthdate) + 1).toString();
+    }
+  }
 
   String get getHowManyDaysBirthday =>
       DateTimeUtils.getDifferenceCurrentDayBirthDay(birthdate);
