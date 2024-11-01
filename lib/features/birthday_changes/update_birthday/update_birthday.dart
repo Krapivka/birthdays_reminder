@@ -130,7 +130,7 @@ class UpdateBirthdayPageView extends StatelessWidget {
 }
 
 class EditableImage extends StatelessWidget {
-  const EditableImage();
+  const EditableImage({super.key});
 
   @override
   Widget build(BuildContext context) {

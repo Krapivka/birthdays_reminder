@@ -30,7 +30,7 @@
   "updateBirthday": "Обновить",
   "receiveNotificationsTime": "В какое время хотите получать уведомления?",
   "notifyDayNInAdvanceAtHourNminuteN": "Уведомлять за {day} дней в {hour}:{minute}",
-  "youHaveNotEnteredARequiredField": "You have not entered a required field!",
+  "youHaveNotEnteredARequiredField": "Вы не ввели данные в обязательное для заполнения поле!",
   "fillInTheRequiredFields": "Заполните обязательные поля",
   "thisIsATestNotificationItsAllRight": "Это тестовое уведомление. Всё работает!",
   "birthdays": "Дни рождения",

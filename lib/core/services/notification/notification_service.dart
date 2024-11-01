@@ -2,7 +2,6 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:birthdays_reminder/birthdays_reminder_app.dart';
 import 'package:birthdays_reminder/core/domain/enteties/person_entity.dart';
 import 'package:birthdays_reminder/features/home/home.dart';
-import 'package:birthdays_reminder/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
 class NotificationService {

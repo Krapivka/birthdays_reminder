@@ -25,11 +25,11 @@ class LanguageSelectionPage extends StatelessWidget {
               style: const TextStyle(fontSize: 18),
             ),
             const SizedBox(height: 20),
-            LanguageOption(
+            const LanguageOption(
               keyLang: 'en',
               language: 'English',
             ),
-            LanguageOption(
+            const LanguageOption(
               keyLang: 'ru',
               language: 'Русский',
             ),

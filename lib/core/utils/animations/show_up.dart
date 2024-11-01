@@ -5,7 +5,7 @@ class ShowUp extends StatefulWidget {
   final Widget child;
   final int delay;
 
-  ShowUp({required this.child, required this.delay});
+  const ShowUp({super.key, required this.child, required this.delay});
 
   @override
   _ShowUpState createState() => _ShowUpState();

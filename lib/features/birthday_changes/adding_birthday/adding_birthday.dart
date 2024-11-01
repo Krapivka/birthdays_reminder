@@ -108,7 +108,7 @@ class AddingBirthdayView extends StatelessWidget {
 }
 
 class EditableAvatar extends StatelessWidget {
-  const EditableAvatar();
+  const EditableAvatar({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -150,7 +150,7 @@ class EditableAvatar extends StatelessWidget {
 }
 
 class _ButtonAddBirthday extends StatelessWidget {
-  const _ButtonAddBirthday({super.key});
+  const _ButtonAddBirthday();
 
   @override
   Widget build(BuildContext context) {

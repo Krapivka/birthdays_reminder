@@ -62,7 +62,7 @@ class HomeView extends StatelessWidget {
           ],
         ),
         bottomNavigationBar: NavigationBar(
-          backgroundColor: Theme.of(context).colorScheme.background,
+          backgroundColor: Theme.of(context).colorScheme.surface,
           selectedIndex: selectedTab.index,
           onDestinationSelected: (index) {
             context.read<HomeCubit>().setTab(index);

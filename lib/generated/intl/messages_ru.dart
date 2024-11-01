@@ -86,6 +86,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "welcomeMessageInInfo": MessageLookupByLibrary.simpleMessage(
             "Добро пожаловать в наше приложение напоминаний о днях рождения!"),
         "youHaveNotEnteredARequiredField": MessageLookupByLibrary.simpleMessage(
-            "You have not entered a required field!")
+            "Вы не ввели данные в обязательное для заполнения поле!")
       };
 }

@@ -1,4 +1,3 @@
-import 'package:birthdays_reminder/core/utils/constants/Palette.dart';
 import 'package:birthdays_reminder/features/birthdays_list/bloc/birthdays_list_bloc.dart';
 import 'package:birthdays_reminder/generated/l10n.dart';
 import 'package:flutter/material.dart';

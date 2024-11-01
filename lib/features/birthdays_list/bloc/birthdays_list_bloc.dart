@@ -111,7 +111,7 @@ class BirthdaysListBloc extends Bloc<BirthdaysListEvent, BirthdaysListState> {
         ///Cancel scheduling notifications
 
         await AwesomeNotifications().cancel(id);
-        debugPrint("Delete Person with ID: ${id}");
+        debugPrint("Delete Person with ID: $id");
       });
     }
     emit(state.copyWith(
@@ -123,7 +123,7 @@ class BirthdaysListBloc extends Bloc<BirthdaysListEvent, BirthdaysListState> {
 
 List<PersonModel> sortPersonsByNearestBirthday(List<PersonModel> persons) {
   DateTime today = DateTime.now();
-  DateTime yesterday = today.subtract(Duration(days: 1));
+  DateTime yesterday = today.subtract(const Duration(days: 1));
 
   persons.sort((a, b) {
     DateTime aNextBirthday =

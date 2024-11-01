@@ -55,7 +55,7 @@ class App extends StatelessWidget {
 }
 
 class AppView extends StatefulWidget {
-  AppView({
+  const AppView({
     super.key,
   });
 

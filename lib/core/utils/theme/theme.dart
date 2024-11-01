@@ -7,7 +7,7 @@ ThemeData lightTheme = ThemeData(
   useMaterial3: true,
   brightness: Brightness.light,
   colorScheme: const ColorScheme.light(
-    background: Palette.primaryLight,
+    surface: Palette.primaryLight,
     primary: Palette.primaryLight,
     secondary: Palette.secondaryLight,
   ),
@@ -35,7 +35,7 @@ ThemeData darkTheme = ThemeData(
   useMaterial3: true,
   brightness: Brightness.dark,
   colorScheme: const ColorScheme.dark(
-    background: Palette.primaryDark,
+    surface: Palette.primaryDark,
     primary: Palette.primaryDark,
     secondary: Palette.secondaryDark,
   ),

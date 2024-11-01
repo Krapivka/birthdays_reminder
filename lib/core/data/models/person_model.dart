@@ -4,7 +4,7 @@ part 'person_model.g.dart';
 
 @JsonSerializable()
 class PersonModel extends PersonEntity {
-  PersonModel(
+  const PersonModel(
       {required super.id,
       required super.filePath,
       required super.name,
