@@ -38,7 +38,9 @@ class AddingBirthdayView extends StatelessWidget {
       listener: (context, state) {
         if (state.status == AddingBirthdayStatus.validatorFailure) {
           ScaffoldMessenger.of(context).showSnackBar(
-              AppSnackBar.getSnackBar(S.of(context).fillInTheRequiredFields));
+            AppSnackBar.show(context, S.of(context).fillInTheRequiredFields,
+                color: Palette.unfinishedColor),
+          );
         }
         if (state.status == AddingBirthdayStatus.success) {
           AutoRouter.of(context).pushAndPopUntil(const HomeRoute(),

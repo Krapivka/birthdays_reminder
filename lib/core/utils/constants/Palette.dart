@@ -15,4 +15,7 @@ class Palette {
   //calendar
   static const Color primaryAccent = Colors.deepPurple;
   static const Color secondaryAccent = Color.fromARGB(255, 169, 138, 223);
+
+  static const Color successColor = Color.fromARGB(255, 58, 230, 149);
+  static const Color unfinishedColor = Colors.redAccent;
 }

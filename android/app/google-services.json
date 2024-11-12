@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "906908831269",
+    "project_id": "birthdays-reminder-5bf6e",
+    "storage_bucket": "birthdays-reminder-5bf6e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:906908831269:android:894c1cd3004361a59679cc",
+        "android_client_info": {
+          "package_name": "com.example.birthdays_reminder"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfsyT1F0zE_eRmUQCBmEWw67v34ZqwlJs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

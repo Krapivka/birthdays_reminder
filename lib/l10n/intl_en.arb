@@ -35,5 +35,17 @@
   "thisIsATestNotificationItsAllRight": "This is a test notification. It's all right!",
   "birthdays": "Birthdays",
   "calendar": "Calendar",
-  "turnsN": "Turns {nextAge}"
+  "turnsN": "Turns {nextAge}",
+  "logInToGoogleDrive": "Log in to Google Drive",
+  "logOutOfGoogleDrive": "Log out of Google Drive",
+  "backup": "Backup",
+  "recovery": "Recovery",
+  "googleDrive": "Google Drive",
+  "errorN": "Error: {errorMessage}",
+  "backupCompletedSuccessfully": "Backup completed successfully",
+  "restoreCompletedSuccessfully": "Restore completed successfully",
+  "loggedOutSuccessfully": "Logged out successfully",
+  "backupOnGoogleDrive": "Backup on Google Drive",
+  "doNotLoseDataWhenChangingYourDevice": "Do not lose data when changing your device",
+  "createABackup": "Create a backup"
 }

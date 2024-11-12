@@ -5,19 +5,24 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../core/services/google_drive/google_drive_service.dart';
+
 part 'settings_event.dart';
 part 'settings_state.dart';
 
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
-  SettingsBloc({required this.settingsRepository}) : super(SettingsState()) {
+  SettingsBloc(
+      {required this.googleDriveService, required this.settingsRepository})
+      : super(SettingsState()) {
     on<InitializeSettingsEvent>(_onInitializeSettingsEvent);
     on<SetNotificationDayTimeEvent>(_onSetNotificationDayEvent);
     on<SetThemeEvent>(_onSetThemeEvent);
     on<SetLanguageEvent>(_onSetLanguageEvent);
     on<SetDateFormatEvent>(_onSetDateFormatEvent);
+    on<GoogleDriveLogin>(_onLogin);
   }
   final AbstractSettingsRepository settingsRepository;
-
+  final GoogleDriveService googleDriveService;
   void _onInitializeSettingsEvent(
       InitializeSettingsEvent event, Emitter<SettingsState> emit) async {
     emit(state.copyWith(
@@ -36,6 +41,24 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         status: SettingsStatus.success,
       ));
     });
+  }
+
+  void _onLogin(GoogleDriveLogin event, Emitter<SettingsState> emit) async {
+    try {
+      //emit(state.copyWith(status: SettingsStatus.loading));
+      await googleDriveService.loginWithGoogle();
+      //final User? user = await googleDriveService.getUser();
+      emit(state.copyWith(
+        status: SettingsStatus.login,
+      ));
+      emit(state.copyWith(
+        status: SettingsStatus.success,
+      ));
+    } catch (e) {
+      emit(state.copyWith(
+        status: SettingsStatus.failure,
+      ));
+    }
   }
 
   void _onSetNotificationDayEvent(

@@ -11,11 +11,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
+import 'core/services/google_drive/google_drive_service.dart';
+
 late final windowSize;
 
 class App extends StatelessWidget {
   final AbstractPersonRepository personRepository;
   final AbstractSettingsRepository settingsRepository;
+  final GoogleDriveService googleDriveService;
   static final GlobalKey<NavigatorState> navigatorKey =
       GlobalKey<NavigatorState>();
   static const String name = 'Awesome Notifications - Example App';
@@ -23,6 +26,7 @@ class App extends StatelessWidget {
 
   const App(
       {super.key,
+      required this.googleDriveService,
       required this.personRepository,
       required this.settingsRepository});
 
@@ -36,6 +40,9 @@ class App extends StatelessWidget {
           RepositoryProvider.value(
             value: settingsRepository,
           ),
+          RepositoryProvider.value(
+            value: googleDriveService,
+          ),
         ],
         child: MultiBlocProvider(
           providers: [
@@ -46,7 +53,9 @@ class App extends StatelessWidget {
                 create: (context) => SettingsBloc(
                     settingsRepository:
                         RepositoryProvider.of<AbstractSettingsRepository>(
-                            context))
+                            context),
+                    googleDriveService:
+                        RepositoryProvider.of<GoogleDriveService>(context))
                   ..add(const InitializeSettingsEvent()))
           ],
           child: AppView(),

@@ -51,7 +51,9 @@ class UpdateBirthdayPageView extends StatelessWidget {
         listener: (context, state) {
       if (state.status == UpdateBirthdayStatus.validatorFailure) {
         ScaffoldMessenger.of(context).showSnackBar(
-            AppSnackBar.getSnackBar(S.of(context).fillInTheRequiredFields));
+          AppSnackBar.show(context, S.of(context).fillInTheRequiredFields,
+              color: Palette.unfinishedColor),
+        );
       }
       if (state.status == UpdateBirthdayStatus.success) {
         AutoRouter.of(context).pushAndPopUntil(const HomeRoute(),

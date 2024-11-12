@@ -1,3 +1,7 @@
+# build_runner's generated files
+*.g.dart
+*.gr.dart
+
 # Miscellaneous
 *.class
 *.log
@@ -41,3 +45,10 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Keystore
+**/keystore.properties
+**/quests keystore
+
+# envs
+*.env

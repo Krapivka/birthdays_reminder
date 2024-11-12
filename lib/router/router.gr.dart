@@ -21,6 +21,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const AddingBirthdayPage(),
       );
     },
+    BackupRestoreRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const BackupRestorePage(),
+      );
+    },
     DateFormatSelectionRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -88,6 +94,20 @@ class AddingBirthdayRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'AddingBirthdayRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [BackupRestorePage]
+class BackupRestoreRoute extends PageRouteInfo<void> {
+  const BackupRestoreRoute({List<PageRouteInfo>? children})
+      : super(
+          BackupRestoreRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'BackupRestoreRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

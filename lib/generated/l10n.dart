@@ -420,6 +420,126 @@ class S {
       args: [nextAge],
     );
   }
+
+  /// `Log in to Google Drive`
+  String get logInToGoogleDrive {
+    return Intl.message(
+      'Log in to Google Drive',
+      name: 'logInToGoogleDrive',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Log out of Google Drive`
+  String get logOutOfGoogleDrive {
+    return Intl.message(
+      'Log out of Google Drive',
+      name: 'logOutOfGoogleDrive',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Backup`
+  String get backup {
+    return Intl.message(
+      'Backup',
+      name: 'backup',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Recovery`
+  String get recovery {
+    return Intl.message(
+      'Recovery',
+      name: 'recovery',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Google Drive`
+  String get googleDrive {
+    return Intl.message(
+      'Google Drive',
+      name: 'googleDrive',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error: {errorMessage}`
+  String errorN(Object errorMessage) {
+    return Intl.message(
+      'Error: $errorMessage',
+      name: 'errorN',
+      desc: '',
+      args: [errorMessage],
+    );
+  }
+
+  /// `Backup completed successfully`
+  String get backupCompletedSuccessfully {
+    return Intl.message(
+      'Backup completed successfully',
+      name: 'backupCompletedSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Restore completed successfully`
+  String get restoreCompletedSuccessfully {
+    return Intl.message(
+      'Restore completed successfully',
+      name: 'restoreCompletedSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Logged out successfully`
+  String get loggedOutSuccessfully {
+    return Intl.message(
+      'Logged out successfully',
+      name: 'loggedOutSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Backup on Google Drive`
+  String get backupOnGoogleDrive {
+    return Intl.message(
+      'Backup on Google Drive',
+      name: 'backupOnGoogleDrive',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Do not lose data when changing your device`
+  String get doNotLoseDataWhenChangingYourDevice {
+    return Intl.message(
+      'Do not lose data when changing your device',
+      name: 'doNotLoseDataWhenChangingYourDevice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create a backup`
+  String get createABackup {
+    return Intl.message(
+      'Create a backup',
+      name: 'createABackup',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

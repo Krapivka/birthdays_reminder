@@ -42,3 +42,5 @@ class SetThemeEvent extends SettingsEvent {
   @override
   List<Object> get props => [theme];
 }
+
+class GoogleDriveLogin extends SettingsEvent {}

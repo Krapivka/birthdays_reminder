@@ -24,10 +24,12 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m1(author) => "Author: ${author}";
 
-  static String m2(day, hour, minute) =>
+  static String m2(errorMessage) => "Error: ${errorMessage}";
+
+  static String m3(day, hour, minute) =>
       "notify ${day} days in advance at ${hour}:${minute}";
 
-  static String m3(nextAge) => "Turns ${nextAge}";
+  static String m4(nextAge) => "Turns ${nextAge}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -37,6 +39,11 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Add birthday"),
         "appVersionN": m0,
         "authorN": m1,
+        "backup": MessageLookupByLibrary.simpleMessage("Backup"),
+        "backupCompletedSuccessfully": MessageLookupByLibrary.simpleMessage(
+            "Backup completed successfully"),
+        "backupOnGoogleDrive":
+            MessageLookupByLibrary.simpleMessage("Backup on Google Drive"),
         "birthdays": MessageLookupByLibrary.simpleMessage("Birthdays"),
         "birthdaysNotFound":
             MessageLookupByLibrary.simpleMessage("The birthday was not found"),
@@ -46,18 +53,25 @@ class MessageLookup extends MessageLookupByLibrary {
         "chooseTheme": MessageLookupByLibrary.simpleMessage("Select themes"),
         "chooseYourLanguage":
             MessageLookupByLibrary.simpleMessage("Select a language:"),
+        "createABackup":
+            MessageLookupByLibrary.simpleMessage("Create a backup"),
         "darkThemeModeName": MessageLookupByLibrary.simpleMessage("Dark theme"),
         "dateFormat": MessageLookupByLibrary.simpleMessage("Date format"),
         "daysShouldINotifyAboutBirthdays": MessageLookupByLibrary.simpleMessage(
             "How many days should notify about birthdays?"),
+        "doNotLoseDataWhenChangingYourDevice":
+            MessageLookupByLibrary.simpleMessage(
+                "Do not lose data when changing your device"),
         "emptyBirthdaysList": MessageLookupByLibrary.simpleMessage(
             "Add a birthday so you don\'t forget to congratulate"),
         "emptyDayCalendar": MessageLookupByLibrary.simpleMessage(
             "There are no birthdays on this day"),
         "enterNameInTextField":
             MessageLookupByLibrary.simpleMessage("Enter name"),
+        "errorN": m2,
         "fillInTheRequiredFields":
             MessageLookupByLibrary.simpleMessage("Fill in the required fields"),
+        "googleDrive": MessageLookupByLibrary.simpleMessage("Google Drive"),
         "hintTextNameInTextField": MessageLookupByLibrary.simpleMessage("Name"),
         "hopeMessageAppInInfo": MessageLookupByLibrary.simpleMessage(
             "We hope that our application will make your greetings more organized and memorable."),
@@ -65,12 +79,21 @@ class MessageLookup extends MessageLookupByLibrary {
         "language": MessageLookupByLibrary.simpleMessage("Language"),
         "lightThemeModeName":
             MessageLookupByLibrary.simpleMessage("Light theme"),
+        "logInToGoogleDrive":
+            MessageLookupByLibrary.simpleMessage("Log in to Google Drive"),
+        "logOutOfGoogleDrive":
+            MessageLookupByLibrary.simpleMessage("Log out of Google Drive"),
+        "loggedOutSuccessfully":
+            MessageLookupByLibrary.simpleMessage("Logged out successfully"),
         "notification": MessageLookupByLibrary.simpleMessage("Notifications"),
-        "notifyDayNInAdvanceAtHourNminuteN": m2,
+        "notifyDayNInAdvanceAtHourNminuteN": m3,
         "purposeMessageAppInInfo": MessageLookupByLibrary.simpleMessage(
             "The application is designed so that you never forget about the birthdays of your loved ones and dear ones. Easily set notifications to wish them a happy holiday on time!"),
         "receiveNotificationsTime": MessageLookupByLibrary.simpleMessage(
             "What time do you want to receive notifications?"),
+        "recovery": MessageLookupByLibrary.simpleMessage("Recovery"),
+        "restoreCompletedSuccessfully": MessageLookupByLibrary.simpleMessage(
+            "Restore completed successfully"),
         "save": MessageLookupByLibrary.simpleMessage("Save"),
         "search": MessageLookupByLibrary.simpleMessage("Search"),
         "settings": MessageLookupByLibrary.simpleMessage("Settings"),
@@ -80,7 +103,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "thisIsATestNotificationItsAllRight":
             MessageLookupByLibrary.simpleMessage(
                 "This is a test notification. It\'s all right!"),
-        "turnsN": m3,
+        "turnsN": m4,
         "updateBirthday":
             MessageLookupByLibrary.simpleMessage("Update birthday"),
         "welcomeMessageInInfo": MessageLookupByLibrary.simpleMessage(

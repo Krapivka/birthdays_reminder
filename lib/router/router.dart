@@ -11,6 +11,8 @@ import 'package:birthdays_reminder/features/settings/screens/data_format_selecti
 import 'package:birthdays_reminder/features/settings/screens/info.dart';
 import 'package:birthdays_reminder/features/settings/screens/theme_selection.dart';
 
+import '../features/backup_restore/backup_restore.dart';
+
 part 'router.gr.dart';
 
 @AutoRouterConfig()
@@ -21,6 +23,7 @@ class AppRouter extends _$AppRouter {
         AutoRoute(path: '/update_birthday', page: UpdateBirthdayRoute.page),
         AutoRoute(path: '/add_birthday', page: AddingBirthdayRoute.page),
         AutoRoute(path: '/settings_list', page: SettingsRoute.page),
+        AutoRoute(path: '/backup_restore', page: BackupRestoreRoute.page),
         AutoRoute(
             path: '/settings/notification_selection',
             page: SettingsNotificationRoute.page),
